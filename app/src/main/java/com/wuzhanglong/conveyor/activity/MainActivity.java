@@ -1,6 +1,7 @@
 package com.wuzhanglong.conveyor.activity;
 
 import android.content.Intent;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -62,19 +63,12 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 
     @Override
     public void bindViewsListener() {
-        mHomeHeadImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                mDrawerLayout.openDrawer(GravityCompat.START);
-
-                Intent intent = new Intent();
-//                intent.setClass(MainActivity.this,WorkReportActivity.class);
-
-                intent.setClass(MainActivity.this, WorkReportActivity.class);
-
-                MainActivity.this.startActivity(intent);
-            }
-        });
+        mHomeHeadImg.setOnClickListener(this);
+        mMeunTv01.setOnClickListener(this);
+        mMeunTv02.setOnClickListener(this);
+        mMeunTv03.setOnClickListener(this);
+        mMeunTv04.setOnClickListener(this);
+        mMeunTv05.setOnClickListener(this);
     }
 
     @Override
@@ -113,6 +107,9 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
+            case R.id.home_head_img:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                break;
             case R.id.tv_menu_01:
                 intent.setClass(MainActivity.this, WorkActivity.class);
                 break;
@@ -125,11 +122,12 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
             case R.id.tv_menu_04:
                 break;
             case R.id.tv_menu_05:
+                intent.setClass(MainActivity.this, WorkAllActivity.class);
                 break;
             default:
                 break;
         }
         if (intent.getComponent() != null)
-            openActivity(ContactActivity.class);
+         startActivity(intent);
     }
 }

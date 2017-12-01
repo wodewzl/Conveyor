@@ -22,11 +22,8 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class WorkReportActivity extends BaseActivity implements BGASortableNinePhotoLayout.Delegate {
     private static final int PRC_PHOTO_PICKER = 1;
+
     private static final int RC_CHOOSE_PHOTO = 1;
-
-
-    private static final int REQUEST_CODE_PERMISSION_PHOTO_PICKER = 1;
-    private static final int RC_HOOSE_PHOTO = 1;
     private static final int RC_PHOTO_PREVIEW = 2;
     private BGASortableNinePhotoLayout mPhotoLayout;
     public ArrayList<String> mSelectList=new ArrayList<>();
@@ -103,7 +100,7 @@ public class WorkReportActivity extends BaseActivity implements BGASortableNineP
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && requestCode == RC_HOOSE_PHOTO) {
+        if (resultCode == RESULT_OK && requestCode == RC_CHOOSE_PHOTO) {
             //是否单选，单选走true 语句，多选走false语句，这么默认false
 //            List<String> selectedPhotos = BGAPhotoPickerActivity.getSelectedPhotos(data);
             mSelectList=BGAPhotoPickerActivity.getSelectedPhotos(data);
