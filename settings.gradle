@@ -1,1 +1,1 @@
-include ':app', ':wzllibrary'
+include ':app', ':wzllibrary', ':photoSelect', ':imageEditLibrary'

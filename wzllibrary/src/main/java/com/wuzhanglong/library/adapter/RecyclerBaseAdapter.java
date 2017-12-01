@@ -11,13 +11,15 @@ import com.wuzhanglong.library.utils.Options;
 
 import java.util.List;
 
-import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
-import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
+import cn.bingoogolapple.baseadapter.BGARecyclerViewAdapter;
+import cn.bingoogolapple.baseadapter.BGAViewHolderHelper;
+
 
 /**
  * Created by Administrator on 2017/3/13.
  */
 // CommonAdapter RecyclerView.Adapter
+//    BGARecyclerViewAdapter
 public abstract class RecyclerBaseAdapter<M> extends BGARecyclerViewAdapter {
     public BaseActivity mActivity;
     public boolean mIsEmpty = true;
@@ -33,6 +35,7 @@ public abstract class RecyclerBaseAdapter<M> extends BGARecyclerViewAdapter {
         mOptions = Options.getListOptions();
         mImageLoader = ImageLoader.getInstance();
         mActivity = (BaseActivity) recyclerView.getContext();
+
     }
 
     @Override

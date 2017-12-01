@@ -5,17 +5,40 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:name=".application.AppApplication"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/BaseAppTheme">
-        <activity android:name=".activity.MainActivity">
+        android:supportsRtl="true">
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.ContactActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+            android:name=".activity.PasswordUpdateActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+            android:name=".activity.WorkReportActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+            android:name=".activity.WorkActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity android:name=".activity.WorkAllActivity">
         </activity>
     </application>
 

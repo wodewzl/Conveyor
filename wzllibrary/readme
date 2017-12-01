@@ -35,6 +35,8 @@
          https://github.com/jdsjlzx/LRecyclerView
    　　　http://blog.csdn.net/jdsjlzx/article/details/51794220(用法)
          https://github.com/bingoogolapple/BGAAdapter-Android/
+
+
 14.Dialog对话框
    地址：https://github.com/pedant/sweet-alert-dialog
          https://github.com/afollestad/material-dialogs
@@ -133,3 +135,7 @@ https://tamicer.github.io/2016/08/10/novate10/(Novate 具体用法)
 https://github.com/Tamicer/Novate
 51.多样式Diglog
  http://www.jianshu.com/p/1921ce3e34fa
+ 52.图片裁剪
+ https://github.com/Yalantis/uCrop
+ 53.图片选择
+ https://github.com/bingoogolapple/BGAPhotoPicker-Android

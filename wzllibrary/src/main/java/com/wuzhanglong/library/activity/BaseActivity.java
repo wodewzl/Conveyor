@@ -71,7 +71,7 @@ public abstract class BaseActivity extends AppCompatActivity implements UpdateCa
         mActivity = this;
         setContentView(R.layout.base_activity);
 //      addContentView(R.layout.base_activity);
-        setStatusBar();
+//        setStatusBar();
         showProgressDialog();
         baseInitView();
         baseBindViewListener();

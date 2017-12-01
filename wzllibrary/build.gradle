@@ -45,11 +45,12 @@ dependencies {
     //开源动画库
     compile 'com.nineoldandroids:library:2.4.0'
     // -------------------- 九宫格图片选择显示 ----------------------------
-    compile 'cn.bingoogolapple:bga-photopicker:1.2.3'
-    //    compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile 'cn.bingoogolapple:bga-adapter:1.1.9'
-    //    compile 'cn.bingoogolapple:bga-adapter:1.1.8@aar'
+//    compile 'cn.bingoogolapple:bga-photopicker:1.2.6'
+    compile 'cn.bingoogolapple:bga-baseadapter:1.2.7'
+
     // -------------------- 九宫格图片选择显示----------------------------
+//    compile 'cn.bingoogolapple:bga-adapter:1.1.9'
+
     //动态获取权限
     compile 'pub.devrel:easypermissions:0.4.0'
     //viewPager 指示器

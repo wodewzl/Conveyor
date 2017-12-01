@@ -32,7 +32,7 @@
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/BaseAppTheme"
+        android:theme="@style/AppThemeConveyor"
         android:windowSoftInputMode="adjustPan">
 
         <!--<activity android:name=".activity.BaseLogoActivity"-->

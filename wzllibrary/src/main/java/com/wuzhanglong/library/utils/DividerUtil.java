@@ -8,8 +8,8 @@ import com.github.jdsjlzx.ItemDecoration.GridItemDecoration;
 import com.github.jdsjlzx.ItemDecoration.SpacesItemDecoration;
 import com.wuzhanglong.library.ItemDecoration.DividerDecoration;
 
-import cn.bingoogolapple.androidcommon.adapter.BGADivider;
-import cn.bingoogolapple.androidcommon.adapter.BGAGridDivider;
+import cn.bingoogolapple.baseadapter.BGADivider;
+import cn.bingoogolapple.baseadapter.BGAGridDivider;
 
 import static android.R.attr.spacing;
 
@@ -68,7 +68,7 @@ public class DividerUtil {
         return divider;
     }
 
-    public static BGAGridDivider bgaGridDivider( @DimenRes int spc){
+    public static BGAGridDivider bgaGridDivider(@DimenRes int spc){
         return  BGAGridDivider.newInstanceWithSpaceRes(spc);
     }
 }

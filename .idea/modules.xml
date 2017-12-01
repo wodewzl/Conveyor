@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Conveyor.iml" filepath="$PROJECT_DIR$/Conveyor.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imageEditLibrary/imageEditLibrary.iml" filepath="$PROJECT_DIR$/imageEditLibrary/imageEditLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/photoSelect/photoSelect.iml" filepath="$PROJECT_DIR$/photoSelect/photoSelect.iml" />
       <module fileurl="file://$PROJECT_DIR$/wzllibrary/wzllibrary.iml" filepath="$PROJECT_DIR$/wzllibrary/wzllibrary.iml" />
     </modules>
   </component>

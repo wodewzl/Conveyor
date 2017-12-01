@@ -13,8 +13,9 @@ import com.wuzhanglong.library.utils.WidthHigthUtil;
 
 import java.util.List;
 
-import cn.bingoogolapple.androidcommon.adapter.BGAAdapterViewAdapter;
-import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
+import cn.bingoogolapple.baseadapter.BGAAdapterViewAdapter;
+import cn.bingoogolapple.baseadapter.BGAViewHolderHelper;
+
 
 public abstract class ListBaseAdapter<M> extends BGAAdapterViewAdapter {
 //    public Context mContext;

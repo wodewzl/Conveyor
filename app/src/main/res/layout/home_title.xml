@@ -12,25 +12,31 @@
         android:padding="15dp">
 
         <TextView
+            android:id="@+id/tv_menu_01"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawablePadding="5dp"
             android:drawableTop="@drawable/affair012"
             android:gravity="center"
             android:text="工作计划"/>
 
         <TextView
+            android:id="@+id/tv_menu_02"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawablePadding="5dp"
             android:drawableTop="@drawable/affair012"
             android:gravity="center"
             android:text="上传工作"/>
 
         <TextView
+            android:id="@+id/tv_menu_03"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawablePadding="5dp"
             android:drawableTop="@drawable/affair012"
             android:gravity="center"
             android:text="通讯录"/>
@@ -43,27 +49,33 @@
         android:padding="15dp">
 
         <TextView
+            android:id="@+id/tv_menu_04"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawablePadding="5dp"
             android:drawableTop="@drawable/affair012"
             android:gravity="center"
-            android:text="工作计划"/>
+            android:text="地图"/>
+
+        <TextView
+            android:id="@+id/tv_menu_05"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/affair012"
+            android:gravity="center"
+            android:text="工作总汇"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawablePadding="5dp"
             android:drawableTop="@drawable/affair012"
             android:gravity="center"
-            android:text="上传工作"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/affair012"
-            android:gravity="center"
-            android:text="通讯录"/>
+            android:text="通讯录"
+            android:visibility="invisible"/>
     </LinearLayout>
 </LinearLayout>
