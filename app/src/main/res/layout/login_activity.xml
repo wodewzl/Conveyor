@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/C1"
+    android:orientation="vertical"
+    tools:context="com.wuzhanglong.conveyor.activity.LoginActivity">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="75dp"
+        android:background="@color/conveyor_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="一一工作无缝对接一一"
+        android:textColor="@color/conveyor_title"/>
+
+    <EditText
+        android:id="@+id/phone_tv"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/C1"
+        android:drawableLeft="@drawable/self_01"
+        android:drawablePadding="5dp"
+        android:hint="手机号"
+        android:inputType="phone"
+        android:maxLength="11"/>
+
+    <View
+        style="@style/view_divider"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
+
+    <EditText
+        android:id="@+id/password_tv"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/C1"
+        android:drawableLeft="@drawable/self_01"
+        android:drawablePadding="5dp"
+        android:hint="密码"
+        android:inputType="textPassword"/>
+
+    <View
+        style="@style/view_divider"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="horizontal">
+
+        <com.rey.material.widget.CheckBox
+            android:id="@+id/rember_cb"
+            style="@style/cb_conveyor_color1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp"/>
+
+        <TextView
+            android:id="@+id/forget_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="忘记密码"
+            android:textColor="@color/conveyor_title"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/ok_tv"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/conveyor_title"
+        android:gravity="center"
+        android:text="登 录"
+        android:textColor="@color/C1"
+        android:textSize="16dp"/>
+</LinearLayout>

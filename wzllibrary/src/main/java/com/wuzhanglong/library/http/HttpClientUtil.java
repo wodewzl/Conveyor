@@ -220,26 +220,9 @@ public class HttpClientUtil {
                     if (className == null) {
                         JSONObject jsonObject = new JSONObject(new String(arg2));
                         String code = (String) jsonObject.get("code");
-
-                        String info = "";
-                        if (jsonObject.has("info")) {
-                            info = (String) jsonObject.get("info");
-                        } else if (jsonObject.has("error")) {
-                            info = (String) jsonObject.get("error");
-                        } else {
-                            info = "操作成功";
-                        }
+                        String desc = (String) jsonObject.get("desc");
                         if (code.equals("200")) {
-                            String datas = "";
-                            // 在此处做判断，包含字段的话再继续从JSON中获取code字段的内容
-                            if (jsonObject.has("data")) {
-//                                datas = (String) jsonObject.get("data");
-                            } else if (jsonObject.has("datas")) {
-                                datas = (String) jsonObject.get("datas");
-                            }
-                            if ("".equals(datas))
-                                return;
-
+                            String data = (String) jsonObject.get("data");
                             if ("2".equals(type)) {
                                 callback.finishActivity(activity, -1);
                             } else if ("3".equals(type)) {
@@ -247,16 +230,12 @@ public class HttpClientUtil {
                             }
 
                         }
-                        activity.showCustomToast(info);
+                        activity.showCustomToast(desc);
                     } else {
                         BaseVO vo = (BaseVO) gson.fromJson(result, className);
                         if (BaseConstant.RESULT_FAIL_CODE400.equals(vo.getCode())) {
-                            String error = vo.getError();
-                            if (error != null)
-                                activity.showCustomToast(error);
-                            String info = vo.getInfo();
-                            if (info != null)
-                                activity.showCustomToast(info);
+                            String desc = vo.getDesc();
+                            activity.showCustomToast(desc);
                         } else {
                             callback.baseHasData(vo);
                             if ("2".equals(type)) {
@@ -266,9 +245,6 @@ public class HttpClientUtil {
                             }
                         }
                     }
-//					if (!StringUtils.isEmpty(result)) {
-//						ACache.get(context).put(allUrl + params.toString(), result);
-//					}
                 } catch (Exception e) {
                     System.out.println();
                     callback.finishActivity(activity, -1);
@@ -329,18 +305,10 @@ public class HttpClientUtil {
                             vo = (BaseVO) gson.fromJson(result, className);
                         }
 
-                        String info = "";
-                        if (vo.getError() != null) {
-                            info = vo.getError();
-                        } else if (vo.getInfo() != null) {
-                            info = vo.getInfo();
-                        } else {
-                            info = "操作成功";
-                        }
                         if ("200".equals(vo.getCode())) {
                             postCallback.success(vo);
                         } else {
-                            activity.showCustomToast(info);
+                            activity.showCustomToast("");
                         }
                     }
                 } catch (Exception e) {
@@ -355,7 +323,6 @@ public class HttpClientUtil {
             }
         });
     }
-
 
 
 }

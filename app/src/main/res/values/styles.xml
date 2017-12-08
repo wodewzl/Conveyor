@@ -7,5 +7,15 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="cb_conveyor_color1">
+        <item name="cbd_width">32dp</item>
+        <item name="cbd_height">32dp</item>
+        <item name="cbd_boxSize">15dp</item>
+        <item name="cbd_cornerRadius">100dp</item>
+        <item name="cbd_strokeSize">2dp</item> <!--边框-->
+        <item name="cbd_strokeColor">@color/conveyor_title</item>
 
+        <!--<item name="cbd_tickColor">@color/C9</item>选择勾的颜色-->
+        <item name="cbd_animDuration">@android:integer/config_mediumAnimTime</item>
+    </style>
 </resources>

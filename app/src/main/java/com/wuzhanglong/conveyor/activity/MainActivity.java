@@ -120,6 +120,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                 intent.setClass(MainActivity.this, ContactActivity.class);
                 break;
             case R.id.tv_menu_04:
+                intent.setClass(MainActivity.this, LoginActivity.class);
                 break;
             case R.id.tv_menu_05:
                 intent.setClass(MainActivity.this, WorkAllActivity.class);

@@ -112,7 +112,7 @@ public abstract class BaseActivity extends AppCompatActivity implements UpdateCa
 //        StatusBarUtil.setTranslucentForImageView(this, 0, mBaseHeadLayout);
 
         //工具类的
-        SetTranslanteBar();
+        setTranslanteBar();
         //我草你妈妈的面对面的面对面的
     }
 
@@ -380,7 +380,7 @@ public abstract class BaseActivity extends AppCompatActivity implements UpdateCa
     /**
      * 沉浸状态栏（4.4以上系统有效）
      */
-    public void SetTranslanteBar() {
+    public void setTranslanteBar() {
         StatusBarCompat.translucentStatusBar(this);
     }
 

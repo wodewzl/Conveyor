@@ -16,9 +16,10 @@ public class BaseConstant {
 
 //	public static  String DOMAIN_NAME = "http://mall.xjscvip.com/mobile/index.php?";// 小鲸商城域名
 
-	public static final String DOMAIN_NAME = "http://zuche.test.beisheng.wang/index.php/";// 租车域名域名
+//	public static final String DOMAIN_NAME = "http://zuche.test.beisheng.wang/index.php/";// 租车域名域名
 
-//	public static  String DOMAIN_NAME = "http://221.193.237.25:8069";// 蓝泰源测试
+	public static  String DOMAIN_NAME = "http://log.myzhian.com";//传送带
+
 
 
 }
