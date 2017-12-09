@@ -36,8 +36,8 @@ public class IndexView extends View {
     public IndexView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        mNormalTextColor = context.getResources().getColor(R.color.colorPrimary);
-        mPressedTextColor = context.getResources().getColor(R.color.colorPrimaryDark);
+        mNormalTextColor = context.getResources().getColor(R.color.colorAccent);
+        mPressedTextColor = context.getResources().getColor(R.color.colorAccent);
 
         mPaint.setTypeface(Typeface.DEFAULT);
         mPaint.setAntiAlias(true);

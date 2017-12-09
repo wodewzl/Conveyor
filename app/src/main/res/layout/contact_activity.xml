@@ -9,7 +9,8 @@
         style="@style/MatchMatch"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        />
 
     <TextView
         android:id="@+id/tv_sticky_tip"

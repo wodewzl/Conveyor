@@ -4,21 +4,24 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 
 import com.wuzhanglong.conveyor.R;
-import com.wuzhanglong.conveyor.model.IndexModel;
+import com.wuzhanglong.conveyor.model.ContanctVO;
 
 import cn.bingoogolapple.baseadapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.baseadapter.BGAViewHolderHelper;
 
 
-public class RvStickyAdapter extends BGARecyclerViewAdapter<IndexModel> {
+public class RvStickyAdapter extends BGARecyclerViewAdapter<ContanctVO.DataBean> {
 
     public RvStickyAdapter(RecyclerView recyclerView) {
         super(recyclerView, R.layout.item_index_city);
     }
 
     @Override
-    public void fillData(BGAViewHolderHelper helper, int position, IndexModel model) {
-        helper.setText(R.id.tv_item_index_city, model.name);
+    public void fillData(BGAViewHolderHelper helper, int position, ContanctVO.DataBean model) {
+        helper.setText(R.id.name_tv, model.getFullname());
+        helper.setText(R.id.phone_tv, model.getFullname());
+        helper.setText(R.id.position_tv, model.getPname());
+        helper.setText(R.id.depart_tv, model.getDname());
     }
 
     /**

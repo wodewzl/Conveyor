@@ -9,8 +9,7 @@ import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.adapter.RvStickyAdapter;
 import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
-import com.wuzhanglong.conveyor.model.IndexModel;
-import com.wuzhanglong.conveyor.model.UserInfoVO;
+import com.wuzhanglong.conveyor.model.ContanctVO;
 import com.wuzhanglong.conveyor.util.CharacterParser;
 import com.wuzhanglong.conveyor.util.PinyinComparator;
 import com.wuzhanglong.conveyor.view.IndexView;
@@ -18,7 +17,6 @@ import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.mode.BaseVO;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +31,7 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
     private IndexView mIndexView;
     private TextView mTipTv;
     private BGARVVerticalScrollHelper mRecyclerViewScrollHelper;
+
     @Override
     public void baseSetContentView() {
         contentInflateView(R.layout.contact_activity);
@@ -52,11 +51,11 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
 
 
         initStickyDivider();
-        loadIndexModelData();
+//        loadIndexModelData();
 
         mIndexView.setTipTv(mTipTv);
 
-        mAdapter.setData(loadIndexModelData());
+//        mAdapter.setData(loadIndexModelData());
         mDataRv.setAdapter(mAdapter);
 
         mIndexView.setDelegate(new IndexView.Delegate() {
@@ -79,12 +78,14 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
         HashMap<String, Object> map = new HashMap<>();
         map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
         map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-        HttpGetDataUtil.get(ContactActivity.this, Constant.CONTACT_URL, map, UserInfoVO.class);
+        HttpGetDataUtil.get(ContactActivity.this, Constant.CONTACT_URL, map, ContanctVO.class);
     }
 
     @Override
     public void hasData(BaseVO vo) {
-
+        ContanctVO contanctVO = (ContanctVO) vo;
+        List<ContanctVO.DataBean> lsit = contanctVO.getData();
+        mAdapter.setData(loadDataBeanData(lsit));
     }
 
     @Override
@@ -102,11 +103,11 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
         final BGADivider.StickyDelegate stickyDelegate = new BGADivider.StickyDelegate() {
             @Override
             public void initCategoryAttr() {
-//                mCategoryBackgroundColor = getResources().getColor(R.color.category_backgroundColor);
-//                mCategoryTextColor = getResources().getColor(R.color.category_textColor);
-//                mCategoryTextSize = getResources().getDimensionPixelOffset(R.dimen.textSize_16);
-//                mCategoryPaddingLeft = getResources().getDimensionPixelOffset(R.dimen.size_level4);
-//                mCategoryHeight = getResources().getDimensionPixelOffset(R.dimen.size_level10);
+                mCategoryBackgroundColor = getResources().getColor(R.color.C7);
+                mCategoryTextColor = getResources().getColor(R.color.C5);
+                mCategoryTextSize = getResources().getDimensionPixelOffset(R.dimen.sp_12);
+                mCategoryPaddingLeft = getResources().getDimensionPixelOffset(R.dimen.dp_15);
+                mCategoryHeight = getResources().getDimensionPixelOffset(R.dimen.dp_20);
             }
 
             @Override
@@ -125,11 +126,13 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
             }
         };
 
-        mDataRv.addItemDecoration(BGADivider.newDrawableDivider(R.drawable.shape_divider)
+        mDataRv.addItemDecoration(BGADivider.newShapeDivider()
+                .setColorResource(R.color.C9, true)
                 .setStartSkipCount(0)
-                .setMarginLeftResource(R.dimen.size_level3)
-                .setMarginRightResource(R.dimen.size_level9)
-                .setDelegate(stickyDelegate));
+                .setMarginLeftResource(R.dimen.dp_15)
+                .setMarginRightResource(R.dimen.dp_15)
+                .setDelegate(stickyDelegate)
+        );
 
         mRecyclerViewScrollHelper = BGARVVerticalScrollHelper.newInstance(mDataRv, new BGARVVerticalScrollHelper.SimpleDelegate() {
             @Override
@@ -140,61 +143,14 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
     }
 
 
-    public static List<IndexModel> loadIndexModelData() {
-        List<IndexModel> data = new ArrayList<>();
-        data.add(new IndexModel("安阳"));
-        data.add(new IndexModel("鞍山"));
-        data.add(new IndexModel("保定"));
-        data.add(new IndexModel("包头"));
-        data.add(new IndexModel("北京"));
-        data.add(new IndexModel("河北"));
-        data.add(new IndexModel("北海"));
-        data.add(new IndexModel("安庆"));
-        data.add(new IndexModel("伊春"));
-        data.add(new IndexModel("宝鸡"));
-        data.add(new IndexModel("本兮"));
-        data.add(new IndexModel("滨州"));
-        data.add(new IndexModel("常州"));
-        data.add(new IndexModel("常德"));
-        data.add(new IndexModel("常熟"));
-        data.add(new IndexModel("枣庄"));
-        data.add(new IndexModel("内江"));
-        data.add(new IndexModel("阿坝州"));
-        data.add(new IndexModel("丽水"));
-        data.add(new IndexModel("成都"));
-        data.add(new IndexModel("承德"));
-        data.add(new IndexModel("沧州"));
-        data.add(new IndexModel("重庆"));
-        data.add(new IndexModel("东莞"));
-        data.add(new IndexModel("扬州"));
-        data.add(new IndexModel("甘南州"));
-        data.add(new IndexModel("大庆"));
-        data.add(new IndexModel("佛山"));
-        data.add(new IndexModel("广州"));
-        data.add(new IndexModel("合肥"));
-        data.add(new IndexModel("海口"));
-        data.add(new IndexModel("济南"));
-        data.add(new IndexModel("兰州"));
-        data.add(new IndexModel("南京"));
-        data.add(new IndexModel("泉州"));
-        data.add(new IndexModel("荣成"));
-        data.add(new IndexModel("三亚"));
-        data.add(new IndexModel("上海"));
-        data.add(new IndexModel("汕头"));
-        data.add(new IndexModel("天津"));
-        data.add(new IndexModel("武汉"));
-        data.add(new IndexModel("厦门"));
-        data.add(new IndexModel("宜宾"));
-        data.add(new IndexModel("张家界"));
-        data.add(new IndexModel("自贡"));
-
+    public List<ContanctVO.DataBean> loadDataBeanData(List<ContanctVO.DataBean> data) {
 
         PinyinComparator pinyinComparator = new PinyinComparator();
         CharacterParser characterParser = CharacterParser.getInstance();
-        for (IndexModel indexModel : data) {
-            indexModel.topc = characterParser.getSelling(indexModel.name).substring(0, 1).toUpperCase();
-            if (indexModel.name.equals("重庆")) {
-                indexModel.topc = "C";
+        for (ContanctVO.DataBean dataBean : data) {
+            dataBean.topc = characterParser.getSelling(dataBean.getFullname()).substring(0, 1).toUpperCase();
+            if (dataBean.getFullname().equals("重庆")) {
+                dataBean.topc = "C";
             }
         }
         Collections.sort(data, pinyinComparator);
