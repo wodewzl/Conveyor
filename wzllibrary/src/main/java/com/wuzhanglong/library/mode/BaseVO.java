@@ -3,11 +3,11 @@ package com.wuzhanglong.library.mode;
 
 import java.io.Serializable;
 
-public class BaseVO<T> implements Serializable {
+public class BaseVO implements Serializable {
     public String desc;
     public String code;
     public String date_time;
-    public T data;
+
 
     public String getDesc() {
         return desc;
@@ -25,13 +25,6 @@ public class BaseVO<T> implements Serializable {
         this.code = code;
     }
 
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
 
     public String getDate_time() {
         return date_time;

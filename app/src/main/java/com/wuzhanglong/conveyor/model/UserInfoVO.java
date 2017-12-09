@@ -11,19 +11,18 @@ public class UserInfoVO extends BaseVO {
 
     /**
      * data : {"userid":"3","username":"13888888888","headpic":"http://log.myzhian.com/Uploads/bs0640/Resume/image/1512713442.jpg","fullname":"金仁政","sex":"男","tel":"13888888888","isinpost":"1",
-     * "islogin":"1","did":"5","pid":"1","logins":"140","role":"1","userflag":"0","fjptags":"bsukab640","jpalias":"bsukab6400003","dname":"班组1","pname":"司机","siteurl":"http://log.myzhian.com",
+     * "islogin":"1","did":"5","pid":"1","logins":"153","role":"1","userflag":"0","fjptags":"bsukab640","jpalias":"bsukab6400003","dname":"班组1","pname":"司机","siteurl":"http://log.myzhian.com",
      * "firmcname":"某某公司","return":"true","ftoken":"QBTTIXyUNNDKNEEMUE2QzcxNzk4RAO0O0OO0O0O"}
      */
 
-    @SerializedName("data")
-    private DataBean dataX;
+    private DataBean data;
 
-    public DataBean getDataX() {
-        return dataX;
+    public DataBean getData() {
+        return data;
     }
 
-    public void setDataX(DataBean dataX) {
-        this.dataX = dataX;
+    public void setData(DataBean data) {
+        this.data = data;
     }
 
     public static class DataBean {
@@ -38,7 +37,7 @@ public class UserInfoVO extends BaseVO {
          * islogin : 1
          * did : 5
          * pid : 1
-         * logins : 140
+         * logins : 153
          * role : 1
          * userflag : 0
          * fjptags : bsukab640

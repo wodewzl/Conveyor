@@ -7,7 +7,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wuzhanglong.library.R;
 import com.wuzhanglong.library.activity.BaseActivity;
-import com.wuzhanglong.library.utils.Options;
 
 import java.util.List;
 
@@ -32,8 +31,6 @@ public abstract class RecyclerBaseAdapter<M> extends BGARecyclerViewAdapter {
 
     public RecyclerBaseAdapter(RecyclerView recyclerView, int itemLayoutId) {
         super(recyclerView, itemLayoutId);
-        mOptions = Options.getListOptions();
-        mImageLoader = ImageLoader.getInstance();
         mActivity = (BaseActivity) recyclerView.getContext();
 
     }

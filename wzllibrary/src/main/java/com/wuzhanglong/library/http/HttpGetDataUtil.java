@@ -111,11 +111,11 @@ public class HttpGetDataUtil {
             @Override
             public void onNext(Object o, String s) {
 
-                BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
+                BaseVO vo = (BaseVO) gson.fromJson(s, className);
                 if ("200".equals(vo.getCode())) {
                     postCallback.success(vo);
                 } else {
-                    activity.showCustomToast(vo.getInfo());
+                    activity.showCustomToast(vo.getDesc());
                 }
             }
         });
@@ -148,7 +148,7 @@ public class HttpGetDataUtil {
                 if ("200".equals(vo.getCode())) {
                     postCallback.success(vo);
                 } else {
-                    activity.showCustomToast(vo.getInfo());
+                    activity.showCustomToast(vo.getDesc());
                 }
             }
         });

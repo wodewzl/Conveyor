@@ -7,15 +7,20 @@ import android.widget.TextView;
 
 import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.adapter.RvStickyAdapter;
+import com.wuzhanglong.conveyor.application.AppApplication;
+import com.wuzhanglong.conveyor.constant.Constant;
 import com.wuzhanglong.conveyor.model.IndexModel;
+import com.wuzhanglong.conveyor.model.UserInfoVO;
 import com.wuzhanglong.conveyor.util.CharacterParser;
 import com.wuzhanglong.conveyor.util.PinyinComparator;
 import com.wuzhanglong.conveyor.view.IndexView;
 import com.wuzhanglong.library.activity.BaseActivity;
+import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.mode.BaseVO;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.bingoogolapple.baseadapter.BGADivider;
@@ -38,7 +43,6 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
         mDataRv = getViewById(R.id.rv_sticky_data);
         mIndexView = getViewById(R.id.iv_sticky_index);
         mTipTv = getViewById(R.id.tv_sticky_tip);
-
     }
 
     @Override
@@ -72,7 +76,10 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
 
     @Override
     public void getData() {
-        showView();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
+        map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+        HttpGetDataUtil.get(ContactActivity.this, Constant.LOGIN_URL, map, UserInfoVO.class);
     }
 
     @Override

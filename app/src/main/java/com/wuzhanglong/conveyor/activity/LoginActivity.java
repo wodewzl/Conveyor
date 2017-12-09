@@ -1,11 +1,14 @@
 package com.wuzhanglong.conveyor.activity;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.rey.material.widget.CheckBox;
 import com.wuzhanglong.conveyor.R;
+import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
+import com.wuzhanglong.conveyor.model.UserInfoVO;
 import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.interfaces.PostCallback;
@@ -13,7 +16,7 @@ import com.wuzhanglong.library.mode.BaseVO;
 
 import java.util.HashMap;
 
-public class LoginActivity extends BaseActivity implements PostCallback, View.OnClickListener {
+public class LoginActivity extends BaseActivity implements PostCallback, View.OnClickListener{
     private TextView mOkTv, mPhoneTv, mPasswordTv, mForgetTv;
     private CheckBox mRemberCb;
 
@@ -31,7 +34,6 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
         mForgetTv = getViewById(R.id.forget_tv);
         mRemberCb = getViewById(R.id.rember_cb);
         mOkTv = getViewById(R.id.ok_tv);
-
     }
 
     @Override
@@ -63,20 +65,35 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
 
     @Override
     public void success(BaseVO vo) {
-
+        UserInfoVO userInfoVO = (UserInfoVO) vo;
+        AppApplication.getInstance().saveUserInfoVO(userInfoVO);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ok_tv:
+                if(TextUtils.isEmpty(mPhoneTv.getText().toString())){
+                    showCustomToast("请输入手机号");
+//                    return;
+                }
+
+                if(TextUtils.isEmpty(mPasswordTv.getText().toString())){
+                    showCustomToast("请输入密码");
+//                    return;
+                }
+
                 HashMap<String, Object> map = new HashMap<>();
-                map.put("username", "13888888888");
-                map.put("password", "111111");
-                HttpGetDataUtil.post(LoginActivity.this, Constant.LOGIN_URL, map, null, LoginActivity.this);
+                map.put("username", mPhoneTv.getText().toString());
+                map.put("password",mPasswordTv.getText().toString());
+                HttpGetDataUtil.post(LoginActivity.this, Constant.LOGIN_URL, map, UserInfoVO.class, LoginActivity.this);
+                break;
+            case R.id.forget_tv:
                 break;
             default:
                 break;
         }
     }
+
+
 }

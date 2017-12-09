@@ -28,7 +28,6 @@ import com.wuzhanglong.library.R;
 import com.wuzhanglong.library.interfaces.UpdateCallback;
 import com.wuzhanglong.library.mode.BaseVO;
 import com.wuzhanglong.library.utils.DialogUtil;
-import com.wuzhanglong.library.utils.Options;
 import com.wuzhanglong.library.utils.StatusBarCompat;
 import com.wuzhanglong.library.utils.ThreadUtil;
 
@@ -94,8 +93,6 @@ public abstract class BaseActivity extends AppCompatActivity implements UpdateCa
         mBaseContentLayout = (LinearLayout) findViewById(R.id.base_content_layout);
         mNoContentTv = (TextView) findViewById(R.id.no_content_tv);
         mNoNetTv = (TextView) findViewById(R.id.no_net_tv);
-        mOptions = Options.getListOptions();
-        mImageLoader = ImageLoader.getInstance();
 
         //滑动返回
 //        addSwipBak();
