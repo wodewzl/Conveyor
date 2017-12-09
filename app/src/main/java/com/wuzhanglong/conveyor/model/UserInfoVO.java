@@ -3,11 +3,13 @@ package com.wuzhanglong.conveyor.model;
 import com.google.gson.annotations.SerializedName;
 import com.wuzhanglong.library.mode.BaseVO;
 
+import java.io.Serializable;
+
 /**
  * Created by ${Wuzhanglong} on 2017/12/8.
  */
 
-public class UserInfoVO extends BaseVO {
+public class UserInfoVO extends BaseVO implements Serializable{
 
     /**
      * data : {"userid":"3","username":"13888888888","headpic":"http://log.myzhian.com/Uploads/bs0640/Resume/image/1512713442.jpg","fullname":"金仁政","sex":"男","tel":"13888888888","isinpost":"1",
@@ -25,7 +27,7 @@ public class UserInfoVO extends BaseVO {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * userid : 3
          * username : 13888888888

@@ -54,6 +54,7 @@ public class HttpGetDataUtil {
         Log.i("get_url", allUrl + params.toString());
 
         new Novate.Builder(activity)
+                .baseUrl(BaseConstant.DOMAIN_NAME)
                 .build()
                 .rxGet(url, params, new RxStringCallback() {
                     @Override
@@ -79,12 +80,12 @@ public class HttpGetDataUtil {
 
                     @Override
                     public void onError(Object o, Throwable throwable) {
-
+                        System.out.println("===========");
                     }
 
                     @Override
                     public void onCancel(Object o, Throwable throwable) {
-
+                        System.out.println("===========");
                     }
                 });
     }

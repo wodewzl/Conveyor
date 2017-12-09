@@ -6,4 +6,5 @@ package com.wuzhanglong.conveyor.constant;
 
 public class Constant {
     public static final String LOGIN_URL = "/api.php/Login/index/";
+    public static final String CONTACT_URL = "/api.php/AddressList/index/";
 }

@@ -79,7 +79,7 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
         HashMap<String, Object> map = new HashMap<>();
         map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
         map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-        HttpGetDataUtil.get(ContactActivity.this, Constant.LOGIN_URL, map, UserInfoVO.class);
+        HttpGetDataUtil.get(ContactActivity.this, Constant.CONTACT_URL, map, UserInfoVO.class);
     }
 
     @Override
