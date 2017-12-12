@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wuzhanglong.library.R;
 import com.wuzhanglong.library.utils.WidthHigthUtil;
 
@@ -18,10 +16,7 @@ import cn.bingoogolapple.baseadapter.BGAViewHolderHelper;
 
 
 public abstract class ListBaseAdapter<M> extends BGAAdapterViewAdapter {
-//    public Context mContext;
-//    public List<T> mList;
-    public ImageLoader mImageLoader;
-    public DisplayImageOptions mOptions;
+
     public boolean mIsEmpty = true;
     public abstract void initData(BGAViewHolderHelper helper, int position, Object model);
     public ListBaseAdapter(Context context, int itemLayoutId) {

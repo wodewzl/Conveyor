@@ -3,6 +3,7 @@ package com.wuzhanglong.conveyor.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 
+import com.squareup.picasso.Picasso;
 import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.model.ContanctVO;
 
@@ -18,8 +19,11 @@ public class RvStickyAdapter extends BGARecyclerViewAdapter<ContanctVO.DataBean>
 
     @Override
     public void fillData(BGAViewHolderHelper helper, int position, ContanctVO.DataBean model) {
+        ContanctVO.DataBean vo=model;
+        if(!TextUtils.isEmpty(vo.getHeadpic()))
+        Picasso.with(mContext).load(vo.getHeadpic()).placeholder(R.drawable.user_icon_def).into(helper.getImageView(R.id.head_img));
         helper.setText(R.id.name_tv, model.getFullname());
-        helper.setText(R.id.phone_tv, model.getFullname());
+        helper.setText(R.id.phone_tv, model.getTel());
         helper.setText(R.id.position_tv, model.getPname());
         helper.setText(R.id.depart_tv, model.getDname());
     }

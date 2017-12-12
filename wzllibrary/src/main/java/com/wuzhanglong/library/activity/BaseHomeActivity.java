@@ -7,7 +7,6 @@ import android.view.View;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.wuzhanglong.library.R;
 import com.wuzhanglong.library.fragment.BaseFragment;
-import com.wuzhanglong.library.http.HttpClientUtil;
 import com.wuzhanglong.library.mode.BaseVO;
 
 import java.util.ArrayList;
@@ -79,8 +78,8 @@ public abstract class BaseHomeActivity extends BaseActivity  {
 
    @Override
     public void getData() {
-//        showView();
-       HttpClientUtil.show(mThreadUtil);
+        showView();
+
     }
 
     @Override

@@ -12,32 +12,32 @@
         android:padding="15dp">
 
         <TextView
-            android:id="@+id/tv_menu_01"
+            android:id="@+id/tv_home_01"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="5dp"
-            android:drawableTop="@drawable/affair012"
+            android:drawableTop="@drawable/home_01"
             android:gravity="center"
             android:text="工作计划"/>
 
         <TextView
-            android:id="@+id/tv_menu_02"
+            android:id="@+id/tv_home_02"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="5dp"
-            android:drawableTop="@drawable/affair012"
+            android:drawableTop="@drawable/home_02"
             android:gravity="center"
             android:text="上传工作"/>
 
         <TextView
-            android:id="@+id/tv_menu_03"
+            android:id="@+id/tv_home_03"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="5dp"
-            android:drawableTop="@drawable/affair012"
+            android:drawableTop="@drawable/home_03"
             android:gravity="center"
             android:text="通讯录"/>
     </LinearLayout>
@@ -49,22 +49,22 @@
         android:padding="15dp">
 
         <TextView
-            android:id="@+id/tv_menu_04"
+            android:id="@+id/tv_home_04"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="5dp"
-            android:drawableTop="@drawable/affair012"
+            android:drawableTop="@drawable/home_04"
             android:gravity="center"
             android:text="地图"/>
 
         <TextView
-            android:id="@+id/tv_menu_05"
+            android:id="@+id/tv_home_05"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="5dp"
-            android:drawableTop="@drawable/affair012"
+            android:drawableTop="@drawable/home_05"
             android:gravity="center"
             android:text="工作总汇"/>
 
@@ -78,4 +78,11 @@
             android:text="通讯录"
             android:visibility="invisible"/>
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="今日工作"
+        android:background="#EEEEEE"
+        style="@style/padding_15_13"
+        android:textColor="@color/C5"/>
 </LinearLayout>

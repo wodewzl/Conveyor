@@ -114,6 +114,38 @@ public class HttpGetDataUtil {
 
                 BaseVO vo = (BaseVO) gson.fromJson(s, className);
                 if ("200".equals(vo.getCode())) {
+                    activity.showCustomToast(vo.getDesc());
+                } else {
+                    activity.showCustomToast(vo.getDesc());
+                }
+            }
+        });
+    }
+
+    public static <T> void post(final BaseActivity activity, final String url, final Map<String, Object> params, final PostCallback postCallback) {
+
+        final Gson gson = new Gson();
+//        final String allUrl = BaseConstant.DOMAIN_NAME + url;
+        new Novate.Builder(activity)
+                .baseUrl(BaseConstant.DOMAIN_NAME)
+                .build().rxPost(url, params, new RxStringCallback() {
+
+
+            @Override
+            public void onError(Object o, Throwable throwable) {
+                System.out.println("=============");
+            }
+
+            @Override
+            public void onCancel(Object o, Throwable throwable) {
+                System.out.println("=============");
+            }
+
+            @Override
+            public void onNext(Object o, String s) {
+
+                BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
+                if ("200".equals(vo.getCode())) {
                     postCallback.success(vo);
                 } else {
                     activity.showCustomToast(vo.getDesc());

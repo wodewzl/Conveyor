@@ -10,19 +10,12 @@
     tools:context="com.wuzhanglong.conveyor.activity.LoginActivity">
 
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="75dp"
-        android:background="@color/conveyor_title"/>
+        android:src="@drawable/login_title"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="一一工作无缝对接一一"
-        android:textColor="@color/conveyor_title"/>
 
     <EditText
         android:id="@+id/phone_tv"
@@ -32,7 +25,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
         android:background="@color/C1"
-        android:drawableLeft="@drawable/self_01"
+        android:drawableLeft="@drawable/login_user"
         android:drawablePadding="5dp"
         android:hint="手机号"
         android:inputType="phone"
@@ -51,7 +44,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
         android:background="@color/C1"
-        android:drawableLeft="@drawable/self_01"
+        android:drawableLeft="@drawable/login_pwd"
         android:drawablePadding="5dp"
         android:hint="密码"
         android:inputType="textPassword"/>

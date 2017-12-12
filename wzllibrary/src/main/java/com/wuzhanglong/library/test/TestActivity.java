@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.wuzhanglong.library.R;
 import com.wuzhanglong.library.activity.BaseActivity;
-import com.wuzhanglong.library.http.HttpClientUtil;
+
 import com.wuzhanglong.library.mode.BaseVO;
 import com.wuzhanglong.library.mode.EBMessageVO;
 
@@ -40,7 +40,6 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void getData() {
-        HttpClientUtil.show(mThreadUtil);
     }
 
     @Override

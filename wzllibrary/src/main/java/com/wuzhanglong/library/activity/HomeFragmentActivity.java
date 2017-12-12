@@ -16,7 +16,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.wuzhanglong.library.R;
 import com.wuzhanglong.library.fragment.BaseFragment;
-import com.wuzhanglong.library.http.HttpClientUtil;
+
 import com.wuzhanglong.library.mode.BaseVO;
 import com.wuzhanglong.library.utils.SharePreferenceUtil;
 
@@ -109,7 +109,8 @@ public abstract class HomeFragmentActivity extends BaseActivity implements  Easy
 
     @Override
     public void getData() {
-        HttpClientUtil.show(mThreadUtil);
+//        HttpClientUtil.show(mThreadUtil);
+        showView();
     }
 
     @Override

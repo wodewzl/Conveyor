@@ -39,6 +39,7 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
 
     @Override
     public void initView() {
+        mBaseTitleTv.setText("通讯录");
         mDataRv = getViewById(R.id.rv_sticky_data);
         mIndexView = getViewById(R.id.iv_sticky_index);
         mTipTv = getViewById(R.id.tv_sticky_tip);
@@ -103,11 +104,11 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
         final BGADivider.StickyDelegate stickyDelegate = new BGADivider.StickyDelegate() {
             @Override
             public void initCategoryAttr() {
-                mCategoryBackgroundColor = getResources().getColor(R.color.C7);
+                mCategoryBackgroundColor = getResources().getColor(R.color.conveyor_bg1);
                 mCategoryTextColor = getResources().getColor(R.color.C5);
                 mCategoryTextSize = getResources().getDimensionPixelOffset(R.dimen.sp_12);
                 mCategoryPaddingLeft = getResources().getDimensionPixelOffset(R.dimen.dp_15);
-                mCategoryHeight = getResources().getDimensionPixelOffset(R.dimen.dp_20);
+                mCategoryHeight = getResources().getDimensionPixelOffset(R.dimen.dp_30);
             }
 
             @Override
@@ -127,7 +128,7 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
         };
 
         mDataRv.addItemDecoration(BGADivider.newShapeDivider()
-                .setColorResource(R.color.C9, true)
+                .setColorResource(R.color.conveyor_bg1, true)
                 .setStartSkipCount(0)
                 .setMarginLeftResource(R.dimen.dp_15)
                 .setMarginRightResource(R.dimen.dp_15)

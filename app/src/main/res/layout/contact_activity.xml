@@ -10,7 +10,7 @@
         android:overScrollMode="never"
         android:scrollbars="none"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        />
+       android:layout_marginRight="30dp" />
 
     <TextView
         android:id="@+id/tv_sticky_tip"

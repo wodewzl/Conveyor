@@ -22,8 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wuzhanglong.library.R;
 import com.wuzhanglong.library.interfaces.UpdateCallback;
 import com.wuzhanglong.library.mode.BaseVO;
@@ -58,8 +56,6 @@ public abstract class BaseActivity extends AppCompatActivity implements UpdateCa
     public TextView mNoContentTv, mNoNetTv;
     public LinearLayout mBaseContentLayout;
     private Dialog mProgressDialog;
-    public ImageLoader mImageLoader;
-    public DisplayImageOptions mOptions;
     public ThreadUtil mThreadUtil;
     public  Bundle mSavedInstanceState;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

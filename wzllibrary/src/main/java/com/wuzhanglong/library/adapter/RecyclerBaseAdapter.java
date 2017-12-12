@@ -3,8 +3,6 @@ package com.wuzhanglong.library.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wuzhanglong.library.R;
 import com.wuzhanglong.library.activity.BaseActivity;
 
@@ -22,8 +20,7 @@ import cn.bingoogolapple.baseadapter.BGAViewHolderHelper;
 public abstract class RecyclerBaseAdapter<M> extends BGARecyclerViewAdapter {
     public BaseActivity mActivity;
     public boolean mIsEmpty = true;
-    public ImageLoader mImageLoader;
-    public DisplayImageOptions mOptions;
+
     public TextView mBaseAdapterTv;
 
 

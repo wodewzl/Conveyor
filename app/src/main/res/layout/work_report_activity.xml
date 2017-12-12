@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.wuzhanglong.library.view.ReboundScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.wuzhanglong.conveyor.activity.WorkReportActivity">
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@color/C1"
-        android:gravity="top"
-        android:hint="今日工作"
-        android:padding="10dp"
-        android:textSize="12sp"
-        />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@color/C1"
-        android:gravity="top"
-        android:hint="明日计划"
-        android:padding="10dp"
-        android:textSize="12sp"/>
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/C1">
+        android:layout_height="match_parent"
+        android:background="@color/C1"
+        android:orientation="vertical"
+        tools:context="com.wuzhanglong.conveyor.activity.WorkReportActivity">
+
+        <EditText
+            android:id="@+id/content1_et"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/C1"
+            android:gravity="top"
+            android:hint="今日工作"
+            android:padding="10dp"
+            android:textSize="12sp"
+            />
+
+        <View
+            style="@style/view_divider"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
+
+        <EditText
+            android:id="@+id/content2_et"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/C1"
+            android:gravity="top"
+            android:hint="明日计划"
+            android:padding="10dp"
+            android:textSize="12sp"/>
+
+        <View
+            style="@style/view_divider"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
 
         <cn.bingoogolapple.photopicker.widget.BGASortableNinePhotoLayout
             android:id="@+id/phone_layout"
@@ -53,4 +67,5 @@
             app:bga_snpl_plusEnable="true"
             app:bga_snpl_sortable="true"/>
     </LinearLayout>
-</LinearLayout>
+
+</com.wuzhanglong.library.view.ReboundScrollView>

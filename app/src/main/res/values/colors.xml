@@ -5,7 +5,7 @@
     <!--<color name="colorAccent">#FF4081</color>-->
     <color name="conveyor_title">#20B490</color>
     <color name="conveyor_bg">#F1F1F1</color>
-    <color name="conveyor_bg1">#F2F3F3</color>
+    <color name="conveyor_bg1">#F3F3F3</color>
     <color name="bga_pp_colorPrimaryDark">@color/conveyor_title</color>
     <!-- PhotoPicker 导航栏的颜色 -->
     <!--<color name="bga_pp_navigationBarColor">@color/navigationBarColor</color>-->

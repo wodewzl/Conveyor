@@ -6,7 +6,6 @@ import android.widget.EditText;
 
 import com.wuzhanglong.library.R;
 import com.wuzhanglong.library.activity.BaseActivity;
-import com.wuzhanglong.library.http.HttpClientUtil;
 import com.wuzhanglong.library.mode.BaseVO;
 
 //import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -25,7 +24,7 @@ public class SecondActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        EditText tv= (EditText) findViewById(R.id.et);
+        EditText tv = (EditText) findViewById(R.id.et);
         tv.setText("第二个");
     }
 
@@ -36,7 +35,7 @@ public class SecondActivity extends BaseActivity {
 
     @Override
     public void getData() {
-        HttpClientUtil.show(mThreadUtil);
+        showView();
     }
 
     @Override
