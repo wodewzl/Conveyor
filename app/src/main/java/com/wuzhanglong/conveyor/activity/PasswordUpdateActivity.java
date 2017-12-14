@@ -33,7 +33,7 @@ public class PasswordUpdateActivity extends BaseActivity implements View.OnClick
         mPasswordUpdate02Et = getViewById(R.id.pwd_update_02_et);
         mPasswordUpdate03Et = getViewById(R.id.pwd_update_03_et);
         mOkTv = getViewById(R.id.ok_tv);
-        mOkTv.setBackground(BaseCommonUtils.setBackgroundShap(this,5,R.color.conveyor_title,R.color.conveyor_title));
+        mOkTv.setBackground(BaseCommonUtils.setBackgroundShap(this, 5, R.color.conveyor_title, R.color.conveyor_title));
     }
 
     @Override
@@ -87,13 +87,15 @@ public class PasswordUpdateActivity extends BaseActivity implements View.OnClick
                 }
 
                 HashMap<String, Object> map = new HashMap<>();
-                map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
-                map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+                if (AppApplication.getInstance().getUserInfoVO() != null)
+                    map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
+                if (AppApplication.getInstance().getUserInfoVO() != null)
+                    map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
                 map.put("oldpwd", mPasswordUpdate01Et.getText().toString());
                 map.put("pwd", mPasswordUpdate02Et.getText().toString());
                 map.put("conpwd", mPasswordUpdate03Et.getText().toString());
                 HttpGetDataUtil.post(PasswordUpdateActivity.this, Constant.UPDATE_PWD_URL, map, UserInfoVO.class, PasswordUpdateActivity.this);
-               showProgressDialog();
+                showProgressDialog();
                 break;
             default:
                 break;

@@ -25,15 +25,16 @@ public class WorkAdapter extends RecyclerBaseAdapter<WorkVO.DataBean.ListBean> {
     public void initData(BGAViewHolderHelper helper, int position, Object model) {
         final WorkVO.DataBean.ListBean vo = (WorkVO.DataBean.ListBean) model;
         if ("1".equals(vo.getIsTitle())) {
-            helper.setText(R.id.time_tv, vo.getTime());
+            helper.setText(R.id.time_tv, vo.getDate_week());
         } else {
             if(!TextUtils.isEmpty(vo.getHeadpic())){
-                Picasso.with(mContext).load(vo.getHeadpic()).placeholder(R.drawable.user_icon_def).into(helper.getImageView(R.id.head_img));
+                Picasso.with(mContext).load(vo.getHeadpic()).placeholder(R.drawable.user_def).into(helper.getImageView(R.id.head_img));
             }
 
             helper.setText(R.id.name_tv, vo.getFullname());
             helper.setText(R.id.depart_tv, vo.getDname());
-            helper.setText(R.id.type_tv, "日报");
+
+            helper.setText(R.id.type_tv, vo.getTypename());
             helper.getTextView(R.id.type_tv).setBackground(BaseCommonUtils.setBackgroundShap(mContext,5,R.color.conveyor_title,R.color.conveyor_title));
 
             helper.setText(R.id.time_tv, DateUtils.parseDateDay(vo.getTime()));

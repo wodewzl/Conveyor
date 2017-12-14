@@ -50,6 +50,7 @@ public class WorkReportActivity extends BaseActivity implements BGASortableNineP
     @Override
     public void initView() {
         mBaseOkTv.setText("提交");
+        mBaseTitleTv.setText("工作");
         mTimeLayout = getViewById(R.id.time_layout);
         mDepartTv = getViewById(R.id.depart_tv);
         mContent1Et = getViewById(R.id.content1_et);
@@ -58,7 +59,7 @@ public class WorkReportActivity extends BaseActivity implements BGASortableNineP
         mContent4Et = getViewById(R.id.content4_et);
         mContent5Et = getViewById(R.id.content5_et);
         mPhotoLayout = getViewById(R.id.phone_layout);
-        mPhotoLayout.setMaxItemCount(3);
+        mPhotoLayout.setMaxItemCount(9);
         mPhotoLayout.setEditable(true);//有加号，有删除，可以点加号选择，false没有加号，点其他按钮选择，也没有删除
         mPhotoLayout.setPlusEnable(true);//有加号，可以点加号选择，false没有加号，点其他按钮选择
         mPhotoLayout.setSortable(true);//排序
@@ -166,6 +167,8 @@ public class WorkReportActivity extends BaseActivity implements BGASortableNineP
 
     @Override
     public void success(BaseVO vo) {
+        showCustomToast(vo.getDesc());
+        this.finish();
 
     }
 

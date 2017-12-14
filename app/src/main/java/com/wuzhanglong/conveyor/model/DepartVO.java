@@ -53,6 +53,7 @@ public class DepartVO extends BaseVO{
             private String level;
             private String order;
             private String status;
+            private boolean haschild;
 
             public String getDepartmentid() {
                 return departmentid;
@@ -100,6 +101,14 @@ public class DepartVO extends BaseVO{
 
             public void setStatus(String status) {
                 this.status = status;
+            }
+
+            public boolean isHaschild() {
+                return haschild;
+            }
+
+            public void setHaschild(boolean haschild) {
+                this.haschild = haschild;
             }
         }
     }

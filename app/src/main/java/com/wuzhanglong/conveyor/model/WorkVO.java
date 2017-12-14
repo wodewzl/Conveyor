@@ -51,6 +51,15 @@ public class WorkVO extends BaseVO {
             private String typename;
             private String date;
             private String isTitle;
+            private String date_week;
+
+            public String getDate_week() {
+                return date_week;
+            }
+
+            public void setDate_week(String date_week) {
+                this.date_week = date_week;
+            }
 
             public String getLogid() {
                 return logid;

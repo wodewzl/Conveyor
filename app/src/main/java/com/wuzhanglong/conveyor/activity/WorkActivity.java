@@ -1,10 +1,13 @@
 package com.wuzhanglong.conveyor.activity;
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LuRecyclerView;
@@ -21,9 +24,11 @@ import com.wuzhanglong.library.ItemDecoration.DividerDecoration;
 import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.mode.BaseVO;
+import com.wuzhanglong.library.mode.TreeVO;
 import com.wuzhanglong.library.utils.DateUtils;
 import com.wuzhanglong.library.utils.DividerUtil;
 import com.wuzhanglong.library.view.AutoSwipeRefreshLayout;
+import com.wuzhanglong.library.view.BSPopupWindowsTitle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +36,7 @@ import java.util.List;
 
 import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
 
-public class WorkActivity extends BaseActivity implements OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BGAOnRVItemClickListener {
+public class WorkActivity extends BaseActivity implements OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BGAOnRVItemClickListener, View.OnClickListener {
     private AutoSwipeRefreshLayout mAutoSwipeRefreshLayout;
     private LuRecyclerView mRecyclerView;
     private WorkAdapter mAdapter;
@@ -43,11 +48,16 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     private String mFirstid = "";
     private String mLastid = "";
     private String mStartDate = "";
-    private String mendDate = "";
+    private String mEndDate = "";
     private String mIsmyself = "";
-    private String mIsToday = "";
     private boolean mFlag = true;
-
+    private TextView mOptions1Tv, mOptions2Tv;
+    private List<DepartVO.DataBean.ListBean> mListBeans;
+    private BSPopupWindowsTitle mDepartPop;
+    private View mDividerView;
+    private int mState = 0; // 0为首次,1为下拉刷新 ，2为加载更多
+    private LinearLayout mTitleLayout;
+    private String mType = "1";//1自己的，
 
     @Override
     public void baseSetContentView() {
@@ -56,6 +66,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
 
     @Override
     public void initView() {
+        mTitleLayout = getViewById(R.id.title_layout);
         mAutoSwipeRefreshLayout = getViewById(R.id.swipe_refresh_layout);
         mActivity.setSwipeRefreshLayoutColors(mAutoSwipeRefreshLayout);
         mRecyclerView = getViewById(R.id.recycler_view);
@@ -69,15 +80,6 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         });
         mRecyclerView.addItemDecoration(decoration);
 
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-//        DividerDecoration divider = DividerUtil.linnerDivider(this, R.dimen.dp_1, R.color.C3);
-//        mRecyclerView.addItemDecoration(divider);
-//        mAdapter = new WorkAdapter(mRecyclerView);
-//        LuRecyclerViewAdapter adapter = new LuRecyclerViewAdapter(mAdapter);
-//        mRecyclerView.setAdapter(adapter);
-//        mRecyclerView.setLoadMoreEnabled(false);
-
-
         mAdapter = new WorkAdapter(mRecyclerView);
         LuRecyclerViewAdapter adapter = new LuRecyclerViewAdapter(mAdapter);
         mRecyclerView.setAdapter(adapter);
@@ -86,33 +88,50 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         mRecyclerView.setLoadMoreEnabled(true);
         mBaseTitleTv.setText("工作总汇");
+        mOptions1Tv = getViewById(R.id.options1_tv);
+        mOptions2Tv = getViewById(R.id.options2_tv);
+        mDividerView = getViewById(R.id.divider);
+        mType = this.getIntent().getStringExtra("type");
+        if ("1".equals(mType)) {
+            mIsmyself = "1";//
+            mTitleLayout.setVisibility(View.GONE);
+        } else {
+            mIsmyself = "";
+            mTitleLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void bindViewsListener() {
-
+        mOptions1Tv.setOnClickListener(this);
+        mRecyclerView.setOnLoadMoreListener(this);
+        mAutoSwipeRefreshLayout.setOnRefreshListener(this);
+        mAdapter.setOnRVItemClickListener(this);
     }
 
     @Override
     public void getData() {
-        if (mFlag) {
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
-            map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-            HttpGetDataUtil.get(WorkActivity.this, Constant.DEPART_URL, map, DepartVO.class);
+        if (mFlag && !"1".equals(mType)) {
+            HashMap<String, Object> departMap = new HashMap<>();
+            departMap.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
+//            map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+            departMap.put("userid", "6");
+            HttpGetDataUtil.get(WorkActivity.this, Constant.DEPART_URL, departMap, DepartVO.class);
             mFlag = false;
         }
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
         map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-        map.put("did", "");
-        map.put("firstid", "");
-        map.put("lastid", "");
-        map.put("start_date", "");
-        map.put("end_date", "");
-        map.put("ismyself", "");
-        map.put("is_today", "");
+//        map.put("userid", "6");
+        map.put("did", mDid);
+        map.put("firstid", mFirstid);
+        map.put("lastid", mLastid);
+        map.put("start_date", mStartDate);
+        map.put("end_date", mEndDate);
+        map.put("ismyself", mIsmyself);
+
+//        map.put("is_today", "");
         HttpGetDataUtil.get(WorkActivity.this, Constant.WORK_LIST_URL, map, WorkVO.class);
     }
 
@@ -120,29 +139,60 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     public void hasData(BaseVO vo) {
         if (vo instanceof DepartVO) {
             DepartVO departVO = (DepartVO) vo;
+            mListBeans = departVO.getData().getList();
         } else if (vo instanceof WorkVO) {
+            mAutoSwipeRefreshLayout.setRefreshing(false);
             WorkVO workVO = (WorkVO) vo;
+            if ("300".equals(workVO.getCode())) {
+                mRecyclerView.setNoMore(true);
+                return;
+            } else {
+                mRecyclerView.setNoMore(false);
+            }
+
             List<WorkVO.DataBean.ListBean> lsit = workVO.getData().getList();
             List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
             WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
-            title.setTime(DateUtils.parseDateDay(lsit.get(0).getTime()));
+            title.setTime(lsit.get(0).getTime());
+            title.setDate_week(lsit.get(0).getDate_week());
             title.setIsTitle("1");
             listBean.add(title);
             for (int i = 0; i < lsit.size(); i++) {
                 listBean.add(lsit.get(i));
-                if(i<lsit.size()-2){
-                    if (!DateUtils.parseDateDay(lsit.get(i).getTime()).equals(DateUtils.parseDateDay(lsit.get(i+1).getTime()))) {
+                if (i < lsit.size() - 2) {
+                    if (!DateUtils.parseDateDay(lsit.get(i).getTime()).equals(DateUtils.parseDateDay(lsit.get(i + 1).getTime()))) {
                         WorkVO.DataBean.ListBean titleBean = new WorkVO.DataBean.ListBean();
-                        titleBean.setTime(DateUtils.parseDateDay(lsit.get(i+1).getTime()));
+                        titleBean.setTime(lsit.get(i + 1).getTime());
                         titleBean.setIsTitle("1");
+                        titleBean.setDate_week(lsit.get(i + 1).getDate_week());
                         listBean.add(titleBean);
                     }
                 }
 
             }
-            mAdapter.updateData(listBean);
+//            mAdapter.updateData(listBean);
+            if (1 == mState) {
+                if (DateUtils.parseDateDay(listBean.get(listBean.size() - 1).getTime()).
+                        equals(DateUtils.parseDateDay(((WorkVO.DataBean.ListBean) mAdapter.getData().get(0)).getTime()))) {
+                    mAdapter.getData().remove(0);
+                    mAdapter.getData().add(1, listBean);
+                } else {
+                    mAdapter.getData().add(01, listBean);
+                }
+                mAdapter.notifyDataSetChanged();
+            } else if (2 == mState) {
+                if (DateUtils.parseDateDay(listBean.get(0).getTime()).
+                        equals(DateUtils.parseDateDay(((WorkVO.DataBean.ListBean) mAdapter.getData().get(mAdapter.getData().size() - 1)).getTime()))) {
+                    listBean.remove(0);
+                    mAdapter.getData().add(1, listBean);
+                } else {
+                    mAdapter.getData().add(mAdapter.getData().size(), listBean);
+                }
+                mAdapter.notifyDataSetChanged();
+            } else {
+                mAdapter.updateData(listBean);
+            }
         }
-
     }
 
     @Override
@@ -157,64 +207,147 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
 
     @Override
     public void onRefresh() {
-
+        match(1, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(1)).getLogid());
+        getData();
     }
 
     @Override
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
-
+        if(mAdapter.getData().size()==0)
+            return;;
+        Bundle bundle=new Bundle();
+                String logid= ((WorkVO.DataBean.ListBean)mAdapter.getData().get(position)).getLogid();
+        bundle.putString("logid",logid);
+        open(WorkDetailActivity.class,bundle,0);;
     }
 
     @Override
     public void onLoadMore() {
-
+        match(2, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(mAdapter.getData().size() - 1)).getLogid());
+        getData();
     }
 
 
-//    // 一级二级都带全部的菜单
-//    public ArrayList<TreeVO> getTreeVOList(ArrayList<DepartVO> allList) {
-//        ArrayList<TreeVO> treeList = new ArrayList<TreeVO>();
-//        for (int i = 0; i < allList.size(); i++) {
-//            DepartVO departVO = allList.get(i);
-//            TreeVO oneTreeVo = new TreeVO();
-//            oneTreeVo.setSearchId(departVO.getProvince_id());
-//            oneTreeVo.setParentId(0);
-//            oneTreeVo.setId(Integer.parseInt(departVO.getProvince_id()));
-//            oneTreeVo.setName(departVO.getProvince_name());
-//            oneTreeVo.setLevel(1);
-//            if (departVO.getCitys().size() > 0) {
-//                oneTreeVo.setHaschild(true);
-//            } else {
-//                oneTreeVo.setHaschild(false);
-//            }
-//            treeList.add(oneTreeVo);
-//            for (int j = 0; j < oneCityVO.getCitys().size(); j++) {
-//                CityVO twoCityVO = oneCityVO.getCitys().get(j);
-//                TreeVO twoTreeVo = new TreeVO();
-//                twoTreeVo.setSearchId(twoCityVO.getCity_id());
-//                twoTreeVo.setName(twoCityVO.getCity_name());
-//                twoTreeVo.setLevel(2);
-//                twoTreeVo.setParentId(Integer.parseInt(oneCityVO.getProvince_id()));
-//                twoTreeVo.setId(Integer.parseInt(twoCityVO.getCity_id()));
-//                if (twoCityVO.getDistricts().size() > 0) {
-//                    twoTreeVo.setHaschild(true);
-//                } else {
-//                    twoTreeVo.setHaschild(false);
-//                }
-//                treeList.add(twoTreeVo);
-//                for (int k = 0; k < twoCityVO.getDistricts().size(); k++) {
-//                    CityVO threeCityVO = twoCityVO.getDistricts().get(k);
-//                    TreeVO threeTreeVo = new TreeVO();
-//                    threeTreeVo.setSearchId(threeCityVO.getDistrict_id());
-//                    threeTreeVo.setName(threeCityVO.getDistrict_name());
-//                    threeTreeVo.setLevel(3);
-//                    threeTreeVo.setParentId(Integer.parseInt(twoCityVO.getCity_id()));
-//                    threeTreeVo.setId(Integer.parseInt(threeCityVO.getDistrict_id()));
-//                    threeTreeVo.setHaschild(false);
-//                    treeList.add(threeTreeVo);
-//                }
-//            }
-//        }
-//        return treeList;
-//    }
+    // 一级二级都带全部的菜单
+    public static ArrayList<TreeVO> getTreeVOList(List<DepartVO.DataBean.ListBean> listBeans) {
+        ArrayList<TreeVO> list = new ArrayList<TreeVO>();
+        TreeVO allTreeVo = new TreeVO();
+        allTreeVo.setId(-1);
+        allTreeVo.setParentId(0);
+        allTreeVo.setName("全部");
+        allTreeVo.setLevel(1);
+        allTreeVo.setHaschild(false);
+        allTreeVo.setDepartmentid("-1");
+        allTreeVo.setDname("全部");
+        list.add(allTreeVo);
+
+
+        // 每个二级菜单添加一个全部，为了让全部排在第一，故拿出来重新写了一遍
+        for (int i = 0; i < list.size(); i++) {
+            DepartVO.DataBean.ListBean vo = listBeans.get(i);
+            if ("0".equals(vo.getBelong())) {
+                TreeVO childTreeVo = new TreeVO();
+                childTreeVo.setId(Integer.parseInt(vo.getDepartmentid()));
+                childTreeVo.setParentId(Integer.parseInt(vo.getDepartmentid()));
+                childTreeVo.setName("全部");
+                childTreeVo.setLevel(2);
+                childTreeVo.setHaschild(false);
+                childTreeVo.setDepartmentid(vo.getDepartmentid());
+                childTreeVo.setDname(vo.getDname());
+                list.add(childTreeVo);
+            }
+        }
+        for (int i = 0; i < listBeans.size(); i++) {
+            DepartVO.DataBean.ListBean vo = listBeans.get(i);
+            for (int j = 0; j < listBeans.size(); j++) {
+                if (vo.getDepartmentid().equals(listBeans.get(j).getBelong())) {
+                    vo.setHaschild(true);
+                    break;
+                } else {
+                    vo.setHaschild(false);
+                }
+            }
+
+            TreeVO treeVo = new TreeVO();
+            treeVo.setId(Integer.parseInt(vo.getDepartmentid()));
+            treeVo.setParentId(Integer.parseInt(vo.getBelong()));
+            treeVo.setName(vo.getDname());
+            treeVo.setLevel(Integer.parseInt(vo.getLevel()));
+            treeVo.setHaschild(vo.isHaschild());
+            treeVo.setDepartmentid(vo.getDepartmentid());
+            treeVo.setDname(vo.getDname());
+            list.add(treeVo);
+        }
+        return list;
+    }
+
+    // 菜单点击回调函数
+    BSPopupWindowsTitle.TreeCallBack callback = new BSPopupWindowsTitle.TreeCallBack() {
+        @Override
+        public void callback(TreeVO vo) {
+
+            if (vo.getDepartmentid() != null) {
+                mDid = vo.getDepartmentid();
+                // -1代表全部部门
+                if ("-1".equals(mDid)) {
+                    mDid = "";
+                }
+                match(4, mDid);
+                mOptions1Tv.setText(vo.getDname());
+            } else {
+//                match(3, vo.getSearchId());
+
+            }
+        }
+    };
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.options1_tv:
+                if (mDepartPop == null) {
+                    ArrayList<TreeVO> listDepart = getTreeVOList(mListBeans);
+                    mDepartPop = new BSPopupWindowsTitle(mActivity, listDepart, callback);
+                } else {
+                    mDepartPop.showPopupWindow(mDividerView);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void match(int key, String value) {
+        if (!"1".equals(mType)) {
+            mIsmyself = "";
+        }
+        switch (key) {
+            case 1:
+                mFirstid = value;
+                mLastid = "";
+                mState = 1;
+                break;
+            case 2:
+                mLastid = value;
+                mFirstid = "";
+                mState = 2;
+                break;
+            case 3:
+                mKeyword = value;
+                break;
+            case 4:
+                mDid = value;
+                break;
+            case 5:
+                mStartDate = value;
+                break;
+            case 6:
+                mEndDate = value;
+                break;
+            default:
+                break;
+        }
+
+    }
 }

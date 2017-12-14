@@ -7,7 +7,6 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_launcher_round"
         android:supportsRtl="true">
         <activity
             android:name=".activity.MainActivity"
@@ -45,6 +44,44 @@
         </activity>
         <activity android:name=".activity.LoginActivity">
         </activity>
+        <activity android:name=".activity.WorkDetailActivity">
+        </activity>
+
+        <!-- 分享 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a2fd32fb27b0a0938000240">
+        </meta-data>
+
+        <activity
+            android:name="com.umeng.qq.tencent.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="tencent1106176952"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.umeng.qq.tencent.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity
+            android:name="com.umeng.socialize.editorpage.ShareActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.UMDefault"/>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <!-- 分享 -->
     </application>
 
 </manifest>

@@ -141,11 +141,15 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 
     @Override
     public void getData() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
-        map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-        map.put("is_today", "1");
-        HttpGetDataUtil.get(MainActivity.this, Constant.WORK_LIST_URL, map, WorkVO.class);
+
+        showView();
+//        HashMap<String, Object> map = new HashMap<>();
+//        if (AppApplication.getInstance().getUserInfoVO() != null)
+//            map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
+//        if (AppApplication.getInstance().getUserInfoVO() != null)
+//            map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+//        map.put("is_today", "1");
+//        HttpGetDataUtil.get(MainActivity.this, Constant.WORK_LIST_URL, map, WorkVO.class);
     }
 
     @Override
@@ -206,6 +210,11 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                 break;
             case R.id.self_tv01:
                 intent.setClass(MainActivity.this, PasswordUpdateActivity.class);
+
+                break;
+            case R.id.self_tv02:
+                intent.putExtra("type", "1");
+                intent.setClass(MainActivity.this, WorkActivity.class);
 
                 break;
             default:

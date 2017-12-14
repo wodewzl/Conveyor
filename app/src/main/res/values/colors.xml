@@ -11,4 +11,5 @@
     <!--<color name="bga_pp_navigationBarColor">@color/navigationBarColor</color>-->
     <!-- PhotoPicker Toolbar 的颜色 -->
     <color name="bga_pp_colorPrimary">@color/conveyor_title</color>
+    <color name="color1">#FFA200</color>
 </resources>

@@ -59,22 +59,22 @@ public class HttpGetDataUtil {
                 .rxGet(url, params, new RxStringCallback() {
                     @Override
                     public void onNext(Object o, String s) {
-                        String result = new String(s);
-                        if (result.equals(cacheStr) || className == null) {
+
+                        if (s.equals(cacheStr) || className == null) {
                             return;
                         }
-                        BaseVO baseVO = (BaseVO) gson.fromJson(result, className);
+                        BaseVO baseVO = (BaseVO) gson.fromJson(s, className);
                         if ("200".equals(baseVO.getCode())) {
                             activity.baseHasData(baseVO);
-                            if (!StringUtils.isEmpty(result)) {
-                                ACache.get(activity).put(allUrl + params.toString(), result, 60 * 60 * 24);
+                            if (!StringUtils.isEmpty(s)) {
+                                ACache.get(activity).put(allUrl + params.toString(), s, 60 * 60 * 24);
                             }
                         } else if ("400".equals(baseVO.getCode())) {
                             activity.baseNoData(baseVO);
                         } else if ("600".equals(baseVO.getCode())) {
                             activity.baseNoNet();
                         } else if ("300".equals(baseVO.getCode())) {
-                            activity.show();
+                            activity.baseHasData(baseVO);
                         }
                     }
 
@@ -114,7 +114,7 @@ public class HttpGetDataUtil {
 
                 BaseVO vo = (BaseVO) gson.fromJson(s, className);
                 if ("200".equals(vo.getCode())) {
-                    activity.showCustomToast(vo.getDesc());
+                    postCallback.success(vo);
                 } else {
                     activity.showCustomToast(vo.getDesc());
                 }
@@ -146,10 +146,11 @@ public class HttpGetDataUtil {
 
                 BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
                 if ("200".equals(vo.getCode())) {
-                    postCallback.success(vo);
+                    activity.showCustomToast(vo.getDesc());
                 } else {
                     activity.showCustomToast(vo.getDesc());
                 }
+
             }
         });
     }
