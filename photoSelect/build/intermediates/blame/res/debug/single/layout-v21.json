@@ -1,18 +1,18 @@
 [
     {
-        "merged": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action.xml",
+        "merged": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action.xml",
         "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.1.aar\\05baf66d3f8c186baabdbfc05b05a45b\\res\\layout-v21\\notification_action.xml"
     },
     {
-        "merged": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action_tombstone.xml",
+        "merged": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_custom_big.xml",
+        "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.1.aar\\05baf66d3f8c186baabdbfc05b05a45b\\res\\layout-v21\\notification_template_custom_big.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action_tombstone.xml",
         "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.1.aar\\05baf66d3f8c186baabdbfc05b05a45b\\res\\layout-v21\\notification_action_tombstone.xml"
     },
     {
-        "merged": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_icon_group.xml",
+        "merged": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_icon_group.xml",
         "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.1.aar\\05baf66d3f8c186baabdbfc05b05a45b\\res\\layout-v21\\notification_template_icon_group.xml"
-    },
-    {
-        "merged": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_custom_big.xml",
-        "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.1.aar\\05baf66d3f8c186baabdbfc05b05a45b\\res\\layout-v21\\notification_template_custom_big.xml"
     }
 ]

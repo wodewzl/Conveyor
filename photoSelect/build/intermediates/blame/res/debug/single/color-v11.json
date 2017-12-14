@@ -1,10 +1,10 @@
 [
     {
-        "merged": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
-        "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.1.aar\\e4c907d988a2b311cad3dffe2bd314be\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+        "merged": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.1.aar\\e4c907d988a2b311cad3dffe2bd314be\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
     },
     {
-        "merged": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
-        "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.1.aar\\e4c907d988a2b311cad3dffe2bd314be\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+        "merged": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.1.aar\\e4c907d988a2b311cad3dffe2bd314be\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
     }
 ]

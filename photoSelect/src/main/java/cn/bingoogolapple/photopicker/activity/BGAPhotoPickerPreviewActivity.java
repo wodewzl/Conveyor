@@ -81,7 +81,7 @@ public class BGAPhotoPickerPreviewActivity extends BGAPPToolbarActivity implemen
     private boolean mIsFromTakePhoto;
 
     private String path;
-
+    private   int mCurrentPosition;
     public static class IntentBuilder {
         private Intent mIntent;
 
@@ -240,7 +240,7 @@ public class BGAPhotoPickerPreviewActivity extends BGAPPToolbarActivity implemen
             // 如果是拍完照后跳转过来，一直隐藏底部选择栏
             mChooseRl.setVisibility(View.INVISIBLE);
         }
-        int currentPosition = getIntent().getIntExtra(EXTRA_CURRENT_POSITION, 0);
+        mCurrentPosition = getIntent().getIntExtra(EXTRA_CURRENT_POSITION, 0);
 
         // 获取右上角按钮文本
         mTopRightBtnText = getString(R.string.bga_pp_confirm);
@@ -248,7 +248,7 @@ public class BGAPhotoPickerPreviewActivity extends BGAPPToolbarActivity implemen
 
         mPhotoPageAdapter = new BGAPhotoPageAdapter(this, previewPhotos);
         mContentHvp.setAdapter(mPhotoPageAdapter);
-        mContentHvp.setCurrentItem(currentPosition);
+        mContentHvp.setCurrentItem(mCurrentPosition);
 
 
         // 过2秒隐藏标题栏和底部选择栏
@@ -386,6 +386,10 @@ public class BGAPhotoPickerPreviewActivity extends BGAPPToolbarActivity implemen
                     boolean isImageEdit = data.getBooleanExtra(EditImageActivity.IMAGE_IS_EDIT, false);
 
                     if (isImageEdit){
+                        if (mSelectedPhotos.contains(mPhotoPageAdapter.getItem(mContentHvp.getCurrentItem()))) {
+                            mSelectedPhotos.remove(mPhotoPageAdapter.getItem(mContentHvp.getCurrentItem()));
+                        }
+                        mSelectedPhotos.add(newFilePath);
                         Toast.makeText(this, "编辑成功", Toast.LENGTH_LONG).show();
                     }else{//未编辑  还是用原来的图片
                         newFilePath = data.getStringExtra(EditImageActivity.FILE_PATH);
@@ -401,7 +405,7 @@ public class BGAPhotoPickerPreviewActivity extends BGAPPToolbarActivity implemen
 //                    finish();
 
 
-                    mSelectedPhotos.add(newFilePath);
+
                     Intent intent = new Intent();
                     intent.putStringArrayListExtra(EXTRA_SELECTED_PHOTOS, mSelectedPhotos);
                     intent.putExtra(EXTRA_IS_FROM_TAKE_PHOTO, mIsFromTakePhoto);

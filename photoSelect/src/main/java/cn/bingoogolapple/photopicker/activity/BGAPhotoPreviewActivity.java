@@ -71,6 +71,7 @@ public class BGAPhotoPreviewActivity extends BGAPPToolbarActivity implements Pho
      * 上一次标题栏显示或隐藏的时间戳
      */
     private long mLastShowHiddenTime;
+    private   int mCurrentPosition;
 
     public static class IntentBuilder {
         private Intent mIntent;
@@ -140,15 +141,15 @@ public class BGAPhotoPreviewActivity extends BGAPPToolbarActivity implements Pho
         }
 
         ArrayList<String> previewPhotos = getIntent().getStringArrayListExtra(EXTRA_PREVIEW_PHOTOS);
-        int currentPosition = getIntent().getIntExtra(EXTRA_CURRENT_POSITION, 0);
+        mCurrentPosition= getIntent().getIntExtra(EXTRA_CURRENT_POSITION, 0);
         mIsSinglePreview = previewPhotos.size() == 1;
         if (mIsSinglePreview) {
-            currentPosition = 0;
+            mCurrentPosition = 0;
         }
 
         mPhotoPageAdapter = new BGAPhotoPageAdapter(this, previewPhotos);
         mContentHvp.setAdapter(mPhotoPageAdapter);
-        mContentHvp.setCurrentItem(currentPosition);
+        mContentHvp.setCurrentItem(mCurrentPosition);
 
         // 过2秒隐藏标题栏
         mToolbar.postDelayed(new Runnable() {

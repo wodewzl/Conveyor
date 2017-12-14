@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\values-zh-rTW\\values-zh-rTW.xml",
+            "outputFile": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\photoSelect\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zh-rTW\\values-zh-rTW.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.1.aar\\e4c907d988a2b311cad3dffe2bd314be\\res\\values-zh-rTW\\values-zh-rTW.xml",
@@ -33,7 +33,7 @@
             ]
         },
         {
-            "outputFile": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\photoSelect\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zh-rTW\\values-zh-rTW.xml",
+            "outputFile": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\values-zh-rTW\\values-zh-rTW.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.1.aar\\e4c907d988a2b311cad3dffe2bd314be\\res\\values-zh-rTW\\values-zh-rTW.xml",

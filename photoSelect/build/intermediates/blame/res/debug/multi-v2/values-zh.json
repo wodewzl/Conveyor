@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\photoSelect\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zh\\values-zh.xml",
+            "outputFile": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\values-zh\\values-zh.xml",
             "map": [
                 {
-                    "source": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\imageEditLibrary\\build\\intermediates\\bundles\\debug\\res\\values-zh\\values-zh.xml",
+                    "source": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\imageEditLibrary\\build\\intermediates\\bundles\\debug\\res\\values-zh\\values-zh.xml",
                     "from": {
                         "startLines": "2,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -17,10 +17,10 @@
             ]
         },
         {
-            "outputFile": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\values-zh\\values-zh.xml",
+            "outputFile": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\photoSelect\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zh\\values-zh.xml",
             "map": [
                 {
-                    "source": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\imageEditLibrary\\build\\intermediates\\bundles\\debug\\res\\values-zh\\values-zh.xml",
+                    "source": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\imageEditLibrary\\build\\intermediates\\bundles\\debug\\res\\values-zh\\values-zh.xml",
                     "from": {
                         "startLines": "2,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

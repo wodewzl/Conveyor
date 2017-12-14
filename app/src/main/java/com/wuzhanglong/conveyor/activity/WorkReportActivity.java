@@ -14,6 +14,7 @@ import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
 import com.wuzhanglong.library.activity.BaseActivity;
+import com.wuzhanglong.library.constant.BaseConstant;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.interfaces.PostCallback;
 import com.wuzhanglong.library.mode.BaseVO;
@@ -93,7 +94,7 @@ public class WorkReportActivity extends BaseActivity implements BGASortableNineP
 
     @Override
     public void onClickAddNinePhotoItem(BGASortableNinePhotoLayout sortableNinePhotoLayout, View view, int position, ArrayList<String> models) {
-        choicePhotoWrapper(this, 3, null);
+        choicePhotoWrapper(this, 9,BaseConstant.SDCARD_CACHE);
     }
 
     @Override
@@ -109,7 +110,7 @@ public class WorkReportActivity extends BaseActivity implements BGASortableNineP
                 .selectedPhotos(models) // 当前已选中的图片路径集合
                 .maxChooseCount(mPhotoLayout.getMaxItemCount()) // 图片选择张数的最大值
                 .currentPosition(position) // 当前预览图片的位置
-                .isFromTakePhoto(true) // 是否是拍完照后跳转过来
+                .isFromTakePhoto(false) // 是否是拍完照后跳转过来
                 .build();
         startActivityForResult(photoPickerPreviewIntent, RC_PHOTO_PREVIEW);
     }
@@ -145,18 +146,20 @@ public class WorkReportActivity extends BaseActivity implements BGASortableNineP
     }
 
     @AfterPermissionGranted(PRC_PHOTO_PICKER)
-    public void choicePhotoWrapper(BaseActivity activity, int maxCount, String file) {
+    public void choicePhotoWrapper(BaseActivity activity, int maxCount,String filePath) {
         String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
         if (EasyPermissions.hasPermissions(activity, perms)) {
             // 拍照后照片的存放目录，改成你自己拍照后要存放照片的目录。如果不传递该参数的话就没有拍照功能
-            File takePhotoDir = new File(Environment.getExternalStorageDirectory(), "BGAPhotoPickerTakePhoto");
+            File takePhotoDir = new File(Environment.getExternalStorageDirectory(), filePath);
 
             Intent photoPickerIntent = new BGAPhotoPickerActivity.IntentBuilder(activity)
-                    .cameraFileDir(TextUtils.isEmpty(file) ? null : takePhotoDir) // 拍照后照片的存放目录，改成你自己拍照后要存放照片的目录。如果不传递该参数的话则不开启图库里的拍照功能
-                    .maxChooseCount(3) // 图片选择张数的最大值
+                    .cameraFileDir(takePhotoDir) // 拍照后照片的存放目录，改成你自己拍照后要存放照片的目录。如果不传递该参数的话则不开启图库里的拍照功能
+                    .maxChooseCount(9) // 图片选择张数的最大值
                     .selectedPhotos(null) // 当前已选中的图片路径集合
                     .pauseOnScroll(false)
                     .selectedPhotos(mSelectList)
+
+
                     // 滚动列表时是否暂停加载图片
                     .build();
             activity.startActivityForResult(photoPickerIntent, RC_CHOOSE_PHOTO);

@@ -141,15 +141,13 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 
     @Override
     public void getData() {
-
-        showView();
-//        HashMap<String, Object> map = new HashMap<>();
-//        if (AppApplication.getInstance().getUserInfoVO() != null)
-//            map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
-//        if (AppApplication.getInstance().getUserInfoVO() != null)
-//            map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-//        map.put("is_today", "1");
-//        HttpGetDataUtil.get(MainActivity.this, Constant.WORK_LIST_URL, map, WorkVO.class);
+        HashMap<String, Object> map = new HashMap<>();
+        if (AppApplication.getInstance().getUserInfoVO() != null)
+            map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
+        if (AppApplication.getInstance().getUserInfoVO() != null)
+            map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+        map.put("is_today", "1");
+        HttpGetDataUtil.get(MainActivity.this, Constant.WORK_LIST_URL, map, WorkVO.class);
     }
 
     @Override
@@ -234,7 +232,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
         if (EasyPermissions.hasPermissions(activity, perms)) {
             // 拍照后照片的存放目录，改成你自己拍照后要存放照片的目录。如果不传递该参数的话就没有拍照功能
-            File takePhotoDir = new File(Environment.getExternalStorageDirectory(), "BGAPhotoPickerTakePhoto");
+            File takePhotoDir = new File(Environment.getExternalStorageDirectory(), BaseConstant.SDCARD_CACHE);
 
             Intent photoPickerIntent = new BGAPhotoPickerActivity.IntentBuilder(activity)
                     .cameraFileDir(TextUtils.isEmpty(file) ? null : takePhotoDir) // 拍照后照片的存放目录，改成你自己拍照后要存放照片的目录。如果不传递该参数的话则不开启图库里的拍照功能

@@ -327,6 +327,7 @@ public class BGAPhotoPickerActivity extends BGAPPToolbarActivity implements BGAO
                         .previewPhotos(photos)
                         .selectedPhotos(photos)
                         .currentPosition(0)
+                        .isFromTakePhoto(false)
                         .build();
                 startActivityForResult(photoPickerPreview, RC_PREVIEW);
             } else if (requestCode == RC_PREVIEW) {
@@ -425,6 +426,8 @@ public class BGAPhotoPickerActivity extends BGAPPToolbarActivity implements BGAO
         if (mCurrentPhotoFolderModel.isTakePhotoEnabled()) {
             currentPosition--;
         }
+
+
 
         Intent photoPickerPreviewIntent = new BGAPhotoPickerPreviewActivity.IntentBuilder(this)
                 .previewPhotos((ArrayList<String>) mPicAdapter.getData())

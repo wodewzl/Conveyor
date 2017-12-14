@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
+            "outputFile": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\photoSelect\\build\\intermediates\\res\\merged\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
             "map": [
                 {
-                    "source": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\imageEditLibrary\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "source": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\imageEditLibrary\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -16,10 +16,10 @@
             ]
         },
         {
-            "outputFile": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\photoSelect\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+            "outputFile": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\photoSelect\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
             "map": [
                 {
-                    "source": "F:\\Wuzhanglong\\git_workplace\\Conveyor\\imageEditLibrary\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "source": "C:\\Users\\Administrator\\StudioProjects\\Conveyor\\imageEditLibrary\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
