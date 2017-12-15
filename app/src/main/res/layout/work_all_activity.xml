@@ -24,6 +24,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/time_tv"
                 style="@style/padding_15_10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="90dp"
         android:src="@drawable/login_title"/>
 
 
@@ -23,7 +23,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:background="@color/C1"
         android:drawableLeft="@drawable/login_user"
         android:drawablePadding="5dp"
@@ -59,7 +59,8 @@
         android:layout_height="44dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <com.rey.material.widget.CheckBox
             android:id="@+id/rember_cb"
@@ -80,7 +81,8 @@
             android:layout_alignParentRight="true"
             android:gravity="center"
             android:text="忘记密码"
-            android:textColor="@color/conveyor_title"/>
+            android:textColor="@color/conveyor_title"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <TextView
@@ -89,7 +91,7 @@
         android:layout_height="44dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:background="@color/conveyor_title"
         android:gravity="center"
         android:text="登 录"

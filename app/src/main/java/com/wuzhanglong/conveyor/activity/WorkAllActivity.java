@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.nanchen.compresshelper.CompressHelper;
 import com.wuzhanglong.conveyor.R;
@@ -16,6 +17,7 @@ import com.wuzhanglong.conveyor.model.WorkAllVO;
 import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.constant.BaseConstant;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
+import com.wuzhanglong.library.interfaces.PostCallback;
 import com.wuzhanglong.library.mode.BaseVO;
 
 import java.io.File;
@@ -34,7 +36,7 @@ import cn.bingoogolapple.photopicker.widget.BGASortableNinePhotoLayout;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class WorkAllActivity extends BaseActivity implements BGASortableNinePhotoLayout.Delegate, BGAAsyncTask.Callback<Void>  {
+public class WorkAllActivity extends BaseActivity implements BGASortableNinePhotoLayout.Delegate, BGAAsyncTask.Callback<Void>, PostCallback, View.OnClickListener {
     private static final int PRC_PHOTO_PICKER = 1;
     private static final int RC_CHOOSE_PHOTO = 1;
     private static final int RC_PHOTO_PREVIEW = 2;
@@ -42,9 +44,10 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
     public ArrayList<String> mOldList = new ArrayList<>();
     public ArrayList<String> mOldLocalList = new ArrayList<>();
     private EditText mContent1Et, mContent2Et, mContent3Et, mContent4Et, mContent5Et;
-    private List<File> mOldFiles = new ArrayList<>();//yiyou
-    private List<File> mNewoFiles = new ArrayList<>();//yiyou
+    private List<File> mFiles = new ArrayList<>();//yiyou
     private BGASavePhotoTask mSavePhotoTask;
+    private TextView mTimeTv;
+
     @Override
     public void baseSetContentView() {
         contentInflateView(R.layout.work_all_activity);
@@ -52,6 +55,9 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
 
     @Override
     public void initView() {
+        mBaseOkTv.setText("提交");
+        mBaseTitleTv.setText("工作汇总");
+        mTimeTv = getViewById(R.id.time_tv);
         mContent1Et = getViewById(R.id.content1_et);
         mContent2Et = getViewById(R.id.content2_et);
         mContent3Et = getViewById(R.id.content3_et);
@@ -67,6 +73,7 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
     @Override
     public void bindViewsListener() {
         mPhotoLayout.setDelegate(this);
+        mBaseOkTv.setOnClickListener(this);
     }
 
     @Override
@@ -74,19 +81,6 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
         HashMap<String, Object> map = new HashMap<>();
         map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
         map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-//        map.put("content1", mContent1Et.getText().toString());
-//        map.put("content2", mContent2Et.getText().toString());
-//        if ("1".equals(mType)) {
-//            map.put("content3", mContent3Et.getText().toString());
-//            map.put("content4", mContent4Et.getText().toString());
-//            map.put("content5", mContent5Et.getText().toString());
-//            map.put("old_pics", "");
-//        }
-//
-//        for (int i = 0; i < mOneFiles.size(); i++) {
-//            map.put("files" + i, mOneFiles.get(i));
-//        }
-//        map.put("type", mType);
         HttpGetDataUtil.get(WorkAllActivity.this, Constant.WORK_ALL_URL, map, WorkAllVO.class);
     }
 
@@ -94,6 +88,7 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
     public void hasData(BaseVO vo) {
         WorkAllVO workAllVO = (WorkAllVO) vo;
         WorkAllVO.DataBean dataBean = workAllVO.getData();
+        mTimeTv.setText(dataBean.getDate());
         mContent1Et.setText(dataBean.getSummary_content1());
         mContent2Et.setText(dataBean.getSummary_content2());
         mContent3Et.setText(dataBean.getSummary_content3());
@@ -102,11 +97,11 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
         mOldList = (ArrayList<String>) dataBean.getSummary_imgs();
         mPhotoLayout.setData(mOldList);
 
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 super.run();
-                for (int i = 0; i <mOldList.size() ; i++) {
+                for (int i = 0; i < mOldList.size(); i++) {
                     savePic(mOldList.get(i));
                 }
 
@@ -175,11 +170,11 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
 
         }
 
-        mOldFiles.clear();
+        mFiles.clear();
         for (int i = 0; i < mPhotoLayout.getData().size(); i++) {
             File file = new File(mPhotoLayout.getData().get(i));
             File newFile = CompressHelper.getDefault(WorkAllActivity.this).compressToFile(file);
-            mOldFiles.add(newFile);
+            mFiles.add(newFile);
         }
     }
 
@@ -211,10 +206,10 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
         file = new File(downloadDir, BGAPhotoPickerUtil.md5(url) + ".png");
         if (file.exists()) {
 //            BGAPhotoPickerUtil.showSafe(getString(cn.bingoogolapple.photopicker.R.string.bga_pp_save_img_success_folder, downloadDir.getAbsolutePath()));
-            if(!mOldLocalList.contains(file.getAbsolutePath())){
+            if (!mOldLocalList.contains(file.getAbsolutePath())) {
                 mOldLocalList.add(file.getAbsolutePath());
             }
-            if(mOldLocalList.size()==mOldList.size()){
+            if (mOldLocalList.size() == mOldList.size()) {
                 WorkAllActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -231,10 +226,10 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
         BGAImage.download(url, new BGAImageLoader.DownloadDelegate() {
             @Override
             public void onSuccess(String url, Bitmap bitmap) {
-                if(!mOldLocalList.contains(file.getAbsolutePath())){
+                if (!mOldLocalList.contains(file.getAbsolutePath())) {
                     mOldLocalList.add(file.getAbsolutePath());
                 }
-                if(mOldLocalList.size()==mOldList.size()){
+                if (mOldLocalList.size() == mOldList.size()) {
                     mPhotoLayout.setData(mOldLocalList);
                     showCustomToast("下载完了");
                 }
@@ -253,11 +248,45 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
 
     @Override
     public void onPostExecute(Void aVoid) {
-        mSavePhotoTask=null;
+        mSavePhotoTask = null;
     }
 
     @Override
     public void onTaskCancelled() {
-        mSavePhotoTask=null;
+        mSavePhotoTask = null;
+    }
+
+    public void commit() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
+        map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+        map.put("content1", mContent1Et.getText().toString());
+        map.put("content2", mContent2Et.getText().toString());
+        map.put("content3", mContent3Et.getText().toString());
+        map.put("content4", mContent4Et.getText().toString());
+        map.put("content5", mContent5Et.getText().toString());
+        map.put("old_pics", "");
+        for (int i = 0; i < mFiles.size(); i++) {
+            map.put("files" + i, mFiles.get(i));
+        }
+        map.put("type", "1");
+        HttpGetDataUtil.post(WorkAllActivity.this, Constant.WORK_REPORT_URL, map, WorkAllActivity.this);
+    }
+
+    @Override
+    public void success(BaseVO vo) {
+        showCustomToast(vo.getDesc());
+        this.finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.base_ok_tv:
+                commit();
+                break;
+            default:
+                break;
+        }
     }
 }

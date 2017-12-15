@@ -11,8 +11,10 @@ import com.wuzhanglong.library.cache.ACache;
 import com.wuzhanglong.library.constant.BaseConstant;
 import com.wuzhanglong.library.interfaces.PostCallback;
 import com.wuzhanglong.library.mode.BaseVO;
+import com.wuzhanglong.library.utils.BaseCommonUtils;
 import com.wuzhanglong.library.utils.StringUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import rx.Observable;
@@ -51,16 +53,18 @@ public class HttpGetDataUtil {
             }
         }
 
-        Log.i("get_url", allUrl + params.toString());
+        Log.i("get_url", BaseConstant.DOMAIN_NAME+url+BaseCommonUtils.getUrl((HashMap<String, Object>) params));
 
         new Novate.Builder(activity)
                 .baseUrl(BaseConstant.DOMAIN_NAME)
+                .addCache(false)
                 .build()
                 .rxGet(url, params, new RxStringCallback() {
                     @Override
                     public void onNext(Object o, String s) {
 
                         if (s.equals(cacheStr) || className == null) {
+
                             return;
                         }
                         BaseVO baseVO = (BaseVO) gson.fromJson(s, className);
@@ -96,6 +100,7 @@ public class HttpGetDataUtil {
 //        final String allUrl = BaseConstant.DOMAIN_NAME + url;
         new Novate.Builder(activity)
                 .baseUrl(BaseConstant.DOMAIN_NAME)
+                .addCache(false)
                 .build().rxPost(url, params, new RxStringCallback() {
 
 
@@ -128,6 +133,7 @@ public class HttpGetDataUtil {
 //        final String allUrl = BaseConstant.DOMAIN_NAME + url;
         new Novate.Builder(activity)
                 .baseUrl(BaseConstant.DOMAIN_NAME)
+                .addCache(false)
                 .build().rxPost(url, params, new RxStringCallback() {
 
 
@@ -163,6 +169,7 @@ public class HttpGetDataUtil {
 //        final String allUrl = BaseConstant.DOMAIN_NAME + url;
         new Novate.Builder(activity)
                 .baseUrl(BaseConstant.DOMAIN_NAME)
+                .addCache(false)
                 .build().RxBody(url, obj, new RxStringCallback() {
 
 

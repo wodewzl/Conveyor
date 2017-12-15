@@ -78,11 +78,5 @@
             android:text="通讯录"
             android:visibility="invisible"/>
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="今日工作"
-        android:background="#EEEEEE"
-        style="@style/padding_15_13"
-        android:textColor="@color/C5"/>
+
 </LinearLayout>

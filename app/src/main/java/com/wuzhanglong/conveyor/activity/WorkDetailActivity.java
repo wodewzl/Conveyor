@@ -53,6 +53,7 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
         mContent4TitleTv = getViewById(R.id.content4_title_tv);
         mContent5TitleTv = getViewById(R.id.content5_title_tv);
         mPhotoLyout=getViewById(R.id.photo_layout);
+        mTimeTv.setBackground(BaseCommonUtils.setBackgroundShap(this,30,R.color.colorPrimaryDark,R.color.colorPrimaryDark));
     }
 
     @Override
@@ -74,7 +75,6 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
         WorkDetailVO workDetailVO = (WorkDetailVO) vo;
         WorkDetailVO.DataBean dataBean = workDetailVO.getData();
         mTimeTv.setText(dataBean.getDate());
-        mTimeTv.setBackground(BaseCommonUtils.setBackgroundShap(this,30,R.color.colorPrimaryDark,R.color.colorPrimaryDark));
         mContent1.setText(dataBean.getContent1());
         mContent2.setText(dataBean.getContent2());
         mContent3.setText(dataBean.getContent3());

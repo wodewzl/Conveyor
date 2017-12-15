@@ -33,6 +33,7 @@ import com.wuzhanglong.library.mode.BaseVO;
 import com.wuzhanglong.library.utils.DividerUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     private LuRecyclerView mRecyclerView;
     private HomeAdapter mAdapter;
     private ScrollableLayout mScrollableLayout;
-    private TextView mHomeTv01, mHomeTv02, mHomeTv03, mHomeTv04, mHomeTv05, mCompanyTv, mNameTv, mDepartTv, mUpdatePwdTv, mMyWorkTv, mAboutTv, mMenuNameTv, mMenuDepartTv;
+    private TextView mHomeTv01, mHomeTv02, mHomeTv03, mHomeTv04, mHomeTv05, mCompanyTv, mNameTv, mDepartTv, mUpdatePwdTv, mMyWorkTv, mAboutTv, mMenuNameTv, mMenuDepartTv, mOutTv;
     private File mHeadImgFile;
     private BGAPhotoHelper mPhotoHelper;
 
@@ -69,6 +70,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     private String mendDate = "";
     private String mIsmyself = "";
     private String mIsToday = "";
+    private int mState = 0; // 0为首次,1为下拉刷新 ，2为加载更多
 
     @Override
     public void baseSetContentView() {
@@ -96,13 +98,13 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mHomeTv03 = getViewById(R.id.tv_home_03);
         mHomeTv04 = getViewById(R.id.tv_home_04);
         mHomeTv05 = getViewById(R.id.tv_home_05);
+        mOutTv = getViewById(R.id.out_tv);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         DividerDecoration divider = DividerUtil.linnerDivider(this, R.dimen.dp_1, R.color.C3);
         mRecyclerView.addItemDecoration(divider);
         mAdapter = new HomeAdapter(mRecyclerView);
         LuRecyclerViewAdapter adapter = new LuRecyclerViewAdapter(mAdapter);
-//        adapter.addHeaderView(initHeadView());
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLoadMoreEnabled(false);
 
@@ -137,10 +139,12 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mUpdatePwdTv.setOnClickListener(this);
         mMyWorkTv.setOnClickListener(this);
         mAboutTv.setOnClickListener(this);
+        mOutTv.setOnClickListener(this);
     }
 
     @Override
     public void getData() {
+//        showView();
         HashMap<String, Object> map = new HashMap<>();
         if (AppApplication.getInstance().getUserInfoVO() != null)
             map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
@@ -153,8 +157,29 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     @Override
     public void hasData(BaseVO vo) {
         WorkVO workVO = (WorkVO) vo;
+        if ("300".equals(workVO.getCode())) {
+            mRecyclerView.setNoMore(true);
+            return;
+        } else {
+            mRecyclerView.setNoMore(false);
+        }
         List<WorkVO.DataBean.ListBean> list = workVO.getData().getList();
-        mAdapter.updateData(list);
+        List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
+        WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
+        title.setIsTitle("1");
+        listBean.add(title);
+        listBean.addAll(list);
+
+        if (1 == mState) {
+            mAdapter.getData().remove(0);
+            mAdapter.getData().add(0, listBean);
+            mAdapter.notifyDataSetChanged();
+        } else if (2 == mState) {
+            mAdapter.getData().add(mAdapter.getData().size(), listBean);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            mAdapter.updateData(listBean);
+        }
     }
 
     @Override
@@ -213,7 +238,14 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
             case R.id.self_tv02:
                 intent.putExtra("type", "1");
                 intent.setClass(MainActivity.this, WorkActivity.class);
+                break;
 
+            case R.id.self_tv03:
+                intent.putExtra("url", AppApplication.getInstance().getUserInfoVO().getData().getAbouts_url());
+                intent.setClass(MainActivity.this, WebViewActivity.class);
+                break;
+            case R.id.out_tv:
+                AppApplication.getInstance().saveUserInfoVO(null);
                 break;
             default:
                 break;
@@ -267,7 +299,6 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
             } else if (requestCode == RC_PHOTO_PREVIEW) {
                 // 在预览界面按返回也会回传预览界面已选择的图片集合
                 List<String> selectedPhotos = BGAPhotoPickerPreviewActivity.getSelectedPhotos(data);
-
                 try {
                     startActivityForResult(mPhotoHelper.getCropIntent(mPhotoHelper.getCameraFilePath(), 200, 200), REQUEST_CODE_CROP);
                 } catch (Exception e) {
@@ -280,7 +311,6 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                 BGAImage.display(mMenuHeadImg, R.mipmap.bga_pp_ic_holder_light, mPhotoHelper.getCropFilePath(), BGABaseAdapterUtil.dp2px(200));
                 File file = new File(mPhotoHelper.getCropFilePath());
                 mHeadImgFile = CompressHelper.getDefault(MainActivity.this).compressToFile(file);
-
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
                 map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
@@ -293,8 +323,6 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                 mPhotoHelper.deleteCropFile();
             }
         }
-
-
     }
 
 }

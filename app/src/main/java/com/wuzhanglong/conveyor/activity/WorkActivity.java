@@ -42,7 +42,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     private WorkAdapter mAdapter;
     private boolean isLoadMore = true;
 
-    private int mCurrentPage = 1;
+
     private String mDid = "";
     private String mKeyword = "";
     private String mFirstid = "";
@@ -114,8 +114,8 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         if (mFlag && !"1".equals(mType)) {
             HashMap<String, Object> departMap = new HashMap<>();
             departMap.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
-//            map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-            departMap.put("userid", "6");
+            departMap.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+
             HttpGetDataUtil.get(WorkActivity.this, Constant.DEPART_URL, departMap, DepartVO.class);
             mFlag = false;
         }
@@ -175,16 +175,16 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
                 if (DateUtils.parseDateDay(listBean.get(listBean.size() - 1).getTime()).
                         equals(DateUtils.parseDateDay(((WorkVO.DataBean.ListBean) mAdapter.getData().get(0)).getTime()))) {
                     mAdapter.getData().remove(0);
-                    mAdapter.getData().add(1, listBean);
+                    mAdapter.getData().add(0, listBean);
                 } else {
-                    mAdapter.getData().add(01, listBean);
+                    mAdapter.getData().add(0, listBean);
                 }
                 mAdapter.notifyDataSetChanged();
             } else if (2 == mState) {
                 if (DateUtils.parseDateDay(listBean.get(0).getTime()).
                         equals(DateUtils.parseDateDay(((WorkVO.DataBean.ListBean) mAdapter.getData().get(mAdapter.getData().size() - 1)).getTime()))) {
                     listBean.remove(0);
-                    mAdapter.getData().add(1, listBean);
+                    mAdapter.getData().add(mAdapter.getData().size(), listBean);
                 } else {
                     mAdapter.getData().add(mAdapter.getData().size(), listBean);
                 }

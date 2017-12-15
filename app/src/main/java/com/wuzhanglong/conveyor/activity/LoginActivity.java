@@ -13,6 +13,7 @@ import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.interfaces.PostCallback;
 import com.wuzhanglong.library.mode.BaseVO;
+import com.wuzhanglong.library.utils.BaseCommonUtils;
 
 import java.util.HashMap;
 
@@ -34,6 +35,8 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
         mForgetTv = getViewById(R.id.forget_tv);
         mRemberCb = getViewById(R.id.rember_cb);
         mOkTv = getViewById(R.id.ok_tv);
+        mOkTv.setBackground(BaseCommonUtils.setBackgroundShap(this, 5, R.color.conveyor_title, R.color.conveyor_title));
+
     }
 
     @Override

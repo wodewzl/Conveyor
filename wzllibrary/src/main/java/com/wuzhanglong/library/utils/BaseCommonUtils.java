@@ -39,9 +39,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -858,6 +860,38 @@ public class BaseCommonUtils {
         return list;
     }
 
+    public static String getUrl(HashMap<String, Object> params) {
+        String url = "";
+        // 添加url参数
+        if (params != null) {
+            Iterator<String> it = params.keySet().iterator();
+            StringBuffer sb = null;
+            while (it.hasNext()) {
+                String key = it.next();
+                String value = (String) params.get(key);
+                if (value==null){
+                    value="";
+                }
+                if (sb == null) {
+                    sb = new StringBuffer();
+                    sb.append("?");
+                } else {
+                    sb.append("&");
+                }
+                sb.append(key);
+                sb.append("=");
+                try {
+                    sb.append(URLEncoder.encode(value, "UTF-8"));
 
+                } catch (Exception e) {
+                    sb.append(value);
+                    e.printStackTrace();
+                }
+
+            }
+            url = sb.toString();
+        }
+        return url;
+    }
 
 }
