@@ -4,8 +4,13 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,7 +41,8 @@ import java.util.List;
 
 import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
 
-public class WorkActivity extends BaseActivity implements OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BGAOnRVItemClickListener, View.OnClickListener {
+public class WorkActivity extends BaseActivity implements OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BGAOnRVItemClickListener, View.OnClickListener,android.widget.TextView.OnEditorActionListener,TextWatcher
+{
     private AutoSwipeRefreshLayout mAutoSwipeRefreshLayout;
     private LuRecyclerView mRecyclerView;
     private WorkAdapter mAdapter;
@@ -58,7 +64,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     private int mState = 0; // 0为首次,1为下拉刷新 ，2为加载更多
     private LinearLayout mTitleLayout;
     private String mType = "1";//1自己的，
-
+    private EditText mSearchEt;
     @Override
     public void baseSetContentView() {
         contentInflateView(R.layout.work_activity);
@@ -66,6 +72,9 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
 
     @Override
     public void initView() {
+        mSearchEt = getViewById(R.id.search_et);
+        mSearchEt.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        mSearchEt.setInputType(EditorInfo.TYPE_CLASS_TEXT);
         mTitleLayout = getViewById(R.id.title_layout);
         mAutoSwipeRefreshLayout = getViewById(R.id.swipe_refresh_layout);
         mActivity.setSwipeRefreshLayoutColors(mAutoSwipeRefreshLayout);
@@ -107,6 +116,8 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         mRecyclerView.setOnLoadMoreListener(this);
         mAutoSwipeRefreshLayout.setOnRefreshListener(this);
         mAdapter.setOnRVItemClickListener(this);
+        mSearchEt.setOnEditorActionListener(this);
+        mSearchEt.addTextChangedListener(this);
     }
 
     @Override
@@ -130,7 +141,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         map.put("start_date", mStartDate);
         map.put("end_date", mEndDate);
         map.put("ismyself", mIsmyself);
-
+        map.put("keyword", mKeyword);
 //        map.put("is_today", "");
         HttpGetDataUtil.get(WorkActivity.this, Constant.WORK_LIST_URL, map, WorkVO.class);
     }
@@ -145,6 +156,9 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
             WorkVO workVO = (WorkVO) vo;
             if ("300".equals(workVO.getCode())) {
                 mRecyclerView.setNoMore(true);
+                if(mState==0){
+                    mAdapter.updateData(new ArrayList<WorkVO.DataBean.ListBean>());
+                }
                 return;
             } else {
                 mRecyclerView.setNoMore(false);
@@ -175,20 +189,15 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
                 if (DateUtils.parseDateDay(listBean.get(listBean.size() - 1).getTime()).
                         equals(DateUtils.parseDateDay(((WorkVO.DataBean.ListBean) mAdapter.getData().get(0)).getTime()))) {
                     mAdapter.getData().remove(0);
-                    mAdapter.getData().add(0, listBean);
-                } else {
-                    mAdapter.getData().add(0, listBean);
                 }
-                mAdapter.notifyDataSetChanged();
+                mAdapter.updateDataFrist(listBean);
             } else if (2 == mState) {
                 if (DateUtils.parseDateDay(listBean.get(0).getTime()).
                         equals(DateUtils.parseDateDay(((WorkVO.DataBean.ListBean) mAdapter.getData().get(mAdapter.getData().size() - 1)).getTime()))) {
                     listBean.remove(0);
-                    mAdapter.getData().add(mAdapter.getData().size(), listBean);
-                } else {
-                    mAdapter.getData().add(mAdapter.getData().size(), listBean);
                 }
-                mAdapter.notifyDataSetChanged();
+                mAdapter.updateDataLast(listBean);
+
             } else {
                 mAdapter.updateData(listBean);
             }
@@ -207,8 +216,11 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
 
     @Override
     public void onRefresh() {
-        match(1, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(1)).getLogid());
-        getData();
+        if(mAdapter.getData().size()>0){
+            match(1, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(1)).getLogid());
+        }else{
+            match(0,"");
+        }
     }
 
     @Override
@@ -224,7 +236,6 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     @Override
     public void onLoadMore() {
         match(2, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(mAdapter.getData().size() - 1)).getLogid());
-        getData();
     }
 
 
@@ -322,18 +333,29 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         if (!"1".equals(mType)) {
             mIsmyself = "";
         }
+        mLastid = "";
+        mFirstid = "";
+        mState=0;
         switch (key) {
+            case 0:
+                mKeyword="";
+                mLastid = "";
+                mFirstid = "";
+                mState=0;
+                mDid="";
+                mStartDate="";
+                mEndDate="";
+                break;
             case 1:
                 mFirstid = value;
-                mLastid = "";
                 mState = 1;
                 break;
             case 2:
-                mLastid = value;
-                mFirstid = "";
+                mLastid = value;;
                 mState = 2;
                 break;
             case 3:
+
                 mKeyword = value;
                 break;
             case 4:
@@ -348,6 +370,30 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
             default:
                 break;
         }
+        getData();
+    }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        mKeyword = textView.getText().toString();
+        match(3,mKeyword);
+        return false;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+        if ("".equals(s.toString())) {
+            mKeyword = "";
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
 
     }
 }

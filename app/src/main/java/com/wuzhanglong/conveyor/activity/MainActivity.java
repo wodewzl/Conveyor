@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.cpoopc.scrollablelayoutlib.ScrollableHelper;
 import com.cpoopc.scrollablelayoutlib.ScrollableLayout;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LuRecyclerView;
 import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
 import com.nanchen.compresshelper.CompressHelper;
@@ -24,6 +27,7 @@ import com.wuzhanglong.conveyor.adapter.HomeAdapter;
 import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
 import com.wuzhanglong.conveyor.model.WorkVO;
+import com.wuzhanglong.conveyor.view.PinnedHeaderDecoration;
 import com.wuzhanglong.library.ItemDecoration.DividerDecoration;
 import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.constant.BaseConstant;
@@ -31,6 +35,7 @@ import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.interfaces.PostCallback;
 import com.wuzhanglong.library.mode.BaseVO;
 import com.wuzhanglong.library.utils.DividerUtil;
+import com.wuzhanglong.library.view.AutoSwipeRefreshLayout;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,7 +53,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class MainActivity extends BaseActivity implements BGAOnRVItemClickListener, ScrollableHelper.ScrollableContainer, View.OnClickListener, PostCallback {
+public class MainActivity extends BaseActivity implements BGAOnRVItemClickListener, OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener , View.OnClickListener, PostCallback {
     private static final int PRC_PHOTO_PICKER = 1;
     private static final int RC_CHOOSE_PHOTO = 1;
     private static final int RC_PHOTO_PREVIEW = 2;
@@ -62,15 +67,11 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     private File mHeadImgFile;
     private BGAPhotoHelper mPhotoHelper;
 
-    private String mDid = "";
-    private String mKeyword = "";
-    private String mFirstid = "";
-    private String mLastid = "";
-    private String mStartDate = "";
-    private String mendDate = "";
-    private String mIsmyself = "";
     private String mIsToday = "";
     private int mState = 0; // 0为首次,1为下拉刷新 ，2为加载更多
+    private String mFirstid = "";
+    private String mLastid = "";
+    private AutoSwipeRefreshLayout mAutoSwipeRefreshLayout;
 
     @Override
     public void baseSetContentView() {
@@ -79,6 +80,8 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 
     @Override
     public void initView() {
+        mAutoSwipeRefreshLayout = getViewById(R.id.swipe_refresh_layout);
+        mActivity.setSwipeRefreshLayoutColors(mAutoSwipeRefreshLayout);
         mBaseHeadLayout.setVisibility(View.GONE);
         mDrawerLayout = getViewById(R.id.dl_left);
         mUpdatePwdTv = getViewById(R.id.self_tv01);
@@ -91,7 +94,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mDepartTv = getViewById(R.id.depart_tv);
         mMenuNameTv = getViewById(R.id.menut_name_tv);
         mMenuDepartTv = getViewById(R.id.menut_depart_tv);
-        mScrollableLayout = getViewById(R.id.scrollable_Layout);
+//        mScrollableLayout = getViewById(R.id.scrollable_Layout);
         mRecyclerView = getViewById(R.id.recycler_view);
         mHomeTv01 = getViewById(R.id.tv_home_01);
         mHomeTv02 = getViewById(R.id.tv_home_02);
@@ -101,6 +104,14 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mOutTv = getViewById(R.id.out_tv);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        final PinnedHeaderDecoration decoration = new PinnedHeaderDecoration();
+        decoration.registerTypePinnedHeader(R.layout.home_adapter_title, new PinnedHeaderDecoration.PinnedHeaderCreator() {
+            @Override
+            public boolean create(RecyclerView parent, int adapterPosition) {
+                return true;
+            }
+        });
+        mRecyclerView.addItemDecoration(decoration);
         DividerDecoration divider = DividerUtil.linnerDivider(this, R.dimen.dp_1, R.color.C3);
         mRecyclerView.addItemDecoration(divider);
         mAdapter = new HomeAdapter(mRecyclerView);
@@ -129,27 +140,31 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     @Override
     public void bindViewsListener() {
         mHomeHeadImg.setOnClickListener(this);
-        mHomeTv01.setOnClickListener(this);
-        mHomeTv02.setOnClickListener(this);
-        mHomeTv03.setOnClickListener(this);
-        mHomeTv04.setOnClickListener(this);
-        mHomeTv05.setOnClickListener(this);
+//        mHomeTv01.setOnClickListener(this);
+//        mHomeTv02.setOnClickListener(this);
+//        mHomeTv03.setOnClickListener(this);
+//        mHomeTv04.setOnClickListener(this);
+//        mHomeTv05.setOnClickListener(this);
         mMenuHeadImg.setOnClickListener(this);
-        mScrollableLayout.getHelper().setCurrentScrollableContainer(this);
+//        mScrollableLayout.getHelper().setCurrentScrollableContainer(this);
         mUpdatePwdTv.setOnClickListener(this);
         mMyWorkTv.setOnClickListener(this);
         mAboutTv.setOnClickListener(this);
         mOutTv.setOnClickListener(this);
+        mRecyclerView.setOnLoadMoreListener(this);
+        mAutoSwipeRefreshLayout.setOnRefreshListener(this);
+        mAdapter.setOnRVItemClickListener(this);
     }
 
     @Override
     public void getData() {
-//        showView();
+
         HashMap<String, Object> map = new HashMap<>();
         if (AppApplication.getInstance().getUserInfoVO() != null)
             map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
         if (AppApplication.getInstance().getUserInfoVO() != null)
-            map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+
+ map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
         map.put("is_today", "1");
         HttpGetDataUtil.get(MainActivity.this, Constant.WORK_LIST_URL, map, WorkVO.class);
     }
@@ -159,24 +174,36 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         WorkVO workVO = (WorkVO) vo;
         if ("300".equals(workVO.getCode())) {
             mRecyclerView.setNoMore(true);
+                List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
+                WorkVO.DataBean.ListBean homeTitle = new WorkVO.DataBean.ListBean();
+                homeTitle.setIsTitle("1");
+                listBean.add(homeTitle);
+            WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
+            title.setIsTitle("2");
+            listBean.add(title);
+                mAdapter.updateData(listBean);
             return;
         } else {
             mRecyclerView.setNoMore(false);
         }
         List<WorkVO.DataBean.ListBean> list = workVO.getData().getList();
         List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
+        WorkVO.DataBean.ListBean homeTitle = new WorkVO.DataBean.ListBean();
+        homeTitle.setIsTitle("1");
+        listBean.add(homeTitle);
         WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
-        title.setIsTitle("1");
+        title.setIsTitle("2");
         listBean.add(title);
-        listBean.addAll(list);
+        listBean.addAll(list)
+;
 
         if (1 == mState) {
             mAdapter.getData().remove(0);
-            mAdapter.getData().add(0, listBean);
-            mAdapter.notifyDataSetChanged();
+            mAdapter.getData().remove(0);
+            mAdapter.updateDataFrist(listBean);
         } else if (2 == mState) {
-            mAdapter.getData().add(mAdapter.getData().size(), listBean);
-            mAdapter.notifyDataSetChanged();
+            listBean.remove(0);
+            mAdapter.updateDataLast(listBean);
         } else {
             mAdapter.updateData(listBean);
         }
@@ -190,12 +217,6 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     @Override
     public void noNet() {
 
-    }
-
-
-    @Override
-    public View getScrollableView() {
-        return null;
     }
 
     @Override
@@ -325,4 +346,42 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         }
     }
 
+    @Override
+    public void onRefresh() {
+        if(mAdapter.getData().size()>2){
+            match(1, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(1)).getLogid());
+        }else{
+            match(0,"");
+        }
+    }
+
+    @Override
+    public void onLoadMore() {
+        match(2, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(mAdapter.getData().size() - 1)).getLogid());
+
+    }
+
+    public void match(int key, String value) {
+
+        switch (key) {
+            case 0:
+                mFirstid="";
+                mLastid="";
+                mState=0;
+                break;
+            case 1:
+                mFirstid = value;
+                mLastid="";
+                mState = 1;
+                break;
+            case 2:
+                mLastid = value;
+                mFirstid="";
+                mState = 2;
+                break;
+            default:
+                break;
+        }
+        getData();
+    }
 }

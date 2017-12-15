@@ -86,8 +86,8 @@ public abstract class RecyclerBaseAdapter<M> extends BGARecyclerViewAdapter {
 
     public void updateDataLast(List<M> data) {
         if (data != null) {
-//            mData.addAll(mData.size(), data);
-            mData.addAll(data);
+            mData.addAll(mData.size(), data);
+//            mData.addAll(data);
             notifyDataSetChanged();
         }
     }

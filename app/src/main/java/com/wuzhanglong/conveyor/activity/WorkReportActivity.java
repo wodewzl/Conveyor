@@ -171,6 +171,7 @@ public class WorkReportActivity extends BaseActivity implements BGASortableNineP
     @Override
     public void success(BaseVO vo) {
         showCustomToast(vo.getDesc());
+        openActivity(WorkActivity.class);
         this.finish();
 
     }

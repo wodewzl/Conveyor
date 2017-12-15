@@ -32,26 +32,26 @@ public class HttpGetDataUtil {
         final Gson gson = new Gson();
         final String allUrl = BaseConstant.DOMAIN_NAME + url;
         final String cacheStr = ACache.get(activity).getAsString(allUrl + params.toString());
-        if (className != null) {
-            final BaseVO vo = (BaseVO) gson.fromJson(cacheStr, className);
-            if (vo != null) {
-                Observable.create(new Observable.OnSubscribe<BaseVO>() {
-                    @Override
-                    public void call(Subscriber<? super BaseVO> subscriber) {
-                        subscriber.onNext(vo);
-                    }
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<BaseVO>() {
-                    @Override
-                    public void call(BaseVO baseVO) {
-                        activity.baseHasData(vo);
-                    }
-                });
-
-                if (!HttpUtils.isNetworkAvailable(activity)) {
-                    return;
-                }
-            }
-        }
+//        if (className != null) {
+//            final BaseVO vo = (BaseVO) gson.fromJson(cacheStr, className);
+//            if (vo != null) {
+//                Observable.create(new Observable.OnSubscribe<BaseVO>() {
+//                    @Override
+//                    public void call(Subscriber<? super BaseVO> subscriber) {
+//                        subscriber.onNext(vo);
+//                    }
+//                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<BaseVO>() {
+//                    @Override
+//                    public void call(BaseVO baseVO) {
+//                        activity.baseHasData(vo);
+//                    }
+//                });
+//
+//                if (!HttpUtils.isNetworkAvailable(activity)) {
+//                    return;
+//                }
+//            }
+//        }
 
         Log.i("get_url", BaseConstant.DOMAIN_NAME+url+BaseCommonUtils.getUrl((HashMap<String, Object>) params));
 
@@ -64,7 +64,7 @@ public class HttpGetDataUtil {
                     public void onNext(Object o, String s) {
 
                         if (s.equals(cacheStr) || className == null) {
-
+                            System.out.println("===============");
                             return;
                         }
                         BaseVO baseVO = (BaseVO) gson.fromJson(s, className);
@@ -118,6 +118,7 @@ public class HttpGetDataUtil {
             public void onNext(Object o, String s) {
 
                 BaseVO vo = (BaseVO) gson.fromJson(s, className);
+                postCallback.success(vo);
                 if ("200".equals(vo.getCode())) {
                     postCallback.success(vo);
                 } else {
@@ -150,9 +151,15 @@ public class HttpGetDataUtil {
             @Override
             public void onNext(Object o, String s) {
 
-                BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
+                final BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
                 if ("200".equals(vo.getCode())) {
-                    activity.showCustomToast(vo.getDesc());
+                    postCallback.success(vo);
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            activity.showCustomToast(vo.getDesc());
+                        }
+                    });
                 } else {
                     activity.showCustomToast(vo.getDesc());
                 }
