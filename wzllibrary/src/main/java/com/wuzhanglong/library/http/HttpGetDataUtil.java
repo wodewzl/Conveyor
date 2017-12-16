@@ -3,6 +3,7 @@ package com.wuzhanglong.library.http;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.tamic.novate.BaseSubscriber;
 import com.tamic.novate.Novate;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
@@ -17,6 +18,8 @@ import com.wuzhanglong.library.utils.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -32,26 +35,26 @@ public class HttpGetDataUtil {
         final Gson gson = new Gson();
         final String allUrl = BaseConstant.DOMAIN_NAME + url;
         final String cacheStr = ACache.get(activity).getAsString(allUrl + params.toString());
-//        if (className != null) {
-//            final BaseVO vo = (BaseVO) gson.fromJson(cacheStr, className);
-//            if (vo != null) {
-//                Observable.create(new Observable.OnSubscribe<BaseVO>() {
-//                    @Override
-//                    public void call(Subscriber<? super BaseVO> subscriber) {
-//                        subscriber.onNext(vo);
-//                    }
-//                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<BaseVO>() {
-//                    @Override
-//                    public void call(BaseVO baseVO) {
-//                        activity.baseHasData(vo);
-//                    }
-//                });
-//
-//                if (!HttpUtils.isNetworkAvailable(activity)) {
-//                    return;
-//                }
-//            }
-//        }
+        if (className != null) {
+            final BaseVO vo = (BaseVO) gson.fromJson(cacheStr, className);
+            if (vo != null) {
+                Observable.create(new Observable.OnSubscribe<BaseVO>() {
+                    @Override
+                    public void call(Subscriber<? super BaseVO> subscriber) {
+                        subscriber.onNext(vo);
+                    }
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<BaseVO>() {
+                    @Override
+                    public void call(BaseVO baseVO) {
+                        activity.baseHasData(vo);
+                    }
+                });
+
+                if (!HttpUtils.isNetworkAvailable(activity)) {
+                    return;
+                }
+            }
+        }
 
         Log.i("get_url", BaseConstant.DOMAIN_NAME+url+BaseCommonUtils.getUrl((HashMap<String, Object>) params));
 
@@ -63,7 +66,7 @@ public class HttpGetDataUtil {
                     @Override
                     public void onNext(Object o, String s) {
 
-                        if (s.equals(cacheStr) || className == null) {
+                        if (s.trim().equals(cacheStr) || className == null) {
                             System.out.println("===============");
                             return;
                         }
@@ -167,6 +170,82 @@ public class HttpGetDataUtil {
             }
         });
     }
+
+//提交文件
+    public static <T> void post(final BaseActivity activity, final String url, RequestBody params, final PostCallback postCallback) {
+
+        final Gson gson = new Gson();
+//        final String allUrl = BaseConstant.DOMAIN_NAME + url;
+        new Novate.Builder(activity)
+                .baseUrl(BaseConstant.DOMAIN_NAME)
+                .addCache(false)
+                .build().upload(url, params, new BaseSubscriber<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody responseBody) {
+
+                try {
+                    String  s = new String(responseBody.bytes());
+                    final BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
+                    if ("200".equals(vo.getCode())) {
+                        postCallback.success(vo);
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                activity.showCustomToast(vo.getDesc());
+                            }
+                        });
+                    } else {
+                        activity.showCustomToast(vo.getDesc());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    //多个文件提交
+//    public static <T> void post(final BaseActivity activity, final String url, RequestBody params, final PostCallback postCallback) {
+//
+//        final Gson gson = new Gson();
+////        final String allUrl = BaseConstant.DOMAIN_NAME + url;
+//        new Novate.Builder(activity)
+//                .baseUrl(BaseConstant.DOMAIN_NAME)
+//                .addCache(false)
+//                .build()(url, params, new BaseSubscriber<ResponseBody>() {
+//            @Override
+//            public void onNext(ResponseBody responseBody) {
+//
+//                try {
+//                    String  s = new String(responseBody.bytes());
+//                    final BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
+//                    if ("200".equals(vo.getCode())) {
+//                        postCallback.success(vo);
+//                        activity.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                activity.showCustomToast(vo.getDesc());
+//                            }
+//                        });
+//                    } else {
+//                        activity.showCustomToast(vo.getDesc());
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//
+//            }
+//        });
+//    }
 
 
     public static <T> void postJson(final BaseActivity activity, final String url, Object obj , final Class<T> className, final PostCallback postCallback) {

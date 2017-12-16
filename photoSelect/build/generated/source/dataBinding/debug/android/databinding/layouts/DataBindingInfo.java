@@ -2,5 +2,5 @@ package android.databinding.layouts;
 
 import android.databinding.BindingBuildInfo;
 
-@BindingBuildInfo(buildId="3fe73792-753b-4636-9a2d-fdf4834a0dc6")
+@BindingBuildInfo(buildId="06b414e2-9146-45e2-bd82-6aa9949802d8")
 public class DataBindingInfo {}

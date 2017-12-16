@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/time_layout"
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/conveyor_bg1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/time_tv"
+            style="@style/padding_15_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/C1"
+            tools:text="2017-12-11 星期二"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/depart_tv"
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/C1"
+        android:text="部门名称"/>
+
+    <TextView
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/conveyor_bg1"
+        android:gravity="center_vertical"
+        android:text="今日工作"
+        android:textColor="@color/C5"/>
+
+    <EditText
+        android:id="@+id/content1_et"
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/C1"
+        android:gravity="top"
+        android:hint="今日工作"
+        android:textSize="12sp"
+        />
+
+    <TextView
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/conveyor_bg1"
+        android:gravity="center_vertical"
+        android:text="明日计划"
+        android:textColor="@color/C5"/>
+
+    <EditText
+        android:id="@+id/content2_et"
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/C1"
+        android:gravity="top"
+        android:hint="明日计划"
+        android:textSize="12sp"/>
+
+    <TextView
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/conveyor_bg1"
+        android:gravity="center_vertical"
+        android:text="人员能力评估"
+        android:textColor="@color/C5"/>
+
+    <EditText
+        android:id="@+id/content3_et"
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/C1"
+        android:gravity="top"
+        android:hint="人员能力评估"
+        android:textSize="12sp"/>
+
+    <TextView
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/conveyor_bg1"
+        android:gravity="center_vertical"
+        android:text="风险预控措施"
+        android:textColor="@color/C5"/>
+
+    <EditText
+        android:id="@+id/content4_et"
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/C1"
+        android:gravity="top"
+        android:hint="风险预控措施"
+        android:textSize="12sp"/>
+
+    <TextView
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/conveyor_bg1"
+        android:gravity="center_vertical"
+        android:text="领导履职情况"
+        android:textColor="@color/C5"/>
+
+    <EditText
+        android:id="@+id/content5_et"
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/C1"
+        android:gravity="top"
+        android:hint="领导履职情况"
+        android:textSize="12sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/C1">
+
+        <cn.bingoogolapple.photopicker.widget.BGASortableNinePhotoLayout
+            android:id="@+id/photo_layout"
+            style="@style/MatchMatch"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            app:bga_snpl_deleteDrawable="@mipmap/bga_pp_ic_delete"
+            app:bga_snpl_deleteDrawableOverlapQuarter="false"
+            app:bga_snpl_editable="true"
+            app:bga_snpl_itemCornerRadius="0dp"
+            app:bga_snpl_itemSpanCount="3"
+            app:bga_snpl_itemWhiteSpacing="15dp"
+            app:bga_snpl_itemWidth="0dp"
+            app:bga_snpl_maxItemCount="3"
+            app:bga_snpl_otherWhiteSpacing="0dp"
+            app:bga_snpl_placeholderDrawable="@mipmap/bga_pp_ic_holder_dark"
+            app:bga_snpl_plusDrawable="@mipmap/bga_pp_ic_plus"
+            app:bga_snpl_plusEnable="true"
+            app:bga_snpl_sortable="true"/>
+    </LinearLayout>
+</LinearLayout>

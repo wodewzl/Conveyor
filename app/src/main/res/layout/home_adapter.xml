@@ -89,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="今日工作的劳动纪律大吉大利大吉大利大吉大利大吉大利大吉大利大吉大利大吉大利的"
-        android:textSize="13sp"/>
+        android:textSize="14sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -105,5 +105,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="今日工作的劳动纪律大吉大利大吉大利大吉大利大吉大利大吉大利大吉大利大吉大利的"
-        android:textSize="13sp"/>
+        android:textSize="14sp"/>
 </LinearLayout>

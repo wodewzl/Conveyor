@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cpoopc.scrollablelayoutlib.ScrollableHelper;
 import com.cpoopc.scrollablelayoutlib.ScrollableLayout;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LuRecyclerView;
@@ -49,6 +48,9 @@ import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerPreviewActivity;
 import cn.bingoogolapple.photopicker.imageloader.BGAImage;
 import cn.bingoogolapple.photopicker.util.BGAPhotoHelper;
 import cn.bingoogolapple.photopicker.util.BGAPhotoPickerUtil;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -172,6 +174,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     @Override
     public void hasData(BaseVO vo) {
         WorkVO workVO = (WorkVO) vo;
+        mAutoSwipeRefreshLayout.setRefreshing(false);
         if ("300".equals(workVO.getCode())) {
             mRecyclerView.setNoMore(true);
                 List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
@@ -332,11 +335,20 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                 BGAImage.display(mMenuHeadImg, R.mipmap.bga_pp_ic_holder_light, mPhotoHelper.getCropFilePath(), BGABaseAdapterUtil.dp2px(200));
                 File file = new File(mPhotoHelper.getCropFilePath());
                 mHeadImgFile = CompressHelper.getDefault(MainActivity.this).compressToFile(file);
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
-                map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-                map.put("file", mHeadImgFile);
-                HttpGetDataUtil.post(MainActivity.this, Constant.UPLOAD_HEAD_URL, map, MainActivity.this);
+//                HashMap<String, Object> map = new HashMap<>();
+//                map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
+//                map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+//                map.put("file", mHeadImgFile);
+//                HttpGetDataUtil.post(MainActivity.this, Constant.UPLOAD_HEAD_URL, map, MainActivity.this);
+                RequestBody requestBody ;
+                requestBody=new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("ftoken",  AppApplication.getInstance().getUserInfoVO().getData().getFtoken())
+                        .addFormDataPart("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid())
+                        .addFormDataPart("file", mHeadImgFile.getName(), RequestBody.create(MediaType.parse("image/*"), mHeadImgFile))
+                        .build();
+                HttpGetDataUtil.post(MainActivity.this, Constant.UPLOAD_HEAD_URL,requestBody,MainActivity.this);
+
             }
         } else {
             if (requestCode == REQUEST_CODE_CROP) {
@@ -349,7 +361,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     @Override
     public void onRefresh() {
         if(mAdapter.getData().size()>2){
-            match(1, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(1)).getLogid());
+            match(1, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(2)).getLogid());
         }else{
             match(0,"");
         }

@@ -3,7 +3,6 @@ package com.wuzhanglong.conveyor.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Environment;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -11,17 +10,13 @@ import android.widget.TextView;
 
 import com.nanchen.compresshelper.CompressHelper;
 import com.wuzhanglong.conveyor.R;
-import com.wuzhanglong.conveyor.application.AppApplication;
-import com.wuzhanglong.conveyor.constant.Constant;
 import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.constant.BaseConstant;
-import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.interfaces.PostCallback;
 import com.wuzhanglong.library.mode.BaseVO;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity;
@@ -177,16 +172,23 @@ public class WorkReportActivity extends BaseActivity implements BGASortableNineP
     }
 
     public void commit() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
-        map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-        map.put("content1", mContent1Et.getText().toString());
-        map.put("content2", mContent2Et.getText().toString());
-        for (int i = 0; i < mOneFiles.size(); i++) {
-            map.put("files" + i, mOneFiles.get(i));
-        }
-        map.put("type", mType);
-        HttpGetDataUtil.post(WorkReportActivity.this, Constant.WORK_REPORT_URL, map,WorkReportActivity.this);
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
+//        map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+//        map.put("content1", mContent1Et.getText().toString());
+//        map.put("content2", mContent2Et.getText().toString());
+//        for (int i = 0; i < mOneFiles.size(); i++) {
+//            map.put("files" + i, mOneFiles.get(i));
+//        }
+//        map.put("type", mType);
+//        HttpGetDataUtil.post(WorkReportActivity.this, Constant.WORK_REPORT_URL, map,WorkReportActivity.this);
+
+//        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+//                .addFormDataPart("ftoken",  AppApplication.getInstance().getUserInfoVO().getData().getFtoken())
+//                .addFormDataPart("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid())
+//                .addFormDataPart("file", mHeadImgFile.getName(), RequestBody.create(MediaType.parse("image/*"), mHeadImgFile))
+//                .build();
+//        HttpGetDataUtil.post(MainActivity.this, Constant.UPLOAD_HEAD_URL,requestBody,MainActivity.this);
     }
 
     @Override
