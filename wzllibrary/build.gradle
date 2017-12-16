@@ -122,7 +122,7 @@ dependencies {
     compile 'com.amap.api:3dmap:latest.integration'
     compile 'com.amap.api:search:latest.integration'
     //地图搜索
-    compile 'com.tamic.novate:novate:1.5.2.3'
+    compile 'com.tamic.novate:novate:1.5.4.5'
     //Retrofit2.0与rxjava结合的产物
     //沉浸式状态栏
     compile 'com.jaeger.statusbarutil:library:1.4.0'
