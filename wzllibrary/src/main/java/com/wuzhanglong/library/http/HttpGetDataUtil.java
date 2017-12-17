@@ -217,7 +217,8 @@ public class HttpGetDataUtil {
 //        new Novate.Builder(activity)
 //                .baseUrl(BaseConstant.DOMAIN_NAME)
 //                .addCache(false)
-//                .build()(url, params, new BaseSubscriber<ResponseBody>() {
+//                .build().rxUploadWithBody()
+//        (url, params, new BaseSubscriber<ResponseBody>() {
 //            @Override
 //            public void onNext(ResponseBody responseBody) {
 //
@@ -248,36 +249,36 @@ public class HttpGetDataUtil {
 //    }
 
 
-    public static <T> void postJson(final BaseActivity activity, final String url, Object obj , final Class<T> className, final PostCallback postCallback) {
-        if(obj ==null)
-            obj=new Object();
-        final Gson gson = new Gson();
-//        final String allUrl = BaseConstant.DOMAIN_NAME + url;
-        new Novate.Builder(activity)
-                .baseUrl(BaseConstant.DOMAIN_NAME)
-                .addCache(false)
-                .build().RxBody(url, obj, new RxStringCallback() {
-
-
-            @Override
-            public void onError(Object o, Throwable throwable) {
-                System.out.println("=============");
-            }
-
-            @Override
-            public void onCancel(Object o, Throwable throwable) {
-                System.out.println("=============");
-            }
-
-            @Override
-            public void onNext(Object o, String s) {
-                BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
-                if ("200".equals(vo.getCode())) {
-                    postCallback.success(vo);
-                } else {
-                    activity.showCustomToast(vo.getDesc());
-                }
-            }
-        });
-    }
+//    public static <T> void postJson(final BaseActivity activity, final String url, Object obj , final Class<T> className, final PostCallback postCallback) {
+//        if(obj ==null)
+//            obj=new Object();
+//        final Gson gson = new Gson();
+////        final String allUrl = BaseConstant.DOMAIN_NAME + url;
+//        new Novate.Builder(activity)
+//                .baseUrl(BaseConstant.DOMAIN_NAME)
+//                .addCache(false)
+//                .build().RxBody(url, obj, new RxStringCallback() {
+//
+//
+//            @Override
+//            public void onError(Object o, Throwable throwable) {
+//                System.out.println("=============");
+//            }
+//
+//            @Override
+//            public void onCancel(Object o, Throwable throwable) {
+//                System.out.println("=============");
+//            }
+//
+//            @Override
+//            public void onNext(Object o, String s) {
+//                BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
+//                if ("200".equals(vo.getCode())) {
+//                    postCallback.success(vo);
+//                } else {
+//                    activity.showCustomToast(vo.getDesc());
+//                }
+//            }
+//        });
+//    }
 }
