@@ -13,8 +13,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cpoopc.scrollablelayoutlib.ScrollableHelper;
 import com.cpoopc.scrollablelayoutlib.ScrollableLayout;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LuRecyclerView;
@@ -25,6 +27,7 @@ import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.adapter.HomeAdapter;
 import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
+import com.wuzhanglong.conveyor.model.UserInfoVO;
 import com.wuzhanglong.conveyor.model.WorkVO;
 import com.wuzhanglong.conveyor.view.PinnedHeaderDecoration;
 import com.wuzhanglong.library.ItemDecoration.DividerDecoration;
@@ -55,7 +58,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class MainActivity extends BaseActivity implements BGAOnRVItemClickListener, OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener , View.OnClickListener, PostCallback {
+public class MainActivity extends BaseActivity implements BGAOnRVItemClickListener, OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, PostCallback,ScrollableHelper.ScrollableContainer,ScrollableLayout.OnScrollListener {
     private static final int PRC_PHOTO_PICKER = 1;
     private static final int RC_CHOOSE_PHOTO = 1;
     private static final int RC_PHOTO_PREVIEW = 2;
@@ -74,6 +77,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     private String mFirstid = "";
     private String mLastid = "";
     private AutoSwipeRefreshLayout mAutoSwipeRefreshLayout;
+    private LinearLayout mHomeMenuLayout;
 
     @Override
     public void baseSetContentView() {
@@ -96,7 +100,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mDepartTv = getViewById(R.id.depart_tv);
         mMenuNameTv = getViewById(R.id.menut_name_tv);
         mMenuDepartTv = getViewById(R.id.menut_depart_tv);
-//        mScrollableLayout = getViewById(R.id.scrollable_Layout);
+        mScrollableLayout = getViewById(R.id.scrollable_Layout);
         mRecyclerView = getViewById(R.id.recycler_view);
         mHomeTv01 = getViewById(R.id.tv_home_01);
         mHomeTv02 = getViewById(R.id.tv_home_02);
@@ -135,20 +139,21 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
             mMenuNameTv.setText(AppApplication.getInstance().getUserInfoVO().getData().getFullname());
             mDepartTv.setText(AppApplication.getInstance().getUserInfoVO().getData().getDname() + "/" + AppApplication.getInstance().getUserInfoVO().getData().getPname());
             mMenuDepartTv.setText(AppApplication.getInstance().getUserInfoVO().getData().getDname() + "/" + AppApplication.getInstance().getUserInfoVO().getData().getPname());
-
         }
+
+        mHomeMenuLayout=getViewById(R.id.home_menu_layout);
     }
 
     @Override
     public void bindViewsListener() {
         mHomeHeadImg.setOnClickListener(this);
-//        mHomeTv01.setOnClickListener(this);
-//        mHomeTv02.setOnClickListener(this);
-//        mHomeTv03.setOnClickListener(this);
-//        mHomeTv04.setOnClickListener(this);
-//        mHomeTv05.setOnClickListener(this);
+        mHomeTv01.setOnClickListener(this);
+        mHomeTv02.setOnClickListener(this);
+        mHomeTv03.setOnClickListener(this);
+        mHomeTv04.setOnClickListener(this);
+        mHomeTv05.setOnClickListener(this);
         mMenuHeadImg.setOnClickListener(this);
-//        mScrollableLayout.getHelper().setCurrentScrollableContainer(this);
+        mScrollableLayout.getHelper().setCurrentScrollableContainer(this);
         mUpdatePwdTv.setOnClickListener(this);
         mMyWorkTv.setOnClickListener(this);
         mAboutTv.setOnClickListener(this);
@@ -165,8 +170,9 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         if (AppApplication.getInstance().getUserInfoVO() != null)
             map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
         if (AppApplication.getInstance().getUserInfoVO() != null)
-
- map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+            map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+        map.put("firstid", mFirstid);
+        map.put("lastid", mLastid);
         map.put("is_today", "1");
         HttpGetDataUtil.get(MainActivity.this, Constant.WORK_LIST_URL, map, WorkVO.class);
     }
@@ -177,35 +183,35 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mAutoSwipeRefreshLayout.setRefreshing(false);
         if ("300".equals(workVO.getCode())) {
             mRecyclerView.setNoMore(true);
-                List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
-                WorkVO.DataBean.ListBean homeTitle = new WorkVO.DataBean.ListBean();
-                homeTitle.setIsTitle("1");
-                listBean.add(homeTitle);
-            WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
-            title.setIsTitle("2");
-            listBean.add(title);
-                mAdapter.updateData(listBean);
+//            List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
+//            WorkVO.DataBean.ListBean homeTitle = new WorkVO.DataBean.ListBean();
+//            homeTitle.setIsTitle("1");
+//            listBean.add(homeTitle);
+//            WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
+//            title.setIsTitle("2");
+//            listBean.add(title);
+//            mAdapter.updateData(listBean);
             return;
         } else {
             mRecyclerView.setNoMore(false);
         }
         List<WorkVO.DataBean.ListBean> list = workVO.getData().getList();
         List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
-        WorkVO.DataBean.ListBean homeTitle = new WorkVO.DataBean.ListBean();
-        homeTitle.setIsTitle("1");
-        listBean.add(homeTitle);
+//        WorkVO.DataBean.ListBean homeTitle = new WorkVO.DataBean.ListBean();
+//        homeTitle.setIsTitle("1");
+//        listBean.add(homeTitle);
         WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
-        title.setIsTitle("2");
+        title.setIsTitle("1");
         listBean.add(title);
-        listBean.addAll(list)
-;
+        listBean.addAll(list);
+
 
         if (1 == mState) {
-            mAdapter.getData().remove(0);
+//            mAdapter.getData().remove(0);
             mAdapter.getData().remove(0);
             mAdapter.updateDataFrist(listBean);
         } else if (2 == mState) {
-            listBean.remove(0);
+//            listBean.remove(0);
             mAdapter.updateDataLast(listBean);
         } else {
             mAdapter.updateData(listBean);
@@ -246,7 +252,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                 intent.setClass(MainActivity.this, ContactActivity.class);
                 break;
             case R.id.tv_home_04:
-                intent.setClass(MainActivity.this, LoginActivity.class);
+                intent.setClass(MainActivity.this, MapActivity.class);
                 break;
             case R.id.tv_home_05:
                 intent.putExtra("type", "1");
@@ -280,7 +286,11 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 
     @Override
     public void success(BaseVO vo) {
-
+        UserInfoVO data= (UserInfoVO) vo;
+        UserInfoVO userInfoVO= AppApplication.getInstance().getUserInfoVO();
+        userInfoVO.getData().setHeadpic(data.getData().getHeadpic());
+        AppApplication.getInstance().saveUserInfoVO(userInfoVO);
+        Picasso.with(this).load(AppApplication.getInstance().getUserInfoVO().getData().getHeadpic()).placeholder(R.drawable.user_icon_def).into(mHomeHeadImg);
     }
 
     @AfterPermissionGranted(PRC_PHOTO_PICKER)
@@ -292,7 +302,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 
             Intent photoPickerIntent = new BGAPhotoPickerActivity.IntentBuilder(activity)
                     .cameraFileDir(TextUtils.isEmpty(file) ? null : takePhotoDir) // 拍照后照片的存放目录，改成你自己拍照后要存放照片的目录。如果不传递该参数的话则不开启图库里的拍照功能
-                    .maxChooseCount(3) // 图片选择张数的最大值
+                    .maxChooseCount(1) // 图片选择张数的最大值
                     .selectedPhotos(null) // 当前已选中的图片路径集合
                     .pauseOnScroll(false)
 //                    .selectedPhotos(mSelectList)
@@ -340,15 +350,14 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 //                map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
 //                map.put("file", mHeadImgFile);
 //                HttpGetDataUtil.post(MainActivity.this, Constant.UPLOAD_HEAD_URL, map, MainActivity.this);
-                RequestBody requestBody ;
-                requestBody=new MultipartBody.Builder()
+
+                RequestBody requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
-                        .addFormDataPart("ftoken",  AppApplication.getInstance().getUserInfoVO().getData().getFtoken())
+                        .addFormDataPart("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken())
                         .addFormDataPart("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid())
                         .addFormDataPart("file", mHeadImgFile.getName(), RequestBody.create(MediaType.parse("image/*"), mHeadImgFile))
                         .build();
-                HttpGetDataUtil.post(MainActivity.this, Constant.UPLOAD_HEAD_URL,requestBody,MainActivity.this);
-
+                HttpGetDataUtil.post(MainActivity.this, Constant.UPLOAD_HEAD_URL, requestBody, UserInfoVO.class,MainActivity.this);
             }
         } else {
             if (requestCode == REQUEST_CODE_CROP) {
@@ -360,10 +369,10 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 
     @Override
     public void onRefresh() {
-        if(mAdapter.getData().size()>2){
-            match(1, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(2)).getLogid());
-        }else{
-            match(0,"");
+        if (mAdapter.getData().size() > 2) {
+            match(1, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(1)).getLogid());
+        } else {
+            match(0, "");
         }
     }
 
@@ -377,23 +386,33 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 
         switch (key) {
             case 0:
-                mFirstid="";
-                mLastid="";
-                mState=0;
+                mFirstid = "";
+                mLastid = "";
+                mState = 0;
                 break;
             case 1:
                 mFirstid = value;
-                mLastid="";
+                mLastid = "";
                 mState = 1;
                 break;
             case 2:
                 mLastid = value;
-                mFirstid="";
+                mFirstid = "";
                 mState = 2;
                 break;
             default:
                 break;
         }
         getData();
+    }
+
+    @Override
+    public View getScrollableView() {
+        return mRecyclerView;
+    }
+
+    @Override
+    public void onScroll(int currentY, int maxY) {
+        mHomeMenuLayout.setTranslationY(currentY / 2);
     }
 }

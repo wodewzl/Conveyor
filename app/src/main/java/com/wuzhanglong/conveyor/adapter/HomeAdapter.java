@@ -3,7 +3,6 @@ package com.wuzhanglong.conveyor.adapter;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,16 +12,12 @@ import com.squareup.picasso.Picasso;
 import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.activity.ContactActivity;
 import com.wuzhanglong.conveyor.activity.LoginActivity;
-import com.wuzhanglong.conveyor.activity.MainActivity;
-import com.wuzhanglong.conveyor.activity.PasswordUpdateActivity;
-import com.wuzhanglong.conveyor.activity.WebViewActivity;
 import com.wuzhanglong.conveyor.activity.WorkActivity;
 import com.wuzhanglong.conveyor.activity.WorkAllActivity;
 import com.wuzhanglong.conveyor.activity.WorkReportActivity;
 import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.model.WorkVO;
 import com.wuzhanglong.library.adapter.RecyclerBaseAdapter;
-import com.wuzhanglong.library.constant.BaseConstant;
 import com.wuzhanglong.library.utils.BaseCommonUtils;
 import com.wuzhanglong.library.utils.DateUtils;
 
@@ -43,7 +38,7 @@ public class HomeAdapter extends RecyclerBaseAdapter<WorkVO.DataBean.ListBean> {
     @Override
     public void initData(BGAViewHolderHelper helper, int position, Object model) {
         WorkVO.DataBean.ListBean vo = (WorkVO.DataBean.ListBean) model;
-        if ("1".equals(vo.getIsTitle())) {
+        if ("2".equals(vo.getIsTitle())) {
             helper.setItemChildClickListener(R.id.tv_home_01);
             helper.setItemChildClickListener(R.id.tv_home_02);
             helper.setItemChildClickListener(R.id.tv_home_03);
@@ -81,7 +76,7 @@ public class HomeAdapter extends RecyclerBaseAdapter<WorkVO.DataBean.ListBean> {
                         mContext.startActivity(intent);
                 }
             });
-        } else if ("2".equals(vo.getIsTitle())) {
+        } else if ("1".equals(vo.getIsTitle())) {
 
         } else {
             if (!TextUtils.isEmpty(vo.getHeadpic()))
@@ -103,10 +98,9 @@ public class HomeAdapter extends RecyclerBaseAdapter<WorkVO.DataBean.ListBean> {
             return super.getItemViewType(position);
         }
         WorkVO.DataBean.ListBean vo = (WorkVO.DataBean.ListBean) mData.get(position);
-        if ("1".equals(vo.getIsTitle())) {
+        if ("2".equals(vo.getIsTitle())) {
             return R.layout.home_title;
-        } else if ("2".equals(vo.getIsTitle())) {
-
+        } else if ("1".equals(vo.getIsTitle())) {
             return R.layout.home_adapter_title;
         } else {
             return R.layout.home_adapter;

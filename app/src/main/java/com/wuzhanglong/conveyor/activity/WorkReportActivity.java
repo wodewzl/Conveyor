@@ -26,6 +26,9 @@ import java.util.List;
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity;
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerPreviewActivity;
 import cn.bingoogolapple.photopicker.widget.BGASortableNinePhotoLayout;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -176,6 +179,7 @@ public class WorkReportActivity extends BaseActivity implements BGASortableNineP
     }
 
     public void commit() {
+        showProgressDialog();
         HashMap<String, Object> map = new HashMap<>();
         map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
         map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
@@ -185,7 +189,8 @@ public class WorkReportActivity extends BaseActivity implements BGASortableNineP
             map.put("files" + i, mOneFiles.get(i));
         }
         map.put("type", mType);
-        HttpGetDataUtil.post(WorkReportActivity.this, Constant.WORK_REPORT_URL, map,WorkReportActivity.this);
+
+//        HttpGetDataUtil.post(WorkReportActivity.this, Constant.WORK_REPORT_URL, map,WorkReportActivity.this);
 
 //        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
 //                .addFormDataPart("ftoken",  AppApplication.getInstance().getUserInfoVO().getData().getFtoken())
@@ -193,6 +198,19 @@ public class WorkReportActivity extends BaseActivity implements BGASortableNineP
 //                .addFormDataPart("file", mHeadImgFile.getName(), RequestBody.create(MediaType.parse("image/*"), mHeadImgFile))
 //                .build();
 //        HttpGetDataUtil.post(MainActivity.this, Constant.UPLOAD_HEAD_URL,requestBody,MainActivity.this);
+
+        MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        requestBody.addFormDataPart("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken())
+                .addFormDataPart("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid())
+                .addFormDataPart("content1", mContent1Et.getText().toString())
+                .addFormDataPart("content2", mContent2Et.getText().toString())
+                .addFormDataPart("type", mType);
+        for (int i = 0; i < mOneFiles.size(); i++) {
+            map.put("files" + i, mOneFiles.get(i));
+            requestBody.addFormDataPart("file"+i, mOneFiles.get(i).getName(), RequestBody.create(MediaType.parse("image/*"), mOneFiles.get(i)));
+        }
+        MultipartBody rb = requestBody.build();
+        HttpGetDataUtil.post(WorkReportActivity.this, Constant.WORK_REPORT_URL, rb, BaseVO.class,WorkReportActivity.this);
     }
 
     @Override

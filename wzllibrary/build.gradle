@@ -11,7 +11,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-//        ndk { abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64" }
+        ndk { abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64" }
 //        multiDexEnabled true
     }
     buildTypes {
@@ -128,5 +128,5 @@ dependencies {
     compile 'com.jaeger.statusbarutil:library:1.4.0'
     compile 'com.dou361.dialogui:jjdxm-dialogui:1.0.3'   //多样式Dialog
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-
+    compile 'com.zhy:okhttputils:2.6.2'
 }

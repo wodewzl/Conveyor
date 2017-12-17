@@ -18,6 +18,9 @@ import com.wuzhanglong.library.utils.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -56,7 +59,7 @@ public class HttpGetDataUtil {
             }
         }
 
-        Log.i("get_url", BaseConstant.DOMAIN_NAME+url+BaseCommonUtils.getUrl((HashMap<String, Object>) params));
+        Log.i("get_url", BaseConstant.DOMAIN_NAME + url + BaseCommonUtils.getUrl((HashMap<String, Object>) params));
 
         new Novate.Builder(activity)
                 .baseUrl(BaseConstant.DOMAIN_NAME)
@@ -143,17 +146,19 @@ public class HttpGetDataUtil {
 
             @Override
             public void onError(Object o, Throwable throwable) {
+                activity.dismissProgressDialog();
                 System.out.println("=============");
             }
 
             @Override
             public void onCancel(Object o, Throwable throwable) {
+                activity.dismissProgressDialog();
                 System.out.println("=============");
             }
 
             @Override
             public void onNext(Object o, String s) {
-
+                activity.dismissProgressDialog();
                 final BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
                 if ("200".equals(vo.getCode())) {
                     postCallback.success(vo);
@@ -171,82 +176,54 @@ public class HttpGetDataUtil {
         });
     }
 
-//提交文件
-    public static <T> void post(final BaseActivity activity, final String url, RequestBody params, final PostCallback postCallback) {
+    //提交文件
+    public static <T> void post(final BaseActivity activity, final String url, RequestBody params,final Class<T> className, final PostCallback postCallback) {
 
         final Gson gson = new Gson();
 //        final String allUrl = BaseConstant.DOMAIN_NAME + url;
         new Novate.Builder(activity)
                 .baseUrl(BaseConstant.DOMAIN_NAME)
                 .addCache(false)
-                .build().upload(url, params, new BaseSubscriber<ResponseBody>() {
-            @Override
-            public void onNext(ResponseBody responseBody) {
-
-                try {
-                    String  s = new String(responseBody.bytes());
-                    final BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
-                    if ("200".equals(vo.getCode())) {
-                        postCallback.success(vo);
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
+                .build()
+                .upload(url, params, new BaseSubscriber<ResponseBody>() {
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        activity.dismissProgressDialog();
+                        try {
+                            String s = new String(responseBody.bytes());
+                            final BaseVO vo = (BaseVO) gson.fromJson(s, className);
+                            if ("200".equals(vo.getCode())) {
+                                postCallback.success(vo);
+                                activity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        activity.showCustomToast(vo.getDesc());
+                                    }
+                                });
+                            } else {
                                 activity.showCustomToast(vo.getDesc());
                             }
-                        });
-                    } else {
-                        activity.showCustomToast(vo.getDesc());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
 
-            @Override
-            public void onError(Throwable e) {
-
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        activity.dismissProgressDialog();
+                    }
+                });
     }
 
     //多个文件提交
-//    public static <T> void post(final BaseActivity activity, final String url, RequestBody params, final PostCallback postCallback) {
-//
-//        final Gson gson = new Gson();
-////        final String allUrl = BaseConstant.DOMAIN_NAME + url;
-//        new Novate.Builder(activity)
-//                .baseUrl(BaseConstant.DOMAIN_NAME)
-//                .addCache(false)
-//                .build().rxUploadWithBody()
-//        (url, params, new BaseSubscriber<ResponseBody>() {
-//            @Override
-//            public void onNext(ResponseBody responseBody) {
-//
-//                try {
-//                    String  s = new String(responseBody.bytes());
-//                    final BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
-//                    if ("200".equals(vo.getCode())) {
-//                        postCallback.success(vo);
-//                        activity.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                activity.showCustomToast(vo.getDesc());
-//                            }
-//                        });
-//                    } else {
-//                        activity.showCustomToast(vo.getDesc());
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//
-//            }
-//        });
-//    }
+    public static <T> void post(final BaseActivity activity, final String url, RequestBody params, Callback callback) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(params)
+                .build();
+        okHttpClient.newCall(request).enqueue(callback);
+    }
 
 
 //    public static <T> void postJson(final BaseActivity activity, final String url, Object obj , final Class<T> className, final PostCallback postCallback) {

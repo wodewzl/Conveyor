@@ -70,27 +70,28 @@
 
 
         </LinearLayout>
-
-        <!--<com.cpoopc.scrollablelayoutlib.ScrollableLayout-->
-            <!--android:id="@+id/scrollable_Layout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<include layout="@layout/home_title"/>-->
         <com.wuzhanglong.library.view.AutoSwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <com.cpoopc.scrollablelayoutlib.ScrollableLayout
+            android:id="@+id/scrollable_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:orientation="vertical">
+
+            <include layout="@layout/home_title"/>
+
             <com.github.jdsjlzx.recyclerview.LuRecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
-        </com.wuzhanglong.library.view.AutoSwipeRefreshLayout>
 
-        <!--</com.cpoopc.scrollablelayoutlib.ScrollableLayout>-->
+
+        </com.cpoopc.scrollablelayoutlib.ScrollableLayout>
+        </com.wuzhanglong.library.view.AutoSwipeRefreshLayout>
     </LinearLayout>
 
 

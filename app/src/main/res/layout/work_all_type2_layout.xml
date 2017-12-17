@@ -46,7 +46,7 @@
         android:id="@+id/content1_et"
         style="@style/padding_15_10"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:background="@color/C1"
         android:gravity="top"
         android:hint="今日工作"

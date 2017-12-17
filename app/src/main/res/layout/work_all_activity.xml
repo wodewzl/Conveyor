@@ -9,6 +9,7 @@
     android:scrollbars="none">
 
     <LinearLayout
+        android:id="@+id/work_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -52,13 +53,13 @@
 
         <EditText
             android:id="@+id/content1_et"
+            style="@style/padding_15_10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/C1"
             android:gravity="top"
             android:hint="今日工作"
-            style="@style/padding_15_10"
-            android:textSize="12sp"
+            android:textSize="13sp"
             />
 
         <TextView
@@ -78,7 +79,7 @@
             android:background="@color/C1"
             android:gravity="top"
             android:hint="明日计划"
-            android:textSize="12sp"/>
+            android:textSize="13sp"/>
 
         <TextView
             style="@style/padding_15_10"
@@ -97,7 +98,7 @@
             android:background="@color/C1"
             android:gravity="top"
             android:hint="人员能力评估"
-            android:textSize="12sp"/>
+            android:textSize="13sp"/>
 
         <TextView
             style="@style/padding_15_10"
@@ -116,7 +117,7 @@
             android:background="@color/C1"
             android:gravity="top"
             android:hint="风险预控措施"
-            android:textSize="12sp"/>
+            android:textSize="13sp"/>
 
         <TextView
             style="@style/padding_15_10"
@@ -135,7 +136,7 @@
             android:background="@color/C1"
             android:gravity="top"
             android:hint="领导履职情况"
-            android:textSize="12sp"/>
+            android:textSize="13sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"

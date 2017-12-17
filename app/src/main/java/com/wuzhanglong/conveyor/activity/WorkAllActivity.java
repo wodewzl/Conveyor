@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nanchen.compresshelper.CompressHelper;
@@ -33,6 +34,9 @@ import cn.bingoogolapple.photopicker.util.BGAAsyncTask;
 import cn.bingoogolapple.photopicker.util.BGAPhotoPickerUtil;
 import cn.bingoogolapple.photopicker.util.BGASavePhotoTask;
 import cn.bingoogolapple.photopicker.widget.BGASortableNinePhotoLayout;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -47,6 +51,7 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
     private List<File> mFiles = new ArrayList<>();//yiyou
     private BGASavePhotoTask mSavePhotoTask;
     private TextView mTimeTv;
+    private LinearLayout mWorkLayout;
 
     @Override
     public void baseSetContentView() {
@@ -68,6 +73,7 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
         mPhotoLayout.setEditable(true);//有加号，有删除，可以点加号选择，false没有加号，点其他按钮选择，也没有删除
         mPhotoLayout.setPlusEnable(true);//有加号，可以点加号选择，false没有加号，点其他按钮选择
         mPhotoLayout.setSortable(true);//排序
+        mWorkLayout = getViewById(R.id.work_layout);
     }
 
     @Override
@@ -88,26 +94,28 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
     public void hasData(BaseVO vo) {
         WorkAllVO workAllVO = (WorkAllVO) vo;
         WorkAllVO.DataBean dataBean = workAllVO.getData();
-        mTimeTv.setText(dataBean.getDate());
-        mContent1Et.setText(dataBean.getSummary_content1());
-        mContent2Et.setText(dataBean.getSummary_content2());
-        mContent3Et.setText(dataBean.getSummary_content3());
-        mContent4Et.setText(dataBean.getSummary_content4());
-        mContent5Et.setText(dataBean.getSummary_content5());
-        mOldList = (ArrayList<String>) dataBean.getSummary_imgs();
-        mPhotoLayout.setData(mOldList);
+        if ("300".equals(vo.getCode())) {
+            this.baseNoData(vo);
+        } else {
+            mTimeTv.setText(dataBean.getDate());
+            mContent1Et.setText(dataBean.getSummary_content1());
+            mContent2Et.setText(dataBean.getSummary_content2());
+            mContent3Et.setText(dataBean.getSummary_content3());
+            mContent4Et.setText(dataBean.getSummary_content4());
+            mContent5Et.setText(dataBean.getSummary_content5());
+            mOldList = (ArrayList<String>) dataBean.getSummary_imgs();
+            mPhotoLayout.setData(mOldList);
 
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                for (int i = 0; i < mOldList.size(); i++) {
-                    savePic(mOldList.get(i));
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    for (int i = 0; i < mOldList.size(); i++) {
+                        savePic(mOldList.get(i));
+                    }
                 }
-
-            }
-        }.start();
-
+            }.start();
+        }
     }
 
     @Override
@@ -270,7 +278,26 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
             map.put("files" + i, mFiles.get(i));
         }
         map.put("type", "1");
-        HttpGetDataUtil.post(WorkAllActivity.this, Constant.WORK_REPORT_URL, map, WorkAllActivity.this);
+//        HttpGetDataUtil.post(WorkAllActivity.this, Constant.WORK_REPORT_URL, map, WorkAllActivity.this);
+
+        MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        requestBody.addFormDataPart("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken())
+                .addFormDataPart("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid())
+                .addFormDataPart("content1", mContent1Et.getText().toString())
+                .addFormDataPart("content2", mContent2Et.getText().toString())
+                .addFormDataPart("content3", mContent3Et.getText().toString())
+                .addFormDataPart("content4", mContent4Et.getText().toString())
+                .addFormDataPart("content5", mContent5Et.getText().toString())
+                .addFormDataPart("old_pics", "")
+                .addFormDataPart("type", "1");
+        for (int i = 0; i < mFiles.size(); i++) {
+            map.put("files" + i, mFiles.get(i));
+            requestBody.addFormDataPart("file" + i, mFiles.get(i).getName(), RequestBody.create(MediaType.parse("image/*"), mFiles.get(i)));
+        }
+        MultipartBody rb = requestBody.build();
+        HttpGetDataUtil.post(WorkAllActivity.this, Constant.WORK_REPORT_URL, rb, BaseVO.class, WorkAllActivity.this);
+
+
     }
 
     @Override
