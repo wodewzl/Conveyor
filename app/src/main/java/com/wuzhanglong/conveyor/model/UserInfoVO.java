@@ -74,7 +74,7 @@ public class UserInfoVO extends BaseVO implements Serializable {
         @SerializedName("return")
         private String returnX;
         private String ftoken;
-        private String abouts_url;
+        private String aboutus_url;
 
         public String getUserid() {
             return userid;
@@ -244,12 +244,12 @@ public class UserInfoVO extends BaseVO implements Serializable {
             this.ftoken = ftoken;
         }
 
-        public String getAbouts_url() {
-            return abouts_url;
+        public String getAboutus_url() {
+            return aboutus_url;
         }
 
-        public void setAbouts_url(String abouts_url) {
-            this.abouts_url = abouts_url;
+        public void setAboutus_url(String aboutus_url) {
+            this.aboutus_url = aboutus_url;
         }
     }
 }

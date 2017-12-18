@@ -28,7 +28,6 @@
                 style="@style/padding_15_10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/color1"
                 android:textColor="@color/C1"
                 tools:text="2017-12-11 星期二"/>
         </LinearLayout>

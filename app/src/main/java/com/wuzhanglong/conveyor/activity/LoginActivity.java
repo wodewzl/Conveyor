@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class LoginActivity extends BaseActivity implements PostCallback, View.OnClickListener{
     private TextView mOkTv, mPhoneTv, mPasswordTv, mForgetTv;
     private CheckBox mRemberCb;
-
+    private double mBackPressed;
     @Override
     public void baseSetContentView() {
         contentInflateView(R.layout.login_activity);
@@ -70,6 +70,8 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
     public void success(BaseVO vo) {
         UserInfoVO userInfoVO = (UserInfoVO) vo;
         AppApplication.getInstance().saveUserInfoVO(userInfoVO);
+        openActivity(MainActivity.class);
+        this.finish();
     }
 
     @Override
@@ -78,6 +80,7 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
             case R.id.ok_tv:
                 if(AppApplication.getInstance().getUserInfoVO()!=null){
                     openActivity(MainActivity.class);
+                    this.finish();
                     return;
                 }
 
@@ -103,5 +106,17 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if (isShow()) {
+//            dismissProgressDialog();
+        } else {
+            if (mBackPressed + 3000 > System.currentTimeMillis()) {
+                finish();
+                super.onBackPressed();
+            } else
+                showCustomToast("再次点击，退出" + this.getResources().getString(R.string.app_name));
+            mBackPressed = System.currentTimeMillis();
+        }
+    }
 }

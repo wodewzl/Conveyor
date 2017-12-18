@@ -52,12 +52,11 @@
             android:layout_weight="1"
             android:background="@drawable/corners_bantouming"
             android:drawableRight="@drawable/search_icon"
-            android:hint="关键字搜索"
+            android:hint="请输入地点"
             android:imeOptions="actionSearch"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:textColor="@color/C1"
-            android:textColorHint="@color/C1"
+            android:textColorHint="@color/C6"
             android:textSize="@dimen/sp_12"/>
 
         <ImageView

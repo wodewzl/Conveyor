@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/C1"
-    android:orientation="vertical"
-    tools:context="com.wuzhanglong.conveyor.activity.WorkActivity">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/C1"
+              android:orientation="vertical"
+              tools:context="com.wuzhanglong.conveyor.activity.WorkActivity">
 
     <com.wuzhanglong.library.view.AutoSwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -15,12 +15,12 @@
         android:layout_weight="1">
 
         <LinearLayout
-            android:id="@+id/title_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/search_layout"
                 style="@style/padding_15_10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,10 +40,11 @@
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:textColorHint="@color/C6"
-                    android:textSize="@dimen/sp_12" />
+                    android:textSize="@dimen/sp_12"/>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/C1"
@@ -60,14 +61,14 @@
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:text="全部部门"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"/>
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    android:background="@color/C3" />
+                    android:background="@color/C3"/>
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/options2_tv"
@@ -80,20 +81,20 @@
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:text="筛选时间"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"/>
             </LinearLayout>
 
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/C3" />
+                android:background="@color/C3"/>
 
             <com.github.jdsjlzx.recyclerview.LuRecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"/>
         </LinearLayout>
     </com.wuzhanglong.library.view.AutoSwipeRefreshLayout>
 </LinearLayout>
