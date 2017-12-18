@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/MatchMatch">
+    style="@style/MatchMatch"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/search_layout"
@@ -28,7 +29,8 @@
             android:textSize="@dimen/sp_12" />
     </LinearLayout>
 
-    <FrameLayout style="@style/MatchMatch">
+    <FrameLayout style="@style/MatchMatch"
+        android:background="@color/C1">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_sticky_data"

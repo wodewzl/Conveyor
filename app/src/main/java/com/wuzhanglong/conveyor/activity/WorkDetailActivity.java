@@ -16,6 +16,7 @@ import com.wuzhanglong.library.constant.BaseConstant;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.mode.BaseVO;
 import com.wuzhanglong.library.utils.BaseCommonUtils;
+import com.wuzhanglong.library.utils.ShareUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,12 +29,13 @@ import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayout.Delegate,BGAOnRVItemClickListener {
+public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayout.Delegate,BGAOnRVItemClickListener,View.OnClickListener {
     private static final int PRC_PHOTO_PICKER = 1;
 
     private TextView mNameTv, mContent1, mContent2, mContent3, mContent4, mContent5, mContent3TitleTv, mContent4TitleTv, mContent5TitleTv,mTimeTv;
     private String mType = "1";//1日报2汇总
     private BGANinePhotoLayout mPhotoLyout;
+    private WorkDetailVO mWorkDetailVO;
 
     @Override
     public void baseSetContentView() {
@@ -42,6 +44,7 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
 
     @Override
     public void initView() {
+        mBaseOkTv.setText("分享");
         mTimeTv=getViewById(R.id.time_tv);
         mNameTv = getViewById(R.id.name_tv);
         mContent1 = getViewById(R.id.content1_tv);
@@ -58,7 +61,7 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
 
     @Override
     public void bindViewsListener() {
-
+        mBaseOkTv.setOnClickListener(this);
     }
 
     @Override
@@ -72,8 +75,8 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
 
     @Override
     public void hasData(BaseVO vo) {
-        WorkDetailVO workDetailVO = (WorkDetailVO) vo;
-        WorkDetailVO.DataBean dataBean = workDetailVO.getData();
+        mWorkDetailVO = (WorkDetailVO) vo;
+        WorkDetailVO.DataBean dataBean = mWorkDetailVO.getData();
         mTimeTv.setText(dataBean.getDate());
         mContent1.setText(dataBean.getContent1());
         mContent2.setText(dataBean.getContent2());
@@ -153,5 +156,11 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
         } else {
             EasyPermissions.requestPermissions(this, "图片预览需要以下权限:\n\n1.访问设备上的照片", PRC_PHOTO_PICKER, perms);
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        WorkDetailVO.DataBean.ShareBean shareBean=mWorkDetailVO.getData().getShare_param();
+        ShareUtil.share(this,shareBean.getImage(),shareBean.getTitle(),shareBean.getDesc(),shareBean.getUrl());
     }
 }
