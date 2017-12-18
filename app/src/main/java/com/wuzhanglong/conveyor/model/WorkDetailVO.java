@@ -76,6 +76,44 @@ public class WorkDetailVO extends BaseVO{
         private String preid;
         private String typename;
         private List<String> imgs;
+        public static class ShareBean {
+            private String share_param;
+            private String desc;
+            private String image;
+            private String url;
+
+            public String getShare_param() {
+                return share_param;
+            }
+
+            public void setShare_param(String share_param) {
+                this.share_param = share_param;
+            }
+
+            public String getDesc() {
+                return desc;
+            }
+
+            public void setDesc(String desc) {
+                this.desc = desc;
+            }
+
+            public String getImage() {
+                return image;
+            }
+
+            public void setImage(String image) {
+                this.image = image;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+        }
 
         public String getLogid() {
             return logid;
