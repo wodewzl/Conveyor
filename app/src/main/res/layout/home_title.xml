@@ -50,6 +50,16 @@
         android:padding="15dp">
 
         <TextView
+            android:id="@+id/tv_home_05"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/home_05"
+            android:gravity="center"
+            android:text="工作汇总"/>
+
+        <TextView
             android:id="@+id/tv_home_04"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,15 +69,6 @@
             android:gravity="center"
             android:text="地图"/>
 
-        <TextView
-            android:id="@+id/tv_home_05"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawablePadding="5dp"
-            android:drawableTop="@drawable/home_05"
-            android:gravity="center"
-            android:text="工作总汇"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -79,7 +80,9 @@
             android:text="通讯录"
             android:visibility="invisible"/>
     </LinearLayout>
-    <include layout="@layout/home_adapter_title"
+
+    <include
+        layout="@layout/home_adapter_title"
         android:visibility="gone"/>
 
 </LinearLayout>

@@ -50,7 +50,7 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
     private EditText mContent1Et, mContent2Et, mContent3Et, mContent4Et, mContent5Et;
     private List<File> mFiles = new ArrayList<>();//yiyou
     private BGASavePhotoTask mSavePhotoTask;
-    private TextView mTimeTv;
+    private TextView mTimeTv,mNameTv;
     private LinearLayout mWorkLayout;
 
     @Override
@@ -74,6 +74,7 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
         mPhotoLayout.setPlusEnable(true);//有加号，可以点加号选择，false没有加号，点其他按钮选择
         mPhotoLayout.setSortable(true);//排序
         mWorkLayout = getViewById(R.id.work_layout);
+        mNameTv=getViewById(R.id.depart_tv);
     }
 
     @Override
@@ -96,7 +97,9 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
         WorkAllVO.DataBean dataBean = workAllVO.getData();
         if ("300".equals(vo.getCode())) {
             this.baseNoData(vo);
+            mBaseOkTv.setVisibility(View.GONE);
         } else {
+            mBaseOkTv.setVisibility(View.VISIBLE);
             mTimeTv.setText(dataBean.getDate());
             mContent1Et.setText(dataBean.getSummary_content1());
             mContent2Et.setText(dataBean.getSummary_content2());

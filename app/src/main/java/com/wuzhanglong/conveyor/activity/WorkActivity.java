@@ -226,7 +226,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
 
     @Override
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
-        if(mAdapter.getData().size()==0&& TextUtils.isEmpty(((WorkVO.DataBean.ListBean)mAdapter.getData().get(position)).getLogid()))
+        if(mAdapter.getData().size()==0|| TextUtils.isEmpty(((WorkVO.DataBean.ListBean)mAdapter.getData().get(position)).getLogid()))
             return;;
         Bundle bundle=new Bundle();
                 String logid= ((WorkVO.DataBean.ListBean)mAdapter.getData().get(position)).getLogid();
@@ -321,9 +321,9 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
                 if (mDepartPop == null) {
                     ArrayList<TreeVO> listDepart = getTreeVOList(mListBeans);
                     mDepartPop = new BSPopupWindowsTitle(mActivity, listDepart, callback);
-                } else {
-                    mDepartPop.showPopupWindow(mDividerView);
                 }
+                    mDepartPop.showPopupWindow(mDividerView);
+
                 break;
             default:
                 break;
