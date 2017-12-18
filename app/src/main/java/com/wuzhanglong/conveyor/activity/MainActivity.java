@@ -59,8 +59,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class MainActivity extends BaseActivity implements BGAOnRVItemClickListener, OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, PostCallback, ScrollableHelper
-        .ScrollableContainer, ScrollableLayout.OnScrollListener {
+public class MainActivity extends BaseActivity implements BGAOnRVItemClickListener, OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, PostCallback,ScrollableHelper.ScrollableContainer,ScrollableLayout.OnScrollListener {
     private static final int PRC_PHOTO_PICKER = 1;
     private static final int RC_CHOOSE_PHOTO = 1;
     private static final int RC_PHOTO_PREVIEW = 2;
@@ -143,7 +142,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
             mMenuDepartTv.setText(AppApplication.getInstance().getUserInfoVO().getData().getDname() + "/" + AppApplication.getInstance().getUserInfoVO().getData().getPname());
         }
 
-        mHomeMenuLayout = getViewById(R.id.home_menu_layout);
+        mHomeMenuLayout=getViewById(R.id.home_menu_layout);
     }
 
     @Override
@@ -232,12 +231,12 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 
     @Override
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
-        if (mAdapter.getData().size() == 0 || TextUtils.isEmpty(((WorkVO.DataBean.ListBean) mAdapter.getData().get(position)).getLogid()))
-            return;
-        Bundle bundle = new Bundle();
-        String logid = ((WorkVO.DataBean.ListBean) mAdapter.getData().get(position)).getLogid();
-        bundle.putString("logid", logid);
-        open(WorkDetailActivity.class, bundle, 0);
+        if(mAdapter.getData().size()==0&& TextUtils.isEmpty(((WorkVO.DataBean.ListBean)mAdapter.getData().get(position)).getLogid()))
+            return;;
+        Bundle bundle=new Bundle();
+        String logid= ((WorkVO.DataBean.ListBean)mAdapter.getData().get(position)).getLogid();
+        bundle.putString("logid",logid);
+        open(WorkDetailActivity.class,bundle,0);;
     }
 
 
@@ -279,12 +278,10 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 
             case R.id.self_tv03:
                 intent.putExtra("url", AppApplication.getInstance().getUserInfoVO().getData().getAboutus_url());
-                intent.putExtra("title", "关于我们");
                 intent.setClass(MainActivity.this, WebViewActivity.class);
                 break;
             case R.id.out_tv:
                 AppApplication.getInstance().saveUserInfoVO(null);
-                intent.setClass(MainActivity.this, LoginActivity.class);
                 break;
             default:
                 break;
@@ -295,8 +292,8 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 
     @Override
     public void success(BaseVO vo) {
-        UserInfoVO data = (UserInfoVO) vo;
-        UserInfoVO userInfoVO = AppApplication.getInstance().getUserInfoVO();
+        UserInfoVO data= (UserInfoVO) vo;
+        UserInfoVO userInfoVO= AppApplication.getInstance().getUserInfoVO();
         userInfoVO.getData().setHeadpic(data.getData().getHeadpic());
         AppApplication.getInstance().saveUserInfoVO(userInfoVO);
         Picasso.with(this).load(AppApplication.getInstance().getUserInfoVO().getData().getHeadpic()).placeholder(R.drawable.user_icon_def).into(mHomeHeadImg);
@@ -366,7 +363,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                         .addFormDataPart("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid())
                         .addFormDataPart("file", mHeadImgFile.getName(), RequestBody.create(MediaType.parse("image/*"), mHeadImgFile))
                         .build();
-                HttpGetDataUtil.post(MainActivity.this, Constant.UPLOAD_HEAD_URL, requestBody, UserInfoVO.class, MainActivity.this);
+                HttpGetDataUtil.post(MainActivity.this, Constant.UPLOAD_HEAD_URL, requestBody, UserInfoVO.class,MainActivity.this);
             }
         } else {
             if (requestCode == REQUEST_CODE_CROP) {

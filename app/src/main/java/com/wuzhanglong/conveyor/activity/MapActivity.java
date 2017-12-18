@@ -36,10 +36,11 @@ import java.util.List;
 
 import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.baseadapter.BGAViewHolderHelper;
+import pub.devrel.easypermissions.EasyPermissions;
 
 
 public class MapActivity extends BaseActivity implements View.OnClickListener, TextView.OnEditorActionListener, AMap.OnMyLocationChangeListener
-        , PoiSearch.OnPoiSearchListener, AMap.OnCameraChangeListener, BGAOnRVItemClickListener, TextWatcher {
+        , PoiSearch.OnPoiSearchListener, AMap.OnCameraChangeListener, BGAOnRVItemClickListener, TextWatcher,   EasyPermissions.PermissionCallbacks {
     private MapView mMapView = null;
     private AMap mAMap;
     private MyLocationStyle myLocationStyle;
@@ -71,47 +72,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
         DividerDecoration divider = DividerUtil.linnerDivider(this, R.dimen.dp_1, R.color.C3);
         mRecyclerView.addItemDecoration(divider);
 
-
-        //获取地图控件引用
-        mMapView = getViewById(R.id.map);
-        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
-        mMapView.onCreate(mSavedInstanceState);
-
-        if (mAMap == null) {
-            mAMap = mMapView.getMap();
-        }
-//        mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
-//        mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-        mAMap.getUiSettings().setZoomControlsEnabled(false);
-
-
-        // 县市定位
-        //显示当前定位位置
-        myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
-        // 连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
-        myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-        mAMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
-//aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
-        mAMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
-
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);//定位一次，且将视角移动到地图中心点。
-        myLocationStyle.showMyLocation(true);
-        mAMap.setMyLocationStyle(myLocationStyle);
-
-        MarkerOptions markerOption = new MarkerOptions();
-//        LatLng latLng = new LatLng(Double.parseDouble(list.get(i).getLat()),Double.parseDouble(list.get(i).getLng()));
-//        markerOption.position(latLng);
-//            markerOption.title("西安市").snippet("西安市：34.341568, 108.940174");
-
-        markerOption.draggable(true);//设置Marker可拖动
-//        markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
-//                .decodeResource(getResources(), R.drawable.user_icon_def)));
-        // 将Marker设置为贴地显示，可以双指下拉地图查看效果
-        markerOption.setFlat(true);//设置marker平贴地图效果
-        Marker marker = mAMap.addMarker(markerOption);
-        marker.setPositionByPixels(WidthHigthUtil.getScreenWidth(this) / 2, WidthHigthUtil.getScreenHigh(this) / 2);
-//        mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-
+        initMap();
+        initPermissions();
     }
 
     @Override
@@ -285,6 +247,78 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
 
             }
         }
+    }
+
+
+    @Override
+    public void onPermissionsGranted(int i, List<String> list) {
+        initMap();
+    }
+
+    @Override
+    public void onPermissionsDenied(int i, List<String> list) {
+        showCustomToast("请允许权限");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    public void initPermissions() {
+        String[] perms = {android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (EasyPermissions.hasPermissions(this, perms)) {
+            // 县市定位
+            initMap();
+        } else {
+            EasyPermissions.requestPermissions(this, "请允许打开权限权限", 1, perms);
+        }
 
     }
+
+
+    public void initMap() {
+
+        //获取地图控件引用
+        mMapView = getViewById(R.id.map);
+        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
+        mMapView.onCreate(mSavedInstanceState);
+
+        if (mAMap == null) {
+            mAMap = mMapView.getMap();
+        }
+//        mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
+//        mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+        mAMap.getUiSettings().setZoomControlsEnabled(false);
+
+
+        // 县市定位
+        //显示当前定位位置
+        myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
+        // 连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
+        myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
+        mAMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
+//aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
+        mAMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);//定位一次，且将视角移动到地图中心点。
+        myLocationStyle.showMyLocation(true);
+        mAMap.setMyLocationStyle(myLocationStyle);
+
+        MarkerOptions markerOption = new MarkerOptions();
+//        LatLng latLng = new LatLng(Double.parseDouble(list.get(i).getLat()),Double.parseDouble(list.get(i).getLng()));
+//        markerOption.position(latLng);
+//            markerOption.title("西安市").snippet("西安市：34.341568, 108.940174");
+
+        markerOption.draggable(true);//设置Marker可拖动
+//        markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+//                .decodeResource(getResources(), R.drawable.user_icon_def)));
+        // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+        markerOption.setFlat(true);//设置marker平贴地图效果
+        Marker marker = mAMap.addMarker(markerOption);
+        marker.setPositionByPixels(WidthHigthUtil.getScreenWidth(this) / 2, WidthHigthUtil.getScreenHigh(this) / 2);
+//        mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+    }
+
 }

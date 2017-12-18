@@ -42,8 +42,8 @@ import java.util.List;
 
 import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
 
-public class WorkActivity extends BaseActivity implements OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BGAOnRVItemClickListener, View.OnClickListener, android.widget.TextView
-        .OnEditorActionListener, TextWatcher {
+public class WorkActivity extends BaseActivity implements OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BGAOnRVItemClickListener, View.OnClickListener,android.widget.TextView.OnEditorActionListener,TextWatcher
+{
     private AutoSwipeRefreshLayout mAutoSwipeRefreshLayout;
     private LuRecyclerView mRecyclerView;
     private WorkAdapter mAdapter;
@@ -63,10 +63,9 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     private BSPopupWindowsTitle mDepartPop;
     private View mDividerView;
     private int mState = 0; // 0为首次,1为下拉刷新 ，2为加载更多
-    private LinearLayout mTitleLayout,mSearchLayout;
+    private LinearLayout mTitleLayout;
     private String mType = "1";//1自己的，
     private EditText mSearchEt;
-
     @Override
     public void baseSetContentView() {
         contentInflateView(R.layout.work_activity);
@@ -78,7 +77,6 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         mSearchEt.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         mSearchEt.setInputType(EditorInfo.TYPE_CLASS_TEXT);
         mTitleLayout = getViewById(R.id.title_layout);
-        mSearchLayout=getViewById(R.id.search_layout);
         mAutoSwipeRefreshLayout = getViewById(R.id.swipe_refresh_layout);
         mActivity.setSwipeRefreshLayoutColors(mAutoSwipeRefreshLayout);
         mRecyclerView = getViewById(R.id.recycler_view);
@@ -107,11 +105,9 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         if ("1".equals(mType)) {
             mIsmyself = "1";//
             mTitleLayout.setVisibility(View.GONE);
-            mSearchLayout.setVisibility(View.GONE);
         } else {
             mIsmyself = "";
             mTitleLayout.setVisibility(View.VISIBLE);
-            mSearchLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -161,7 +157,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
             WorkVO workVO = (WorkVO) vo;
             if ("300".equals(workVO.getCode())) {
                 mRecyclerView.setNoMore(true);
-                if (mState == 0) {
+                if(mState==0){
                     mAdapter.updateData(new ArrayList<WorkVO.DataBean.ListBean>());
                 }
                 return;
@@ -221,21 +217,21 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
 
     @Override
     public void onRefresh() {
-        if (mAdapter.getData().size() > 0) {
+        if(mAdapter.getData().size()>0){
             match(1, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(1)).getLogid());
-        } else {
-            match(0, "");
+        }else{
+            match(0,"");
         }
     }
 
     @Override
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
-        if (mAdapter.getData().size() == 0 || TextUtils.isEmpty(((WorkVO.DataBean.ListBean) mAdapter.getData().get(position)).getLogid()))
-            return;
-        Bundle bundle = new Bundle();
-        String logid = ((WorkVO.DataBean.ListBean) mAdapter.getData().get(position)).getLogid();
-        bundle.putString("logid", logid);
-        open(WorkDetailActivity.class, bundle, 0);
+        if(mAdapter.getData().size()==0&& TextUtils.isEmpty(((WorkVO.DataBean.ListBean)mAdapter.getData().get(position)).getLogid()))
+            return;;
+        Bundle bundle=new Bundle();
+                String logid= ((WorkVO.DataBean.ListBean)mAdapter.getData().get(position)).getLogid();
+        bundle.putString("logid",logid);
+        open(WorkDetailActivity.class,bundle,0);;
     }
 
     @Override
@@ -340,24 +336,23 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         }
         mLastid = "";
         mFirstid = "";
-        mState = 0;
+        mState=0;
         switch (key) {
             case 0:
-                mKeyword = "";
+                mKeyword="";
                 mLastid = "";
                 mFirstid = "";
-                mState = 0;
-                mDid = "";
-                mStartDate = "";
-                mEndDate = "";
+                mState=0;
+                mDid="";
+                mStartDate="";
+                mEndDate="";
                 break;
             case 1:
                 mFirstid = value;
                 mState = 1;
                 break;
             case 2:
-                mLastid = value;
-                ;
+                mLastid = value;;
                 mState = 2;
                 break;
             case 3:
@@ -382,7 +377,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     @Override
     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
         mKeyword = textView.getText().toString();
-        match(3, mKeyword);
+        match(3,mKeyword);
         return false;
     }
 

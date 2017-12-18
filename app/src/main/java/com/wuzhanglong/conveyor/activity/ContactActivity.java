@@ -1,8 +1,12 @@
 package com.wuzhanglong.conveyor.activity;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wuzhanglong.conveyor.R;
@@ -17,6 +21,7 @@ import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.mode.BaseVO;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +36,8 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
     private IndexView mIndexView;
     private TextView mTipTv;
     private BGARVVerticalScrollHelper mRecyclerViewScrollHelper;
+    private EditText mSeacherEt;
+    private ContanctVO mContanctVO;
 
     @Override
     public void baseSetContentView() {
@@ -43,6 +50,7 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
         mDataRv = getViewById(R.id.rv_sticky_data);
         mIndexView = getViewById(R.id.iv_sticky_index);
         mTipTv = getViewById(R.id.tv_sticky_tip);
+        mSeacherEt=getViewById(R.id.search_et);
     }
 
     @Override
@@ -72,6 +80,24 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
                 }
             }
         });
+
+        mSeacherEt.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterData(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+        });
     }
 
     @Override
@@ -84,8 +110,8 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
 
     @Override
     public void hasData(BaseVO vo) {
-        ContanctVO contanctVO = (ContanctVO) vo;
-        List<ContanctVO.DataBean> lsit = contanctVO.getData();
+        mContanctVO = (ContanctVO) vo;
+        List<ContanctVO.DataBean> lsit = mContanctVO.getData();
         mAdapter.setData(loadDataBeanData(lsit));
     }
 
@@ -161,5 +187,31 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
     @Override
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
 
+    }
+
+    /**
+     * 根据输入框中的值来过滤数据并更新ListView
+     *
+     * @param filterStr
+     */
+    private void filterData(String filterStr) {
+        List<ContanctVO.DataBean> filterDateList = new ArrayList<ContanctVO.DataBean>();
+
+        if (TextUtils.isEmpty(filterStr)) {
+            filterDateList = mContanctVO.getData();
+        } else {
+            filterDateList.clear();
+            for (ContanctVO.DataBean personnelVO : mContanctVO.getData()) {
+                String name = personnelVO.getFullname();
+                if (name.indexOf(filterStr.toString()) != -1 || CharacterParser.getInstance().getSelling(name).startsWith(filterStr.toString())) {
+                    filterDateList.add(personnelVO);
+                }
+            }
+        }
+
+        // 根据a-z进行排序
+        PinyinComparator pinyinComparator = new PinyinComparator();
+        Collections.sort(filterDateList, pinyinComparator);
+        mAdapter.setData(filterDateList);
     }
 }
