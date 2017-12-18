@@ -18,4 +18,9 @@
         <!--<item name="cbd_tickColor">@color/C9</item>选择勾的颜色-->
         <item name="cbd_animDuration">@android:integer/config_mediumAnimTime</item>
     </style>
+    <style name="Theme.AppStartLoad" parent="android:Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/logo</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 </resources>

@@ -26,10 +26,6 @@
 
     </style>
 
-    <style name="Theme.AppStartLoad" parent="android:Theme.NoTitleBar.Fullscreen">
-        <item name="android:windowBackground">@drawable/logo</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
 
 
     <!-- 设置右滑主题 -->
