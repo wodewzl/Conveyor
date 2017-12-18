@@ -76,18 +76,28 @@ public class WorkDetailVO extends BaseVO{
         private String preid;
         private String typename;
         private List<String> imgs;
+        private ShareBean share_param;
+
+        public ShareBean getShare_param() {
+            return share_param;
+        }
+
+        public void setShare_param(ShareBean share_param) {
+            this.share_param = share_param;
+        }
+
         public static class ShareBean {
-            private String share_param;
+            private String title;
             private String desc;
             private String image;
             private String url;
 
-            public String getShare_param() {
-                return share_param;
+            public String getTitle() {
+                return title;
             }
 
-            public void setShare_param(String share_param) {
-                this.share_param = share_param;
+            public void setTitle(String title) {
+                this.title = title;
             }
 
             public String getDesc() {
@@ -266,5 +276,6 @@ public class WorkDetailVO extends BaseVO{
         public void setImgs(List<String> imgs) {
             this.imgs = imgs;
         }
+
     }
 }
