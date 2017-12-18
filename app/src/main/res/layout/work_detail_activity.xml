@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    android:background="@color/C1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -137,7 +138,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/C1">
+            android:background="@color/C1"
+            >
 
             <cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
                 android:id="@+id/photo_layout"

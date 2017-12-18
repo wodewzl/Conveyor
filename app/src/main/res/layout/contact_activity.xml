@@ -1,34 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             style="@style/MatchMatch">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MatchMatch">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_sticky_data"
-        style="@style/MatchMatch"
-        android:overScrollMode="never"
-        android:scrollbars="none"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-     />
+    <LinearLayout
+        android:id="@+id/search_layout"
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#D5D5D5"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tv_sticky_tip"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:background="@drawable/shape_tip"
-        android:gravity="center"
-        android:text="A"
-        android:textColor="@android:color/white"
-        android:textSize="25sp"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+        <EditText
+            android:id="@+id/search_et"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
 
-    <com.wuzhanglong.conveyor.view.IndexView
-        android:id="@+id/iv_sticky_index"
-        android:layout_width="40dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="right|center"
-        android:background="@android:color/transparent"/>
-</FrameLayout>
+            android:layout_weight="1"
+            android:background="@drawable/corners_bantouming"
+            android:drawableRight="@drawable/search_icon"
+            android:hint="请输入关键"
+            android:imeOptions="actionSearch"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColorHint="@color/C6"
+            android:textSize="@dimen/sp_12" />
+    </LinearLayout>
+
+    <FrameLayout style="@style/MatchMatch">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_sticky_data"
+            style="@style/MatchMatch"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+        <TextView
+            android:id="@+id/tv_sticky_tip"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_tip"
+            android:gravity="center"
+            android:text="A"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <com.wuzhanglong.conveyor.view.IndexView
+            android:id="@+id/iv_sticky_index"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center"
+            android:background="@android:color/transparent" />
+    </FrameLayout>
+</LinearLayout>
