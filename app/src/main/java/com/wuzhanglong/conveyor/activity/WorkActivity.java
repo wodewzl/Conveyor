@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LuRecyclerView;
 import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
@@ -25,6 +27,7 @@ import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
 import com.wuzhanglong.conveyor.model.DepartVO;
 import com.wuzhanglong.conveyor.model.WorkVO;
+
 import com.wuzhanglong.conveyor.view.PinnedHeaderDecoration;
 import com.wuzhanglong.library.ItemDecoration.DividerDecoration;
 import com.wuzhanglong.library.activity.BaseActivity;
@@ -60,7 +63,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     private boolean mFlag = true;
     private TextView mOptions1Tv, mOptions2Tv;
     private List<DepartVO.DataBean.ListBean> mListBeans;
-    private BSPopupWindowsTitle mDepartPop;
+    private BSPopupWindowsTitle mDepartPop,mDatePickPop;
     private View mDividerView;
     private int mState = 0; // 0为首次,1为下拉刷新 ，2为加载更多
     private LinearLayout mTitleLayout;
@@ -114,6 +117,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     @Override
     public void bindViewsListener() {
         mOptions1Tv.setOnClickListener(this);
+        mOptions2Tv.setOnClickListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mAutoSwipeRefreshLayout.setOnRefreshListener(this);
         mAdapter.setOnRVItemClickListener(this);
@@ -313,6 +317,15 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         }
     };
 
+    BSPopupWindowsTitle.StringCallBack pickCallback=new BSPopupWindowsTitle.StringCallBack() {
+        @Override
+        public void callback(String star, String end) {
+            mStartDate=star;
+            mEndDate=end;
+            getData();
+        }
+    };
+
 
     @Override
     public void onClick(View v) {
@@ -323,6 +336,15 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
                     mDepartPop = new BSPopupWindowsTitle(mActivity, listDepart, callback);
                 }
                     mDepartPop.showPopupWindow(mDividerView);
+                break;
+            case R.id.options2_tv:
+
+                if (mDatePickPop == null) {
+                    View view = LayoutInflater.from(this).inflate(R.layout.pick_date_pop, (ViewGroup) findViewById(android.R.id.content), false);
+
+                    mDatePickPop = new BSPopupWindowsTitle(mActivity, view, pickCallback);
+                }
+                mDatePickPop.showPopupWindow(mDividerView);
 
                 break;
             default:
@@ -397,4 +419,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     public void afterTextChanged(Editable editable) {
 
     }
+
+
+
 }
