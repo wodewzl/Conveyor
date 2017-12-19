@@ -21,11 +21,14 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.wuzhanglong.library.R;
 import com.wuzhanglong.library.adapter.PopupListAdapter;
 import com.wuzhanglong.library.mode.TreeVO;
+import com.wuzhanglong.library.pickdate.PickTimeView;
 import com.wuzhanglong.library.utils.BaseCommonUtils;
+import com.wuzhanglong.library.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +36,7 @@ import java.util.List;
 
 @SuppressLint("NewApi")
 public class BSPopupWindowsTitle extends PopupWindow {
+
     private LinearLayout conentView;
     private ListView mParentListView, mChildListView;
     private PopupListAdapter mParentAdapter, mChildAdapter;
@@ -49,6 +53,10 @@ public class BSPopupWindowsTitle extends PopupWindow {
         public void callback(TreeVO vo);
     }
 
+    public interface StringCallBack {
+        public void callback(String star, String end);
+    }
+
     private TreeCallBack mCallBack;
 
     public void showPopupWindow(View parent) {
@@ -61,7 +69,6 @@ public class BSPopupWindowsTitle extends PopupWindow {
                 parent.getLocationOnScreen(location);
                 this.showAtLocation(parent, Gravity.NO_GRAVITY, 0, location[1] + parent.getHeight());
             }
- ;
         } else {
             this.dismiss();
         }
@@ -82,11 +89,11 @@ public class BSPopupWindowsTitle extends PopupWindow {
         }
 
         SimpleAdapter adapter = new SimpleAdapter(context, list, R.layout.dropdown_one_leve_item,
-                new String[] {
+                new String[]{
                         "option"
-                }, new int[] {
-                        R.id.textview
-                });
+                }, new int[]{
+                R.id.textview
+        });
         ListView listView = new ListView(context);
         listView.setAdapter(adapter);
         listView.setDivider(new ColorDrawable(context.getResources().getColor(R.color.C3)));
@@ -189,7 +196,7 @@ public class BSPopupWindowsTitle extends PopupWindow {
 //        return list;
 //    }
 
-        public ArrayList<TreeVO> getLeveData(TreeVO treevo) {
+    public ArrayList<TreeVO> getLeveData(TreeVO treevo) {
         ArrayList<TreeVO> list = new ArrayList<TreeVO>();
         for (int i = 0; i < mList.size(); i++) {
             TreeVO vo = mList.get(i);
@@ -206,8 +213,6 @@ public class BSPopupWindowsTitle extends PopupWindow {
         }
         return list;
     }
-
-
 
 
     // 动态添加listView
@@ -269,7 +274,7 @@ public class BSPopupWindowsTitle extends PopupWindow {
         if (parentVo.getLevel() + 1 < mCurrentLevel) {
             for (int i = 0; i < mListViewList.get(parentVo.getLevel() + 1).getChildCount(); i++) {
                 View v = mListViewList.get(parentVo.getLevel()).getChildAt(i);
-                if(v ==null){
+                if (v == null) {
                     continue;
                 }
                 v.findViewById(R.id.item_layout).setBackgroundColor(mContext.getResources().getColor(R.color.C1));
@@ -308,7 +313,7 @@ public class BSPopupWindowsTitle extends PopupWindow {
                     if (mListViewList.get(mCurrentLevel - 1).getTag() != null &&
                             !(Boolean) mListViewList.get(mCurrentLevel - 1).getTag()) {
                         ObjectAnimator animator1 = ObjectAnimator.ofFloat(mListViewList.get(mCurrentLevel -
-                                1), "translationX", 0,
+                                        1), "translationX", 0,
                                 -mSreenWidth / 2).setDuration(500);
                         animator1.start();
                         mListViewList.get(mCurrentLevel -
@@ -356,5 +361,103 @@ public class BSPopupWindowsTitle extends PopupWindow {
             mCallBack.callback(parentVo);
             BSPopupWindowsTitle.this.dismiss();
         }
+    }
+
+
+    // zidingyi view
+    public BSPopupWindowsTitle(final Activity context, View view, final StringCallBack callback) {
+        this.mContext = context;
+
+        PickTimeView pickDate = (PickTimeView) view.findViewById(R.id.pickDate);
+        pickDate.setViewType(PickTimeView.TYPE_PICK_DATE);
+//        LinearLayout pvLayout = (LinearLayout) view.findViewById(R.id.Main_pvLayout);
+//        for (int i = 0; i < pvLayout.getChildCount(); i++) {
+//            pvLayout.getChildAt(i).setVisibility(View.GONE);
+//        }
+//        view.setVisibility(View.VISIBLE);
+
+        final TextView startNameTv = view.findViewById(R.id.start_name_tv);
+        final TextView startTimeTv = view.findViewById(R.id.start_time_tv);
+        final TextView endNameTv = view.findViewById(R.id.end_name_tv);
+        final TextView endTimeTv = view.findViewById(R.id.end_time_tv);
+        TextView resetTv = view.findViewById(R.id.reset_tv);
+        TextView okTv = view.findViewById(R.id.ok_tv);
+        final LinearLayout startLayout = view.findViewById(R.id.start_layout);
+        final LinearLayout endLayout = view.findViewById(R.id.end_layout);
+        startLayout.setTag("1");
+        startLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startNameTv.setTextColor(mContext.getResources().getColor(R.color.C1));
+                startTimeTv.setTextColor(mContext.getResources().getColor(R.color.C1));
+                startLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
+                endNameTv.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                endTimeTv.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                endLayout.setBackgroundColor(mContext.getResources().getColor(R.color.C1));
+                startLayout.setTag("1");
+            }
+        });
+        endLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startNameTv.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                startTimeTv.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                startLayout.setBackgroundColor(mContext.getResources().getColor(R.color.C1));
+                endNameTv.setTextColor(mContext.getResources().getColor(R.color.C1));
+                endTimeTv.setTextColor(mContext.getResources().getColor(R.color.C1));
+                endLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
+                startLayout.setTag("2");
+            }
+        });
+        resetTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startNameTv.setTextColor(mContext.getResources().getColor(R.color.C1));
+                startTimeTv.setTextColor(mContext.getResources().getColor(R.color.C1));
+                startLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
+                endNameTv.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                endTimeTv.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                endLayout.setBackgroundColor(mContext.getResources().getColor(R.color.C1));
+                startTimeTv.setText("");
+                endTimeTv.setText("");
+                callback.callback(startTimeTv.getText().toString(), endTimeTv.getText().toString());
+
+            }
+        });
+        okTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.callback(startTimeTv.getText().toString(), endTimeTv.getText().toString());
+                dismiss();
+            }
+
+        });
+        pickDate.setOnSelectedChangeListener(new PickTimeView.onSelectedChangeListener() {
+            @Override
+            public void onSelected(PickTimeView view, long timeMillis) {
+                if ("1".equals(startLayout.getTag())) {
+                    startTimeTv.setText(DateUtils.parseDateDay(timeMillis / 1000 + ""));
+                } else {
+                    endTimeTv.setText(DateUtils.parseDateDay(timeMillis / 1000 + ""));
+                }
+            }
+        });
+        this.setContentView(view);
+        this.setWidth(LayoutParams.MATCH_PARENT);
+        this.setHeight(LayoutParams.MATCH_PARENT);
+        this.setFocusable(true);
+        this.setOutsideTouchable(true);
+        ColorDrawable dw = new ColorDrawable(Color.parseColor("#40000000"));
+        this.setBackgroundDrawable(dw);
+
+        view.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+//                mCallBack.callback(childVo);
+//                dismiss();
+                return true;
+            }
+        });
+
     }
 }
