@@ -17,6 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/home_01"
             android:gravity="center"
@@ -27,16 +29,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/home_02"
             android:gravity="center"
-            android:text="上传工作"/>
+            android:text="上传工作"
+            />
 
         <TextView
             android:id="@+id/tv_home_03"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/home_03"
             android:gravity="center"
@@ -54,16 +61,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/home_05"
             android:gravity="center"
-            android:text="工作汇总"/>
+            android:text="工作汇总"
+            />
 
         <TextView
             android:id="@+id/tv_home_04"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/home_04"
             android:gravity="center"

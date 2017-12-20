@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -25,7 +26,6 @@ import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
 import com.wuzhanglong.conveyor.model.DepartVO;
 import com.wuzhanglong.conveyor.model.WorkVO;
-
 import com.wuzhanglong.conveyor.view.PinnedHeaderDecoration;
 import com.wuzhanglong.library.ItemDecoration.DividerDecoration;
 import com.wuzhanglong.library.activity.BaseActivity;
@@ -222,7 +222,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         if(mAdapter.getData().size()>0){
             match(1, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(1)).getLogid());
         }else{
-            match(0,"");
+            match(1,"");
         }
     }
 
@@ -320,7 +320,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         public void callback(String star, String end) {
             mStartDate=star;
             mEndDate=end;
-            getData();
+            match(5,"");
         }
     };
 
@@ -340,7 +340,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
                 if (mDatePickPop == null) {
                     View view = LayoutInflater.from(this).inflate(R.layout.pick_date_pop, (ViewGroup) findViewById(android.R.id.content), false);
 
-                    mDatePickPop = new BSPopupWindowsTitle(mActivity, view, pickCallback);
+                    mDatePickPop = new BSPopupWindowsTitle(mActivity, view, pickCallback,LinearLayout.LayoutParams.MATCH_PARENT);
                 }
                 mDatePickPop.showPopupWindow(mDividerView);
 
@@ -383,11 +383,8 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
                 mDid = value;
                 break;
             case 5:
-                mStartDate = value;
                 break;
-            case 6:
-                mEndDate = value;
-                break;
+
             default:
                 break;
         }

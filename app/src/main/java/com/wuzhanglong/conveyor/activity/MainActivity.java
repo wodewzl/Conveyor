@@ -185,6 +185,14 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mAutoSwipeRefreshLayout.setRefreshing(false);
         if ("300".equals(workVO.getCode())) {
             mRecyclerView.setNoMore(true);
+            if(mState==0){
+
+                List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
+                WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
+                title.setIsTitle("1");
+                listBean.add(title);
+                mAdapter.updateData(listBean);
+            }
 //            List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
 //            WorkVO.DataBean.ListBean homeTitle = new WorkVO.DataBean.ListBean();
 //            homeTitle.setIsTitle("1");

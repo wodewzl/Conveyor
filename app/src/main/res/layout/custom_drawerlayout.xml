@@ -157,17 +157,17 @@
 
             <TextView
                 android:id="@+id/self_tv01"
-                style="@style/Material.Drawable.Ripple.Wave.Light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
                 android:drawableLeft="@drawable/menu_01"
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/self_back"
                 android:gravity="center_vertical"
                 android:padding="15dp"
                 android:text="修改密码"
-                android:textColor="@color/C1"/>
+                android:textColor="@color/C1"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"/>
 
             <View
                 android:layout_width="match_parent"
@@ -186,7 +186,9 @@
                 android:gravity="center_vertical"
                 android:padding="15dp"
                 android:text="我的工作"
-                android:textColor="@color/C1"/>
+                android:textColor="@color/C1"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"/>
 
             <View
                 android:layout_width="match_parent"
@@ -205,7 +207,9 @@
                 android:gravity="center_vertical"
                 android:padding="15dp"
                 android:text="关于我们"
-                android:textColor="@color/C1"/>
+                android:textColor="@color/C1"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"/>
 
             <View
                 android:layout_width="match_parent"
@@ -222,7 +226,9 @@
                 android:layout_marginTop="30dp"
                 android:textColor="@color/C1"
                 android:drawableTop="@drawable/menu_04"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

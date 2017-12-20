@@ -50,12 +50,13 @@
                 android:background="@color/C1"
                 android:orientation="horizontal">
 
-                <com.rey.material.widget.TextView
+                <TextView
                     android:id="@+id/options1_tv"
-                    style="@style/Material.Drawable.Ripple.Wave.Light"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
                     android:drawableRight="@drawable/options_normal_icon"
                     android:gravity="center"
                     android:paddingLeft="15dp"
@@ -70,12 +71,13 @@
                     android:layout_marginTop="8dp"
                     android:background="@color/C3"/>
 
-                <com.rey.material.widget.TextView
+                <TextView
                     android:id="@+id/options2_tv"
-                    style="@style/Material.Drawable.Ripple.Wave.Light"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
                     android:drawableRight="@drawable/options_normal_icon"
                     android:gravity="center"
                     android:paddingLeft="15dp"
