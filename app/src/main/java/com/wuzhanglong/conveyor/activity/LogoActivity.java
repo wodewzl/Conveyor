@@ -21,6 +21,10 @@ public class LogoActivity extends BaseLogoActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void initLogo() {
+        if((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){
+            finish();
+            return;
+        }
         EventBus.getDefault().register(this);
         mLogoImageView.setBackgroundResource(R.drawable.logo);
     }

@@ -69,9 +69,11 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
     @Override
     public void success(BaseVO vo) {
         UserInfoVO userInfoVO = (UserInfoVO) vo;
-        AppApplication.getInstance().saveUserInfoVO(userInfoVO);
-        openActivity(MainActivity.class);
-        this.finish();
+        if(userInfoVO.getData()!=null){
+            AppApplication.getInstance().saveUserInfoVO(userInfoVO);
+            openActivity(MainActivity.class);
+            this.finish();
+        }
     }
 
     @Override

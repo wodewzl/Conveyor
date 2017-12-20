@@ -154,7 +154,8 @@
                 app:bga_npl_showAsLargeWhenOnlyOne="false"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:layout_marginBottom="15dp"/>
 
             <!--<cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout-->
                 <!--android:id="@+id/photo_layout"-->

@@ -1,6 +1,7 @@
 package com.wuzhanglong.conveyor.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.nanchen.compresshelper.CompressHelper;
 import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.application.AppApplication;
@@ -20,9 +22,12 @@ import com.wuzhanglong.library.constant.BaseConstant;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.interfaces.PostCallback;
 import com.wuzhanglong.library.mode.BaseVO;
+import com.wuzhanglong.library.utils.BaseCommonUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,6 +80,8 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
         mPhotoLayout.setSortable(true);//排序
         mWorkLayout = getViewById(R.id.work_layout);
         mNameTv=getViewById(R.id.depart_tv);
+        mTimeTv.setBackground(BaseCommonUtils.setBackgroundShap(this,30,R.color.colorPrimaryDark,R.color.colorPrimaryDark));
+
     }
 
     @Override
@@ -319,4 +326,7 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
                 break;
         }
     }
+
+
+
 }
