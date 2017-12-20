@@ -67,7 +67,7 @@ public class BSPopupWindowsTitle extends PopupWindow {
                 // 获取控件的位置，安卓系统>7.0
                 int[] location = new int[2];
                 parent.getLocationOnScreen(location);
-                this.showAtLocation(parent, Gravity.NO_GRAVITY, 0, location[1] + parent.getHeight());
+                this.showAtLocation(parent, Gravity.NO_GRAVITY, parent.getLayoutParams().width / 2, location[1] );
             }
         } else {
             this.dismiss();
@@ -365,8 +365,15 @@ public class BSPopupWindowsTitle extends PopupWindow {
 
 
     // zidingyi view
-    public BSPopupWindowsTitle(final Activity context, View view, final StringCallBack callback) {
+    public BSPopupWindowsTitle(final Activity context, View view, final StringCallBack callback,int height) {
         this.mContext = context;
+        LinearLayout linearLayout = new LinearLayout(context);
+        LayoutParams params = new LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                height);// 定义文本显示组件
+        view.setLayoutParams(params);
+        linearLayout.addView(view);
+
 
         PickTimeView pickDate = (PickTimeView) view.findViewById(R.id.pickDate);
         pickDate.setViewType(PickTimeView.TYPE_PICK_DATE);
@@ -421,6 +428,7 @@ public class BSPopupWindowsTitle extends PopupWindow {
                 startTimeTv.setText("");
                 endTimeTv.setText("");
                 callback.callback(startTimeTv.getText().toString(), endTimeTv.getText().toString());
+                startLayout.setTag("1");
 
             }
         });
@@ -442,19 +450,19 @@ public class BSPopupWindowsTitle extends PopupWindow {
                 }
             }
         });
-        this.setContentView(view);
+        this.setContentView(linearLayout);
         this.setWidth(LayoutParams.MATCH_PARENT);
         this.setHeight(LayoutParams.MATCH_PARENT);
+
         this.setFocusable(true);
         this.setOutsideTouchable(true);
         ColorDrawable dw = new ColorDrawable(Color.parseColor("#40000000"));
         this.setBackgroundDrawable(dw);
 
-        view.setOnTouchListener(new OnTouchListener() {
+        linearLayout.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View arg0, MotionEvent arg1) {
-//                mCallBack.callback(childVo);
-//                dismiss();
+                dismiss();
                 return true;
             }
         });

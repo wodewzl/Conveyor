@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/C1"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,13 +26,13 @@
                 android:layout_height="wrap_content"
                 android:text="开始时间"
                 android:textColor="@color/C1"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/start_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="yi"
+                android:text="一"
                 android:textColor="@color/C1"/>
         </LinearLayout>
 
@@ -45,22 +44,23 @@
             android:gravity="center"
             android:orientation="vertical"
             android:paddingBottom="5dp"
-            android:paddingTop="5dp">
+            android:paddingTop="5dp"
+            android:background="@color/C1">
 
             <TextView
                 android:id="@+id/end_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="开始时间"
+                android:text="结束时间"
                 android:textColor="@color/colorAccent"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/end_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="yi"
-                android:textColor="@color/colorAccent" />
+                android:text="一"
+                android:textColor="@color/colorAccent"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -76,31 +76,31 @@
             android:id="@+id/pickTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <com.wuzhanglong.library.pickdate.PickTimeView
             android:id="@+id/pickDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible" />
+            android:visibility="visible"/>
 
         <com.wuzhanglong.library.pickdate.PickValueView
             android:id="@+id/pickValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <com.wuzhanglong.library.pickdate.PickValueView
             android:id="@+id/pickValues"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <com.wuzhanglong.library.pickdate.PickValueView
             android:id="@+id/pickString"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout
@@ -115,16 +115,23 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="重死"
-            android:textColor="@color/C1" />
-
+            android:text="重置"
+            android:textSize="15sp"
+            android:textColor="@color/C1"/>
+        <View
+            android:layout_width="0.8dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#40ffffff"/>
         <TextView
             android:id="@+id/ok_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="quxiao"
-            android:textColor="@color/C1" />
+            android:text="确定"
+            android:textSize="15sp"
+            android:textColor="@color/C1"/>
     </LinearLayout>
 </LinearLayout>
