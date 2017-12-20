@@ -25,6 +25,7 @@ import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
 import com.wuzhanglong.conveyor.model.DepartVO;
 import com.wuzhanglong.conveyor.model.WorkVO;
+
 import com.wuzhanglong.conveyor.view.PinnedHeaderDecoration;
 import com.wuzhanglong.library.ItemDecoration.DividerDecoration;
 import com.wuzhanglong.library.activity.BaseActivity;
@@ -42,8 +43,8 @@ import java.util.List;
 
 import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
 
-public class WorkActivity extends BaseActivity implements OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BGAOnRVItemClickListener, View.OnClickListener, android.widget.TextView
-        .OnEditorActionListener, TextWatcher {
+public class WorkActivity extends BaseActivity implements OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BGAOnRVItemClickListener, View.OnClickListener,android.widget.TextView.OnEditorActionListener,TextWatcher
+{
     private AutoSwipeRefreshLayout mAutoSwipeRefreshLayout;
     private LuRecyclerView mRecyclerView;
     private WorkAdapter mAdapter;
@@ -60,13 +61,12 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     private boolean mFlag = true;
     private TextView mOptions1Tv, mOptions2Tv;
     private List<DepartVO.DataBean.ListBean> mListBeans;
-    private BSPopupWindowsTitle mDepartPop;
+    private BSPopupWindowsTitle mDepartPop,mDatePickPop;
     private View mDividerView;
     private int mState = 0; // 0为首次,1为下拉刷新 ，2为加载更多
     private LinearLayout mTitleLayout;
     private String mType = "1";//1自己的，
     private EditText mSearchEt;
-
     @Override
     public void baseSetContentView() {
         contentInflateView(R.layout.work_activity);
@@ -159,7 +159,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
             WorkVO workVO = (WorkVO) vo;
             if ("300".equals(workVO.getCode())) {
                 mRecyclerView.setNoMore(true);
-                if (mState == 0) {
+                if(mState==0){
                     mAdapter.updateData(new ArrayList<WorkVO.DataBean.ListBean>());
                 }
                 return;
@@ -219,23 +219,21 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
 
     @Override
     public void onRefresh() {
-        if (mAdapter.getData().size() > 0) {
+        if(mAdapter.getData().size()>0){
             match(1, ((WorkVO.DataBean.ListBean) mAdapter.getData().get(1)).getLogid());
-        } else {
-            match(0, "");
+        }else{
+            match(0,"");
         }
     }
 
     @Override
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
-        if (mAdapter.getData().size() == 0 || TextUtils.isEmpty(((WorkVO.DataBean.ListBean) mAdapter.getData().get(position)).getLogid()))
-            return;
-        ;
-        Bundle bundle = new Bundle();
-        String logid = ((WorkVO.DataBean.ListBean) mAdapter.getData().get(position)).getLogid();
-        bundle.putString("logid", logid);
-        open(WorkDetailActivity.class, bundle, 0);
-        ;
+        if(mAdapter.getData().size()==0|| TextUtils.isEmpty(((WorkVO.DataBean.ListBean)mAdapter.getData().get(position)).getLogid()))
+            return;;
+        Bundle bundle=new Bundle();
+                String logid= ((WorkVO.DataBean.ListBean)mAdapter.getData().get(position)).getLogid();
+        bundle.putString("logid",logid);
+        open(WorkDetailActivity.class,bundle,0);;
     }
 
     @Override
@@ -317,6 +315,15 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         }
     };
 
+    BSPopupWindowsTitle.StringCallBack pickCallback=new BSPopupWindowsTitle.StringCallBack() {
+        @Override
+        public void callback(String star, String end) {
+            mStartDate=star;
+            mEndDate=end;
+            getData();
+        }
+    };
+
 
     @Override
     public void onClick(View v) {
@@ -326,10 +333,17 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
                     ArrayList<TreeVO> listDepart = getTreeVOList(mListBeans);
                     mDepartPop = new BSPopupWindowsTitle(mActivity, listDepart, callback);
                 }
-                mDepartPop.showPopupWindow(mDividerView);
-
+                    mDepartPop.showPopupWindow(mDividerView);
                 break;
             case R.id.options2_tv:
+
+                if (mDatePickPop == null) {
+                    View view = LayoutInflater.from(this).inflate(R.layout.pick_date_pop, (ViewGroup) findViewById(android.R.id.content), false);
+
+                    mDatePickPop = new BSPopupWindowsTitle(mActivity, view, pickCallback);
+                }
+                mDatePickPop.showPopupWindow(mDividerView);
+
                 break;
             default:
                 break;
@@ -342,24 +356,23 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         }
         mLastid = "";
         mFirstid = "";
-        mState = 0;
+        mState=0;
         switch (key) {
             case 0:
-                mKeyword = "";
+                mKeyword="";
                 mLastid = "";
                 mFirstid = "";
-                mState = 0;
-                mDid = "";
-                mStartDate = "";
-                mEndDate = "";
+                mState=0;
+                mDid="";
+                mStartDate="";
+                mEndDate="";
                 break;
             case 1:
                 mFirstid = value;
                 mState = 1;
                 break;
             case 2:
-                mLastid = value;
-                ;
+                mLastid = value;;
                 mState = 2;
                 break;
             case 3:
@@ -384,7 +397,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     @Override
     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
         mKeyword = textView.getText().toString();
-        match(3, mKeyword);
+        match(3,mKeyword);
         return false;
     }
 
@@ -404,5 +417,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     public void afterTextChanged(Editable editable) {
 
     }
+
+
 
 }
