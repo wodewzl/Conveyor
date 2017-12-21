@@ -34,7 +34,8 @@ public class ShareUtil {
 
             @Override
             public void onError(SHARE_MEDIA platform, Throwable t) {
-                Toast.makeText(activity, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(activity, platform + t.getMessage(), Toast.LENGTH_LONG).show();
             }
 
             @Override
