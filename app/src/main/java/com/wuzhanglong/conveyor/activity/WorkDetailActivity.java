@@ -26,8 +26,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPreviewActivity;
@@ -167,10 +165,10 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
 
     @Override
     public void onClick(View view) {
-//        if(Build.VERSION.SDK_INT>=23){
+        if(Build.VERSION.SDK_INT>=23){
             String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CALL_PHONE,Manifest.permission.READ_LOGS,Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SET_DEBUG_APP,Manifest.permission.SYSTEM_ALERT_WINDOW,Manifest.permission.GET_ACCOUNTS,Manifest.permission.WRITE_APN_SETTINGS};
             ActivityCompat.requestPermissions(this,mPermissionList,123);
-//        }
+        }
         WorkDetailVO.DataBean.ShareBean shareBean=mWorkDetailVO.getData().getShare_param();
 //        ShareUtil.share(this,shareBean.getImage(),shareBean.getTitle(),replaceBlank(shareBean.getDesc()),shareBean.getUrl());
         ShareUtil.share(this,shareBean.getImage(),shareBean.getTitle(),shareBean.getDesc(),shareBean.getUrl());
