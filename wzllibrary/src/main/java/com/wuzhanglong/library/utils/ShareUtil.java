@@ -1,6 +1,8 @@
 
 package com.wuzhanglong.library.utils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.widget.Toast;
 
 import com.umeng.socialize.ShareAction;
@@ -8,6 +10,7 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.wuzhanglong.library.R;
 import com.wuzhanglong.library.activity.BaseActivity;
 
 public class ShareUtil {
@@ -46,13 +49,16 @@ public class ShareUtil {
 //        image.setThumb(thumb);
 //        UMImage image = new UMImage(activity, BitmapFactory.decodeResource(activity.getResources(), R.mipmap.copy));
 
-        final UMImage      image = new UMImage(activity, img);
-//        if (!"".equals(img) && img != null) {
-//            image = new UMImage(activity, img);
-//        } else {
-//            image = new UMImage(activity, BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_launcher));
-//        }
-
+        UMImage image = new UMImage(activity, img);
+        if (!"".equals(img) && img != null) {
+            image = new UMImage(activity, img);
+        } else {
+            image = new UMImage(activity,R.drawable.ic_launcher);
+        }
+        image.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，适合普通很大的图
+        image.compressStyle = UMImage.CompressStyle.QUALITY;//质量压缩，适合长图的分享
+//        压缩格式设置
+        image.compressFormat = Bitmap.CompressFormat.PNG;//用户分享透明背景的图片可以设置这种方式，但是qq好友，微信朋友圈，不支持透明背景图片，会变成黑色
 
         UMWeb web = new UMWeb(url);
         web.setTitle(title);//标题
