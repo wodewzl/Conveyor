@@ -52,7 +52,8 @@ dependencies {
 //    compile 'cn.bingoogolapple:bga-adapter:1.1.9'
 
     //动态获取权限
-    compile 'pub.devrel:easypermissions:0.4.0'
+//    compile 'pub.devrel:easypermissions:0.4.0'
+    compile 'pub.devrel:easypermissions:1.1.1'
     //viewPager 指示器
     compile 'me.relex:circleindicator:1.2.2'
     //进度提示框
