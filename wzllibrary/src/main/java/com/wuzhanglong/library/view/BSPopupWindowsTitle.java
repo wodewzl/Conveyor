@@ -6,10 +6,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -61,14 +61,22 @@ public class BSPopupWindowsTitle extends PopupWindow {
 
     public void showPopupWindow(View parent) {
         if (!this.isShowing()) {
-            if (Build.VERSION.SDK_INT < 24) {
-                this.showAsDropDown(parent, parent.getLayoutParams().width / 2, 0);
-            } else {
-                // 获取控件的位置，安卓系统>7.0
-                int[] location = new int[2];
-                parent.getLocationOnScreen(location);
-                this.showAtLocation(parent, Gravity.NO_GRAVITY, parent.getLayoutParams().width / 2, location[1] );
+//            if (Build.VERSION.SDK_INT < 24) {
+//                this.showAsDropDown(parent, 0, 2);
+//            } else {
+//                // 获取控件的位置，安卓系统>7.0
+//                int[] location = new int[2];
+//                parent.getLocationOnScreen(location);
+//                this.showAtLocation(((Activity)mContext).getWindow().getDecorView(), Gravity.NO_GRAVITY, 0, parent.getHeight()+location[1]+2 );
+//                this.update();
+//            }
+            if(Build.VERSION.SDK_INT == 24) {
+                Rect rect = new Rect();
+                parent.getGlobalVisibleRect(rect);
+                int h = parent.getResources().getDisplayMetrics().heightPixels - rect.bottom;
+                setHeight(h);
             }
+            this.showAsDropDown(parent, 0, 2);
         } else {
             this.dismiss();
         }
