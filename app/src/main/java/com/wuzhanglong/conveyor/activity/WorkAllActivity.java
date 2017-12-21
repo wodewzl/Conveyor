@@ -1,7 +1,6 @@
 package com.wuzhanglong.conveyor.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -11,7 +10,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.TimePickerView;
 import com.nanchen.compresshelper.CompressHelper;
 import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.application.AppApplication;
@@ -26,8 +24,6 @@ import com.wuzhanglong.library.utils.BaseCommonUtils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,7 +51,7 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
     private EditText mContent1Et, mContent2Et, mContent3Et, mContent4Et, mContent5Et;
     private List<File> mFiles = new ArrayList<>();//yiyou
     private BGASavePhotoTask mSavePhotoTask;
-    private TextView mTimeTv,mNameTv;
+    private TextView mTimeTv, mNameTv;
     private LinearLayout mWorkLayout;
 
     @Override
@@ -79,8 +75,8 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
         mPhotoLayout.setPlusEnable(true);//有加号，可以点加号选择，false没有加号，点其他按钮选择
         mPhotoLayout.setSortable(true);//排序
         mWorkLayout = getViewById(R.id.work_layout);
-        mNameTv=getViewById(R.id.depart_tv);
-        mTimeTv.setBackground(BaseCommonUtils.setBackgroundShap(this,30,R.color.colorPrimaryDark,R.color.colorPrimaryDark));
+        mNameTv = getViewById(R.id.depart_tv);
+        mTimeTv.setBackground(BaseCommonUtils.setBackgroundShap(this, 30, R.color.colorPrimaryDark, R.color.colorPrimaryDark));
 
     }
 
@@ -116,15 +112,9 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
             mOldList = (ArrayList<String>) dataBean.getSummary_imgs();
             mPhotoLayout.setData(mOldList);
 
-            new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    for (int i = 0; i < mOldList.size(); i++) {
-                        savePic(mOldList.get(i));
-                    }
-                }
-            }.start();
+            for (int i = 0; i < mOldList.size(); i++) {
+                savePic(mOldList.get(i));
+            }
         }
     }
 
@@ -231,7 +221,6 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
                     @Override
                     public void run() {
                         mPhotoLayout.setData(mOldLocalList);
-                        showCustomToast("下载完了");
                     }
                 });
 
@@ -248,7 +237,7 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
                 }
                 if (mOldLocalList.size() == mOldList.size()) {
                     mPhotoLayout.setData(mOldLocalList);
-                    showCustomToast("下载完了");
+
                 }
                 if (mSavePhotoTask != null) {
                     mSavePhotoTask.setBitmapAndPerform(bitmap);
@@ -258,9 +247,12 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
             @Override
             public void onFailed(String url) {
                 mSavePhotoTask = null;
-                BGAPhotoPickerUtil.show(cn.bingoogolapple.photopicker.R.string.bga_pp_save_img_failure);
+
             }
         });
+
+
+
     }
 
     @Override
@@ -304,6 +296,7 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
             requestBody.addFormDataPart("file" + i, mFiles.get(i).getName(), RequestBody.create(MediaType.parse("image/*"), mFiles.get(i)));
         }
         MultipartBody rb = requestBody.build();
+        showProgressDialog();
         HttpGetDataUtil.post(WorkAllActivity.this, Constant.WORK_REPORT_URL, rb, BaseVO.class, WorkAllActivity.this);
 
 
@@ -325,7 +318,6 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
                 break;
         }
     }
-
 
 
 }

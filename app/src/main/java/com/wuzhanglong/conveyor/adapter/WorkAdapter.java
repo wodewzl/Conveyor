@@ -35,7 +35,11 @@ public class WorkAdapter extends RecyclerBaseAdapter<WorkVO.DataBean.ListBean> {
             helper.setText(R.id.depart_tv, vo.getDname());
 
             helper.setText(R.id.type_tv, vo.getTypename());
-            helper.getTextView(R.id.type_tv).setBackground(BaseCommonUtils.setBackgroundShap(mContext,5,R.color.conveyor_title,R.color.conveyor_title));
+            if("0".equals(vo.getType())){
+                helper.getTextView(R.id.type_tv).setBackground(BaseCommonUtils.setBackgroundShap(mContext,5,R.color.conveyor_title,R.color.conveyor_title));
+            }else{
+                helper.getTextView(R.id.type_tv).setBackground(BaseCommonUtils.setBackgroundShap(mContext,5,R.color.color1,R.color.color1));
+            }
 
             helper.setText(R.id.time_tv, DateUtils.parseDateDay(vo.getTime()));
             helper.setText(R.id.today_tv, vo.getContent1());
