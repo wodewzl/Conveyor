@@ -1,6 +1,7 @@
 package com.wuzhanglong.conveyor.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.umeng.socialize.UMShareAPI;
 import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
@@ -165,12 +167,22 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
 
     @Override
     public void onClick(View view) {
-        if(Build.VERSION.SDK_INT>=23){
+//        if(Build.VERSION.SDK_INT>=23){
             String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CALL_PHONE,Manifest.permission.READ_LOGS,Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SET_DEBUG_APP,Manifest.permission.SYSTEM_ALERT_WINDOW,Manifest.permission.GET_ACCOUNTS,Manifest.permission.WRITE_APN_SETTINGS};
             ActivityCompat.requestPermissions(this,mPermissionList,123);
-        }
+//        }
         WorkDetailVO.DataBean.ShareBean shareBean=mWorkDetailVO.getData().getShare_param();
+//        ShareUtil.share(this,shareBean.getImage(),shareBean.getTitle(),replaceBlank(shareBean.getDesc()),shareBean.getUrl());
         ShareUtil.share(this,shareBean.getImage(),shareBean.getTitle(),shareBean.getDesc(),shareBean.getUrl());
+
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
 }

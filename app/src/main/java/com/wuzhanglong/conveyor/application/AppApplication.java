@@ -5,6 +5,8 @@ package com.wuzhanglong.conveyor.application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 import com.wuzhanglong.conveyor.model.UserInfoVO;
 import com.wuzhanglong.library.application.BaseAppApplication;
 
@@ -15,11 +17,17 @@ import java.io.ObjectOutputStream;
 
 public class AppApplication extends BaseAppApplication {
     private static AppApplication mAppApplication;
-
+    {
+        PlatformConfig.setWeixin("wx93027a99f78841b5","12f61fc306634e3470d2b61de397296b");
+        PlatformConfig.setQQZone("1106607224","FWo7N3LPeqTdpkgV");
+//        PlatformConfig.setSinaWeibo("319845988","fbb3df56985bcd557975e1bd8e8d8a1e","http://xiaojingsc.test.beisheng.wang/ht");
+    }
     @Override
     public void onCreate() {
         super.onCreate();
         mAppApplication = this;
+        UMShareAPI.get(this);
+
     }
 
     /**
