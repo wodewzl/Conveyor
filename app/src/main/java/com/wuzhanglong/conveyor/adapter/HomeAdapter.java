@@ -83,8 +83,12 @@ public class HomeAdapter extends RecyclerBaseAdapter<WorkVO.DataBean.ListBean> {
                 Picasso.with(mContext).load(vo.getHeadpic()).placeholder(R.drawable.user_icon_def).into(helper.getImageView(R.id.home_head_img));
             helper.setText(R.id.name_tv, vo.getFullname());
             helper.setText(R.id.depart_tv, vo.getDname() + "/" + vo.getPositionname());
-            helper.setText(R.id.type_tv, "日报");
-            helper.getTextView(R.id.type_tv).setBackground(BaseCommonUtils.setBackgroundShap(mContext, 5, R.color.conveyor_title, R.color.conveyor_title));
+            helper.setText(R.id.type_tv, vo.getTypename());
+            if("0".equals(vo.getType())){
+                helper.getTextView(R.id.type_tv).setBackground(BaseCommonUtils.setBackgroundShap(mContext,5,R.color.conveyor_title,R.color.conveyor_title));
+            }else{
+                helper.getTextView(R.id.type_tv).setBackground(BaseCommonUtils.setBackgroundShap(mContext,5,R.color.color1,R.color.color1));
+            }
             helper.setText(R.id.time_tv, DateUtils.parseDateDay(vo.getTime()));
             helper.setText(R.id.content1_tv, vo.getContent1());
             helper.setText(R.id.content2_tv, vo.getContent2());
