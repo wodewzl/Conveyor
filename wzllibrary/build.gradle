@@ -129,5 +129,5 @@ dependencies {
     compile 'com.jaeger.statusbarutil:library:1.4.0'
     compile 'com.dou361.dialogui:jjdxm-dialogui:1.0.3'   //多样式Dialog
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-
+//    compile 'com.github.vondear:RxTools:v1.7.6'
 }
