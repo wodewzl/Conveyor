@@ -2,7 +2,6 @@
 package com.wuzhanglong.library.view;
 
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -25,6 +24,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.wuzhanglong.library.R;
+import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.adapter.PopupListAdapter;
 import com.wuzhanglong.library.mode.TreeVO;
 import com.wuzhanglong.library.pickdate.PickTimeView;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@SuppressLint("NewApi")
+
 public class BSPopupWindowsTitle extends PopupWindow {
 
     private LinearLayout conentView;
@@ -63,14 +63,15 @@ public class BSPopupWindowsTitle extends PopupWindow {
     public void showPopupWindow(View parent) {
         if (!this.isShowing()) {
             if (Build.VERSION.SDK_INT < 24) {
-                this.showAsDropDown(parent, 0, 2);
+                this.showAsDropDown(parent,0,60);
             } else {
-                // 获取控件的位置，安卓系统>7.0
-                int[] location = new int[2];
-                parent.getLocationOnScreen(location);
-                this.showAtLocation(((Activity)mContext).getWindow().getDecorView(), Gravity.NO_GRAVITY, 0, parent.getHeight()+location[1]+2 );
-                this.update();
+                int[] a = new int[2];
+                parent.getLocationInWindow(a);
+                this.showAtLocation(((BaseActivity)mContext).getWindow().getDecorView(), Gravity.NO_GRAVITY, 0, parent.getHeight()+a[1]+60);
+//                this.update();
             }
+
+
 //            if(Build.VERSION.SDK_INT == 24) {
 //                Rect rect = new Rect();
 //                parent.getGlobalVisibleRect(rect);
@@ -82,7 +83,27 @@ public class BSPopupWindowsTitle extends PopupWindow {
             this.dismiss();
         }
     }
+//    @Override
+//    public void showAsDropDown(View anchor) {
+//        if(Build.VERSION.SDK_INT == 24) {
+//            Rect rect = new Rect();
+//            anchor.getGlobalVisibleRect(rect);
+//            int h = anchor.getResources().getDisplayMetrics().heightPixels - rect.bottom;
+//            setHeight(h);
+//        }
+//        super.showAsDropDown(anchor);
+//    }
 
+    @Override
+    public void showAsDropDown(View anchor) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            Rect rect = new Rect();
+            anchor.getGlobalVisibleRect(rect);
+            int h = anchor.getResources().getDisplayMetrics().heightPixels - rect.bottom;
+            setHeight(h);
+        }
+        super.showAsDropDown(anchor);
+    }
 
     // 单级
     public BSPopupWindowsTitle(final Activity context, final List<TreeVO> array, TreeCallBack callback, int height) {
@@ -461,7 +482,7 @@ public class BSPopupWindowsTitle extends PopupWindow {
         });
         this.setContentView(linearLayout);
         this.setWidth(LayoutParams.MATCH_PARENT);
-        this.setHeight(LayoutParams.MATCH_PARENT);
+        this.setHeight(LayoutParams.WRAP_CONTENT);
 
         this.setFocusable(true);
         this.setOutsideTouchable(true);
