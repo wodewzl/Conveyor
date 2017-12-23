@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wuzhanglong.library.R;
 import com.wuzhanglong.library.interfaces.UpdateCallback;
@@ -28,9 +29,6 @@ import com.wuzhanglong.library.mode.BaseVO;
 import com.wuzhanglong.library.utils.DialogUtil;
 import com.wuzhanglong.library.utils.StatusBarCompat;
 import com.wuzhanglong.library.utils.ThreadUtil;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by Administrator on 2017/3/7.
@@ -231,7 +229,8 @@ public abstract class BaseActivity extends AppCompatActivity implements UpdateCa
 
     // 显示ShortToast
     public void showCustomToast(String pMsg) {
-        Crouton.makeText(this, pMsg, Style.ALERT, R.id.toast_conten).show();
+        Toast.makeText(this,pMsg,Toast.LENGTH_SHORT).show();
+//        Crouton.makeText(this, pMsg, Style.ALERT, R.id.toast_conten).show();
 //        RxToast.info(this, pMsg, Toast.LENGTH_LONG, true).show();
 
 //        RxToast.error(this, "这是一个提示错误的Toast！", Toast.LENGTH_SHORT, true).show();
