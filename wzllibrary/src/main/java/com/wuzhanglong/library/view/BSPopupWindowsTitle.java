@@ -100,7 +100,6 @@ public class BSPopupWindowsTitle extends PopupWindow {
             Rect rect = new Rect();
             anchor.getGlobalVisibleRect(rect);
             int h = anchor.getResources().getDisplayMetrics().heightPixels - rect.bottom;
-            setHeight(h);
         }
         super.showAsDropDown(anchor);
     }
@@ -482,7 +481,7 @@ public class BSPopupWindowsTitle extends PopupWindow {
         });
         this.setContentView(linearLayout);
         this.setWidth(LayoutParams.MATCH_PARENT);
-        this.setHeight(LayoutParams.WRAP_CONTENT);
+        this.setHeight(LayoutParams.MATCH_PARENT);
 
         this.setFocusable(true);
         this.setOutsideTouchable(true);
