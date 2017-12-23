@@ -7,7 +7,12 @@
               android:layout_height="wrap_content"
               android:background="@color/C1"
               android:orientation="vertical">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+       >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,4 +111,5 @@
         android:layout_height="wrap_content"
         tools:text="今日工作的劳动纪律大吉大利大吉大利大吉大利大吉大利大吉大利大吉大利大吉大利的"
         android:textSize="14sp"/>
+</LinearLayout>
 </LinearLayout>
