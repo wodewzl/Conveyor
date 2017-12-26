@@ -293,12 +293,16 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
             case R.id.out_tv:
                 AppApplication.getInstance().saveUserInfoVO(null);
                 intent.setClass(MainActivity.this, LoginActivity.class);
+
                 break;
             default:
                 break;
         }
         if (intent.getComponent() != null)
             startActivity(intent);
+        if(v.getId()==R.id.out_tv)
+            finish();
+
     }
 
     @Override
