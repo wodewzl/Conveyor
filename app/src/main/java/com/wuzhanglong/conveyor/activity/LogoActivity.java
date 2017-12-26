@@ -58,6 +58,7 @@ public class LogoActivity extends BaseLogoActivity implements EasyPermissions.Pe
         String[] perms = {android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
         if (EasyPermissions.hasPermissions(this, perms)) {
             if (mFlag) {
+                mFlag=false;
                 Intent intent = new Intent();
                 if (AppApplication.getInstance().getUserInfoVO() != null) {
                     intent.setClass(this, MainActivity.class);
@@ -79,15 +80,17 @@ public class LogoActivity extends BaseLogoActivity implements EasyPermissions.Pe
 
     }
 
+
+
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
-        Intent intent = new Intent();
-        if (AppApplication.getInstance().getUserInfoVO() != null) {
-            intent.setClass(this, MainActivity.class);
-        } else {
-            intent.setClass(this, LoginActivity.class);
-        }
-        startActivity(intent);
+//        Intent intent = new Intent();
+//        if (AppApplication.getInstance().getUserInfoVO() != null) {
+//            intent.setClass(this, MainActivity.class);
+//        } else {
+//            intent.setClass(this, LoginActivity.class);
+//        }
+//        startActivity(intent);
     }
 
     @Override
