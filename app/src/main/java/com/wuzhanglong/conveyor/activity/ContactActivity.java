@@ -20,6 +20,7 @@ import com.wuzhanglong.conveyor.view.IndexView;
 import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.mode.BaseVO;
+import com.wuzhanglong.library.utils.BaseCommonUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +39,7 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
     private BGARVVerticalScrollHelper mRecyclerViewScrollHelper;
     private EditText mSeacherEt;
     private ContanctVO mContanctVO;
+    private List<ContanctVO.DataBean> mList = new ArrayList<>();
 
     @Override
     public void baseSetContentView() {
@@ -46,11 +48,12 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
 
     @Override
     public void initView() {
+
         mBaseTitleTv.setText("通讯录");
         mDataRv = getViewById(R.id.rv_sticky_data);
         mIndexView = getViewById(R.id.iv_sticky_index);
         mTipTv = getViewById(R.id.tv_sticky_tip);
-        mSeacherEt=getViewById(R.id.search_et);
+        mSeacherEt = getViewById(R.id.search_et);
     }
 
     @Override
@@ -66,6 +69,17 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
 
 //        mAdapter.setData(loadIndexModelData());
         mDataRv.setAdapter(mAdapter);
+        mAdapter.setOnRVItemClickListener(new BGAOnRVItemClickListener() {
+            @Override
+            public void onRVItemClick(ViewGroup parent, View itemView, int position) {
+                if (mAdapter.getData().size() == 0)
+                    return;
+                ContanctVO.DataBean vo = mAdapter.getData().get(position);
+
+                if (!TextUtils.isEmpty(vo.getTel()))
+                    BaseCommonUtils.call(ContactActivity.this, vo.getTel());
+            }
+        });
 
         mIndexView.setDelegate(new IndexView.Delegate() {
             @Override
@@ -85,7 +99,14 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterData(s.toString());
+                if (TextUtils.isEmpty(s + "")) {
+                    mList.clear();
+                    mList.addAll(mContanctVO.getData());
+                    mAdapter.setData(loadDataBeanData(mList));
+                } else {
+                    filterData(s.toString());
+                }
+
             }
 
             @Override
@@ -111,8 +132,8 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
     @Override
     public void hasData(BaseVO vo) {
         mContanctVO = (ContanctVO) vo;
-        List<ContanctVO.DataBean> lsit = mContanctVO.getData();
-        mAdapter.setData(loadDataBeanData(lsit));
+        mList.addAll(mContanctVO.getData());
+        mAdapter.setData(loadDataBeanData(mList));
     }
 
     @Override
@@ -198,10 +219,10 @@ public class ContactActivity extends BaseActivity implements BGAOnRVItemClickLis
         List<ContanctVO.DataBean> filterDateList = new ArrayList<ContanctVO.DataBean>();
 
         if (TextUtils.isEmpty(filterStr)) {
-            filterDateList = mContanctVO.getData();
+            filterDateList = mList;
         } else {
             filterDateList.clear();
-            for (ContanctVO.DataBean personnelVO : mContanctVO.getData()) {
+            for (ContanctVO.DataBean personnelVO : mList) {
                 String name = personnelVO.getFullname();
                 if (name.indexOf(filterStr.toString()) != -1 || CharacterParser.getInstance().getSelling(name).startsWith(filterStr.toString())) {
                     filterDateList.add(personnelVO);

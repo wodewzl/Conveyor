@@ -64,7 +64,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
     private BSPopupWindowsTitle mDepartPop,mDatePickPop;
     private View mDividerView;
     private int mState = 0; // 0为首次,1为下拉刷新 ，2为加载更多
-    private LinearLayout mTitleLayout;
+    private LinearLayout mTitleLayout,mSerachLayout;
     private String mType = "1";//1自己的，
     private EditText mSearchEt;
     @Override
@@ -102,13 +102,16 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         mOptions1Tv = getViewById(R.id.options1_tv);
         mOptions2Tv = getViewById(R.id.options2_tv);
         mDividerView = getViewById(R.id.divider);
+        mSerachLayout=getViewById(R.id.search_layout);
         mType = this.getIntent().getStringExtra("type");
         if ("1".equals(mType)) {
             mIsmyself = "1";//
             mTitleLayout.setVisibility(View.GONE);
+            mSerachLayout.setVisibility(View.GONE);
         } else {
             mIsmyself = "";
             mTitleLayout.setVisibility(View.VISIBLE);
+            mSerachLayout.setVisibility(View.VISIBLE);
         }
     }
 

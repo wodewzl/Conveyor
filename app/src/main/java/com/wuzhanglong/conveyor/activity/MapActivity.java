@@ -1,19 +1,24 @@
 package com.wuzhanglong.conveyor.activity;
+
+import android.content.Context;
 import android.location.Location;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -29,7 +34,6 @@ import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.adapter.RecyclerBaseAdapter;
 import com.wuzhanglong.library.mode.BaseVO;
 import com.wuzhanglong.library.utils.DividerUtil;
-import com.wuzhanglong.library.utils.MapUtil;
 import com.wuzhanglong.library.utils.WidthHigthUtil;
 
 import java.util.List;
@@ -51,6 +55,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
     private AddressAdapter mAddressAdapter;
     private RecyclerView mRecyclerView;
     private boolean mFlag = false, mMove = false;
+    private Marker mMarker;
 
 
     @Override
@@ -198,16 +203,33 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
         if (mAddressAdapter.getData().size() == 0)
             return;
         PoiItem vo = (PoiItem) mAddressAdapter.getData().get(i);
-//        EBMessageVO messageVO = new EBMessageVO("address_map");
-        String[] params = new String[4];
-        params[0] = vo.getTitle();
-        params[1] = vo.getSnippet();
-        params[2] = vo.getLatLonPoint().getLatitude() + "";
-        params[3] = vo.getLatLonPoint().getLongitude() + "";
-//        messageVO.setParams(params);
-//        EventBus.getDefault().post(messageVO);
-//        this.finish();
-        MapUtil.guide(MapActivity.this,params[2] , params[3],params[1]);
+//        String[] params = new String[4];
+//        params[0] = vo.getTitle();
+//        params[1] = vo.getSnippet();
+//        params[2] = vo.getLatLonPoint().getLatitude() + "";
+//        params[3] = vo.getLatLonPoint().getLongitude() + "";
+//        MapUtil.guide(MapActivity.this,params[2] , params[3],params[1]);
+
+        LatLng latLng1 = new LatLng(vo.getLatLonPoint().getLatitude(), vo.getLatLonPoint().getLongitude());
+
+
+        if(mMarker!=null)
+            mMarker.remove();
+
+        mMarker = mAMap.addMarker(new MarkerOptions()
+                .position(latLng1)
+                .title(vo.getTitle())
+                .snippet(vo.getSnippet())
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark))
+                .draggable(true));
+//
+
+
+        mAMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this,latLng1,vo.getTitle()));
+        mMarker.showInfoWindow();
+        //设置中心点和缩放比例
+        mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng1));
+        mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
     }
 
     @Override
@@ -313,12 +335,52 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
 
         markerOption.draggable(true);//设置Marker可拖动
 //        markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
-//                .decodeResource(getResources(), R.drawable.user_icon_def)));
+//                .decodeResource(getResources(), R.drawable.mark)));
         // 将Marker设置为贴地显示，可以双指下拉地图查看效果
         markerOption.setFlat(true);//设置marker平贴地图效果
         Marker marker = mAMap.addMarker(markerOption);
         marker.setPositionByPixels(WidthHigthUtil.getScreenWidth(this) / 2, WidthHigthUtil.getScreenHigh(this) / 2);
-//        mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+//        mAMap.moveCamera(CameraUpdateFactory.zoomTo(55));
+    }
+
+
+    class CustomInfoWindowAdapter implements AMap.InfoWindowAdapter{
+
+        private Context context;
+        private LatLng mLatLng;
+        private String mAddress;
+
+        public CustomInfoWindowAdapter(Context context,LatLng latLng,String address) {
+            this.context = context;
+            this.mLatLng=latLng;
+            mAddress=address;
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            View view = LayoutInflater.from(context).inflate(R.layout.map_info_window_layout, null);
+            TextView addresTv=view.findViewById(R.id.address_tv);
+            addresTv.setText(mAddress);
+            LinearLayout layout=view.findViewById(R.id.maker_layout);
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+            setViewContent(marker,view);
+            return view;
+        }
+        //这个方法根据自己的实体信息来进行相应控件的赋值
+        private void setViewContent(Marker marker,View view) {
+            //实例：
+        }
+
+        //提供了一个给默认信息窗口定制内容的方法。如果用自定义的布局，不用管这个方法。
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
     }
 
 }
