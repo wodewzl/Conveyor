@@ -88,12 +88,12 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
 
                 if(TextUtils.isEmpty(mPhoneTv.getText().toString())){
                     showCustomToast("请输入手机号");
-//                    return;
+                    return;
                 }
 
                 if(TextUtils.isEmpty(mPasswordTv.getText().toString())){
                     showCustomToast("请输入密码");
-//                    return;
+                    return;
                 }
 
                 HashMap<String, Object> map = new HashMap<>();
