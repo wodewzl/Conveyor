@@ -34,6 +34,7 @@ import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.adapter.RecyclerBaseAdapter;
 import com.wuzhanglong.library.mode.BaseVO;
 import com.wuzhanglong.library.utils.DividerUtil;
+import com.wuzhanglong.library.utils.MapUtil;
 import com.wuzhanglong.library.utils.WidthHigthUtil;
 
 import java.util.List;
@@ -365,7 +366,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    MapUtil.guide(MapActivity.this,mLatLng.latitude+"" , mLatLng.longitude+"",mAddress);
                 }
             });
             setViewContent(marker,view);

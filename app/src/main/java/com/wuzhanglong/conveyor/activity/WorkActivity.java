@@ -98,7 +98,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
         mRecyclerView.addItemDecoration(divider);
         mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         mRecyclerView.setLoadMoreEnabled(true);
-        mBaseTitleTv.setText("工作计划");
+        mBaseTitleTv.setText("工作查询");
         mOptions1Tv = getViewById(R.id.options1_tv);
         mOptions2Tv = getViewById(R.id.options2_tv);
         mDividerView = getViewById(R.id.divider);

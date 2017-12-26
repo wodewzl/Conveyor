@@ -22,7 +22,7 @@
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/home_01"
             android:gravity="center"
-            android:text="工作计划"/>
+            android:text="工作查询"/>
 
         <TextView
             android:id="@+id/tv_home_02"
@@ -38,25 +38,6 @@
             />
 
         <TextView
-            android:id="@+id/tv_home_03"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:drawablePadding="5dp"
-            android:drawableTop="@drawable/home_03"
-            android:gravity="center"
-            android:text="通讯录"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="15dp">
-
-        <TextView
             android:id="@+id/tv_home_05"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,6 +49,25 @@
             android:gravity="center"
             android:text="工作汇总"
             />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp">
+        <TextView
+            android:id="@+id/tv_home_03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/home_03"
+            android:gravity="center"
+            android:text="通讯录"/>
+
 
         <TextView
             android:id="@+id/tv_home_04"
