@@ -67,6 +67,7 @@ public class ShareUtil {
         web.setDescription(content);//描述
         shareAction.withMedia(web);
         shareAction.setDisplayList(displaylist);
+
         shareAction.setCallback(umslistener);
         shareAction.open();
     }
