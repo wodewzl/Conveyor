@@ -34,10 +34,10 @@ import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayout.Delegate,BGAOnRVItemClickListener,View.OnClickListener {
+public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayout.Delegate, BGAOnRVItemClickListener, View.OnClickListener {
     private static final int PRC_PHOTO_PICKER = 1;
 
-    private TextView mNameTv, mContent1, mContent2, mContent3, mContent4, mContent5, mContent3TitleTv, mContent4TitleTv, mContent5TitleTv,mTimeTv;
+    private TextView mNameTv, mContent1, mContent2, mContent3, mContent4, mContent5, mContent3TitleTv, mContent4TitleTv, mContent5TitleTv, mTimeTv;
     private String mType = "1";//1日报2汇总
     private BGANinePhotoLayout mPhotoLyout;
     private WorkDetailVO mWorkDetailVO;
@@ -49,9 +49,9 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
 
     @Override
     public void initView() {
-        Toast.makeText(this,"韩币金",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "韩币金", Toast.LENGTH_SHORT).show();
         mBaseOkTv.setText("分享");
-        mTimeTv=getViewById(R.id.time_tv);
+        mTimeTv = getViewById(R.id.time_tv);
         mNameTv = getViewById(R.id.name_tv);
         mContent1 = getViewById(R.id.content1_tv);
         mContent2 = getViewById(R.id.content2_tv);
@@ -61,8 +61,8 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
         mContent3TitleTv = getViewById(R.id.content3_title_tv);
         mContent4TitleTv = getViewById(R.id.content4_title_tv);
         mContent5TitleTv = getViewById(R.id.content5_title_tv);
-        mPhotoLyout=getViewById(R.id.photo_layout);
-        mTimeTv.setBackground(BaseCommonUtils.setBackgroundShap(this,30,R.color.colorPrimaryDark,R.color.colorPrimaryDark));
+        mPhotoLyout = getViewById(R.id.photo_layout);
+        mTimeTv.setBackground(BaseCommonUtils.setBackgroundShap(this, 30, R.color.colorPrimaryDark, R.color.colorPrimaryDark));
     }
 
     @Override
@@ -101,21 +101,21 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
         } else {
             mBaseTitleTv.setText("汇总详情");
             mNameTv.setText(dataBean.getFullname());
-            BaseCommonUtils.setTextTwoLast(this,mNameTv,dataBean.getFullname(),"   "+dataBean.getDname()+"/"+dataBean.getPositionname(),R.color.C6,0.8f);
-            if(TextUtils.isEmpty(mContent3.getText().toString())){
+            BaseCommonUtils.setTextTwoLast(this, mNameTv, dataBean.getFullname(), "   " + dataBean.getDname() + "/" + dataBean.getPositionname(), R.color.C6, 0.8f);
+            if (TextUtils.isEmpty(mContent3.getText().toString())) {
                 mContent3.setVisibility(View.GONE);
                 mContent3TitleTv.setVisibility(View.GONE);
             }
-            if(TextUtils.isEmpty(mContent4.getText().toString())){
+            if (TextUtils.isEmpty(mContent4.getText().toString())) {
                 mContent4.setVisibility(View.GONE);
                 mContent4TitleTv.setVisibility(View.GONE);
             }
-            if(TextUtils.isEmpty(mContent5.getText().toString())){
+            if (TextUtils.isEmpty(mContent5.getText().toString())) {
                 mContent5.setVisibility(View.GONE);
                 mContent5TitleTv.setVisibility(View.GONE);
             }
         }
-        if(dataBean.getImgs()!=null){
+        if (dataBean.getImgs() != null) {
             mPhotoLyout.setData((ArrayList<String>) dataBean.getImgs());
             mPhotoLyout.setDelegate(this);
         }
@@ -167,16 +167,16 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
 
     @Override
     public void onClick(View view) {
-        if(Build.VERSION.SDK_INT>=23){
-            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CALL_PHONE,Manifest.permission.READ_LOGS,Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SET_DEBUG_APP,Manifest.permission.SYSTEM_ALERT_WINDOW,Manifest.permission.GET_ACCOUNTS,Manifest.permission.WRITE_APN_SETTINGS};
-            ActivityCompat.requestPermissions(this,mPermissionList,123);
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+            ActivityCompat.requestPermissions(this, mPermissionList, 123);
         }
-        WorkDetailVO.DataBean.ShareBean shareBean=mWorkDetailVO.getData().getShare_param();
+        WorkDetailVO.DataBean.ShareBean shareBean = mWorkDetailVO.getData().getShare_param();
 //        ShareUtil.share(this,shareBean.getImage(),shareBean.getTitle(),replaceBlank(shareBean.getDesc()),shareBean.getUrl());
-        ShareUtil.share(this,shareBean.getImage(),shareBean.getTitle(),shareBean.getDesc(),shareBean.getUrl());
+        ShareUtil.share(this, shareBean.getImage(), shareBean.getTitle(), shareBean.getDesc(), shareBean.getUrl());
 
     }
-
 
 
     @Override
@@ -185,4 +185,10 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+
+    }
 }

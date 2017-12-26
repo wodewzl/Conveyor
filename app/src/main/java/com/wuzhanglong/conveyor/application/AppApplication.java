@@ -26,7 +26,7 @@ public class AppApplication extends BaseAppApplication {
     public void onCreate() {
         super.onCreate();
         mAppApplication = this;
-        UMShareAPI.get(this);
+
 
     }
 
