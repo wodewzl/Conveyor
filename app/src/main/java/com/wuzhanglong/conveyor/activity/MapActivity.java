@@ -230,7 +230,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
         mMarker.showInfoWindow();
         //设置中心点和缩放比例
         mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng1));
-        mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+        mAMap.moveCamera(CameraUpdateFactory.zoomTo(18));
     }
 
     @Override
