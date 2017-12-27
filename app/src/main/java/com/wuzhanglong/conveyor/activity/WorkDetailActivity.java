@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.umeng.socialize.UMShareAPI;
 import com.wuzhanglong.conveyor.R;
@@ -49,7 +48,6 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
 
     @Override
     public void initView() {
-        Toast.makeText(this, "韩币金", Toast.LENGTH_SHORT).show();
         mBaseOkTv.setText("分享");
         mTimeTv = getViewById(R.id.time_tv);
         mNameTv = getViewById(R.id.name_tv);

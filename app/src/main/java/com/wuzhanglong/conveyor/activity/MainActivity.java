@@ -301,7 +301,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         if (intent.getComponent() != null)
             startActivity(intent);
         if(v.getId()==R.id.out_tv)
-            finish();
+            this.finish();
 
     }
 

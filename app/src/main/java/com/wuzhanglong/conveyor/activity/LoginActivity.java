@@ -80,11 +80,6 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ok_tv:
-                if(AppApplication.getInstance().getUserInfoVO()!=null){
-                    openActivity(MainActivity.class);
-                    this.finish();
-                    return;
-                }
 
                 if(TextUtils.isEmpty(mPhoneTv.getText().toString())){
                     showCustomToast("请输入手机号");
@@ -106,6 +101,12 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
             default:
                 break;
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
     }
 
 }
