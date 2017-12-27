@@ -1,6 +1,7 @@
 package com.wuzhanglong.conveyor.activity;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,7 @@ import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
+import com.dou361.dialogui.DialogUIUtils;
 import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.library.ItemDecoration.DividerDecoration;
 import com.wuzhanglong.library.activity.BaseActivity;
@@ -226,7 +228,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
 //
 
 
-        mAMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this,latLng1,vo.getTitle()));
+        mAMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this,latLng1,vo.getTitle(),1));
         mMarker.showInfoWindow();
         //设置中心点和缩放比例
         mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng1));
@@ -335,14 +337,73 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
 //            markerOption.title("西安市").snippet("西安市：34.341568, 108.940174");
 
         markerOption.draggable(true);//设置Marker可拖动
-//        markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
-//                .decodeResource(getResources(), R.drawable.mark)));
+        markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                .decodeResource(getResources(), R.drawable.mark)));
         // 将Marker设置为贴地显示，可以双指下拉地图查看效果
         markerOption.setFlat(true);//设置marker平贴地图效果
+        markerOption.title("塔标");
+
         Marker marker = mAMap.addMarker(markerOption);
         marker.setPositionByPixels(WidthHigthUtil.getScreenWidth(this) / 2, WidthHigthUtil.getScreenHigh(this) / 2);
 //        mAMap.moveCamera(CameraUpdateFactory.zoomTo(55));
+
+        mAMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this,null,"",2));
+        marker.showInfoWindow();
+
+        mAMap.setOnMarkerDragListener(markerDragListener);
+//        mAMap.setOnMapLongClickListener(new AMap.OnMapLongClickListener() {
+//            @Override
+//            public void onMapLongClick(LatLng latLng) {
+//                mAMap.setOnMarkerDragListener(markerDragListener);
+//            }
+//        });
+
+//        mAMap.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
+//            @Override
+//            public void onInfoWindowClick(Marker marker) {
+//                DialogUIUtils.init(MapActivity.this);
+//                View rootView = View.inflate(MapActivity.this, R.layout.custom_dialog_layout, null);
+//                DialogUIUtils.showCustomAlert(MapActivity.this, rootView).show();
+//            }
+//        });
+
+
+
     }
+
+    AMap.OnMarkerDragListener markerDragListener = new AMap.OnMarkerDragListener() {
+
+        // 当marker开始被拖动时回调此方法, 这个marker的位置可以通过getPosition()方法返回。
+        // 这个位置可能与拖动的之前的marker位置不一样。
+        // marker 被拖动的marker对象。
+        @Override
+        public void onMarkerDragStart(Marker arg0) {
+            // TODO Auto-generated method stub
+            System.out.println("===============");
+
+        }
+
+        // 在marker拖动完成后回调此方法, 这个marker的位置可以通过getPosition()方法返回。
+        // 这个位置可能与拖动的之前的marker位置不一样。
+        // marker 被拖动的marker对象。
+        @Override
+        public void onMarkerDragEnd(Marker arg0) {
+            // TODO Auto-generated method stub
+            System.out.println("===============");
+//            arg0.remove();
+
+        }
+
+        // 在marker拖动过程中回调此方法, 这个marker的位置可以通过getPosition()方法返回。
+        // 这个位置可能与拖动的之前的marker位置不一样。
+        // marker 被拖动的marker对象。
+        @Override
+        public void onMarkerDrag(Marker arg0) {
+            // TODO Auto-generated method stub
+
+            System.out.println("===============");
+        }
+    };
 
 
     class CustomInfoWindowAdapter implements AMap.InfoWindowAdapter{
@@ -350,27 +411,38 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
         private Context context;
         private LatLng mLatLng;
         private String mAddress;
+        private int mType=1;
 
-        public CustomInfoWindowAdapter(Context context,LatLng latLng,String address) {
+        public CustomInfoWindowAdapter(Context context,LatLng latLng,String address,int type) {
             this.context = context;
             this.mLatLng=latLng;
             mAddress=address;
+            this.mType=type;
         }
+
+
 
         @Override
         public View getInfoWindow(Marker marker) {
-            View view = LayoutInflater.from(context).inflate(R.layout.map_info_window_layout, null);
-            TextView addresTv=view.findViewById(R.id.address_tv);
-            addresTv.setText(mAddress);
-            LinearLayout layout=view.findViewById(R.id.maker_layout);
-            layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    MapUtil.guide(MapActivity.this,mLatLng.latitude+"" , mLatLng.longitude+"",mAddress);
-                }
-            });
-            setViewContent(marker,view);
-            return view;
+            if(mType==1){
+                View view = LayoutInflater.from(context).inflate(R.layout.map_info_window_layout, null);
+                TextView addresTv=view.findViewById(R.id.address_tv);
+                addresTv.setText(mAddress);
+                LinearLayout layout=view.findViewById(R.id.maker_layout);
+                layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MapUtil.guide(MapActivity.this,mLatLng.latitude+"" , mLatLng.longitude+"",mAddress);
+                    }
+                });
+                setViewContent(marker,view);
+                return view;
+            }else{
+                View view = LayoutInflater.from(context).inflate(R.layout.tabiao_layout, null);
+                setViewContent(marker,view);
+                return view;
+            }
+
         }
         //这个方法根据自己的实体信息来进行相应控件的赋值
         private void setViewContent(Marker marker,View view) {
