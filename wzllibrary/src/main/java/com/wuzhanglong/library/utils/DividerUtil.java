@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import com.github.jdsjlzx.ItemDecoration.GridItemDecoration;
 import com.github.jdsjlzx.ItemDecoration.SpacesItemDecoration;
 import com.wuzhanglong.library.ItemDecoration.DividerDecoration;
+import com.wuzhanglong.library.adapter.RecyclerBaseAdapter;
 
 import cn.bingoogolapple.baseadapter.BGADivider;
 import cn.bingoogolapple.baseadapter.BGAGridDivider;
@@ -65,6 +66,26 @@ public class DividerUtil {
 //                        }
 //                    }
 //                });
+        return divider;
+    }
+
+
+    public static BGADivider bagDividerNoLast(int margintLeft, int margintRight, final RecyclerBaseAdapter adapter ) {
+
+        BGADivider divider = BGADivider.newShapeDivider() //设置分割线,用BGADivider 可以去掉分类顶部的分割线
+                .setMarginLeftDp(margintLeft)
+                .setMarginRightDp(margintRight)
+                .setDelegate(new BGADivider.SimpleDelegate() {
+                    @Override
+                    public boolean isNeedSkip(int position, int itemCount) {
+                        // 如果是分类的话就跳过，顶部不绘制分隔线
+                        if (position == adapter.getData().size()-1) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                });
         return divider;
     }
 

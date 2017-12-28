@@ -200,7 +200,10 @@ public class HttpGetDataUtil {
                                         activity.showCustomToast(vo.getDesc());
                                     }
                                 });
-                            } else {
+                            } else  if("500".equals(vo.getCode())){
+                                postCallback.success(vo);
+                            }
+                            else {
                                 activity.showCustomToast(vo.getDesc());
                             }
                         } catch (Exception e) {
@@ -225,37 +228,4 @@ public class HttpGetDataUtil {
         okHttpClient.newCall(request).enqueue(callback);
     }
 
-
-//    public static <T> void postJson(final BaseActivity activity, final String url, Object obj , final Class<T> className, final PostCallback postCallback) {
-//        if(obj ==null)
-//            obj=new Object();
-//        final Gson gson = new Gson();
-////        final String allUrl = BaseConstant.DOMAIN_NAME + url;
-//        new Novate.Builder(activity)
-//                .baseUrl(BaseConstant.DOMAIN_NAME)
-//                .addCache(false)
-//                .build().RxBody(url, obj, new RxStringCallback() {
-//
-//
-//            @Override
-//            public void onError(Object o, Throwable throwable) {
-//                System.out.println("=============");
-//            }
-//
-//            @Override
-//            public void onCancel(Object o, Throwable throwable) {
-//                System.out.println("=============");
-//            }
-//
-//            @Override
-//            public void onNext(Object o, String s) {
-//                BaseVO vo = (BaseVO) gson.fromJson(s, BaseVO.class);
-//                if ("200".equals(vo.getCode())) {
-//                    postCallback.success(vo);
-//                } else {
-//                    activity.showCustomToast(vo.getDesc());
-//                }
-//            }
-//        });
-//    }
 }

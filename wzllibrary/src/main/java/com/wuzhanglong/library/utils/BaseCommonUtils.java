@@ -19,6 +19,7 @@ import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
@@ -892,6 +893,14 @@ public class BaseCommonUtils {
             url = sb.toString();
         }
         return url;
+    }
+
+    public static double paserDouble(String str){
+        if(TextUtils.isEmpty(str)){
+            return 0.f;
+        }else{
+            return Double.parseDouble(str);
+        }
     }
 
 }
