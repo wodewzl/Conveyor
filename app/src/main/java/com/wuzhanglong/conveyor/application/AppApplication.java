@@ -6,7 +6,6 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.umeng.socialize.PlatformConfig;
-import com.umeng.socialize.UMShareAPI;
 import com.wuzhanglong.conveyor.model.UserInfoVO;
 import com.wuzhanglong.library.application.BaseAppApplication;
 
@@ -14,6 +13,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class AppApplication extends BaseAppApplication {
     private static AppApplication mAppApplication;
@@ -26,8 +27,7 @@ public class AppApplication extends BaseAppApplication {
     public void onCreate() {
         super.onCreate();
         mAppApplication = this;
-
-
+        JPushInterface.init(this);
     }
 
     /**

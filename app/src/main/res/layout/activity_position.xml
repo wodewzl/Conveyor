@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/C1"
+              android:orientation="vertical"
+              tools:context="com.wuzhanglong.conveyor.activity.WorkActivity">
+
+    <com.wuzhanglong.library.view.AutoSwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/search_layout"
+                style="@style/padding_15_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#D5D5D5"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/search_et"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/corners_bantouming"
+                    android:drawableRight="@drawable/search_icon"
+                    android:hint="请输入关键"
+                    android:imeOptions="actionSearch"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:textColorHint="@color/C6"
+                    android:textSize="@dimen/sp_12"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/C3"/>
+
+            <com.github.jdsjlzx.recyclerview.LuRecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </com.wuzhanglong.library.view.AutoSwipeRefreshLayout>
+</LinearLayout>

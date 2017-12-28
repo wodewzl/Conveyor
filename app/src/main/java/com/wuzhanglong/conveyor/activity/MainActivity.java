@@ -44,6 +44,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import cn.bingoogolapple.baseadapter.BGABaseAdapterUtil;
 import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
@@ -52,6 +53,8 @@ import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerPreviewActivity;
 import cn.bingoogolapple.photopicker.imageloader.BGAImage;
 import cn.bingoogolapple.photopicker.util.BGAPhotoHelper;
 import cn.bingoogolapple.photopicker.util.BGAPhotoPickerUtil;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -293,7 +296,11 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
             case R.id.out_tv:
                 AppApplication.getInstance().saveUserInfoVO(null);
                 intent.setClass(MainActivity.this, LoginActivity.class);
-
+                JPushInterface.setAlias(this, "", new TagAliasCallback() {
+                    @Override
+                    public void gotResult(int i, String s, Set<String> set) {
+                    }
+                });
                 break;
             default:
                 break;
