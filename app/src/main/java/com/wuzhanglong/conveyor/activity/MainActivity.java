@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     private LuRecyclerView mRecyclerView;
     private HomeAdapter mAdapter;
     private ScrollableLayout mScrollableLayout;
-    private TextView mHomeTv01, mHomeTv02, mHomeTv03, mHomeTv04, mHomeTv05, mCompanyTv, mNameTv, mDepartTv, mUpdatePwdTv, mMyWorkTv, mAboutTv, mMenuNameTv, mMenuDepartTv, mOutTv;
+    private TextView mHomeTv01, mHomeTv02, mHomeTv03, mHomeTv04, mHomeTv05, mHomeTv06, mCompanyTv, mNameTv, mDepartTv, mUpdatePwdTv, mMyWorkTv, mAboutTv, mMenuNameTv, mMenuDepartTv, mOutTv;
     private File mHeadImgFile;
     private BGAPhotoHelper mPhotoHelper;
 
@@ -84,6 +84,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     private AutoSwipeRefreshLayout mAutoSwipeRefreshLayout;
     private LinearLayout mHomeMenuLayout;
     private double mBackPressed;
+
     @Override
     public void baseSetContentView() {
         contentInflateView(R.layout.main_activity);
@@ -112,6 +113,12 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mHomeTv03 = getViewById(R.id.tv_home_03);
         mHomeTv04 = getViewById(R.id.tv_home_04);
         mHomeTv05 = getViewById(R.id.tv_home_05);
+        mHomeTv06=getViewById(R.id.tv_home_06);
+        if("0".equals(AppApplication.getInstance().getUserInfoVO().getData().getIs_road_sign())){
+            mHomeTv06.setVisibility(View.INVISIBLE);
+        }else {
+            mHomeTv06.setVisibility(View.VISIBLE);
+        }
         mOutTv = getViewById(R.id.out_tv);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -157,6 +164,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mHomeTv03.setOnClickListener(this);
         mHomeTv04.setOnClickListener(this);
         mHomeTv05.setOnClickListener(this);
+        mHomeTv06.setOnClickListener(this);
         mMenuHeadImg.setOnClickListener(this);
         mScrollableLayout.getHelper().setCurrentScrollableContainer(this);
         mUpdatePwdTv.setOnClickListener(this);
@@ -270,11 +278,16 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                 intent.setClass(MainActivity.this, ContactActivity.class);
                 break;
             case R.id.tv_home_04:
+                intent.putExtra("type", "1");
                 intent.setClass(MainActivity.this, MapActivity.class);
                 break;
             case R.id.tv_home_05:
                 intent.putExtra("type", "1");
                 intent.setClass(MainActivity.this, WorkAllActivity.class);
+                break;
+            case R.id.tv_home_06:
+
+                intent.setClass(MainActivity.this, PositionActivity.class);
                 break;
             case R.id.menu_head_img:
                 choicePhotoWrapper(this, 1, BaseConstant.SDCARD_CACHE);

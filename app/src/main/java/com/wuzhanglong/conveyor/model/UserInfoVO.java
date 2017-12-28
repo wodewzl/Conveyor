@@ -75,6 +75,8 @@ public class UserInfoVO extends BaseVO implements Serializable {
         private String returnX;
         private String ftoken;
         private String aboutus_url;
+        private String issign;
+        private String is_road_sign;
 
         public String getUserid() {
             return userid;
@@ -250,6 +252,22 @@ public class UserInfoVO extends BaseVO implements Serializable {
 
         public void setAboutus_url(String aboutus_url) {
             this.aboutus_url = aboutus_url;
+        }
+
+        public String getIssign() {
+            return issign;
+        }
+
+        public void setIssign(String issign) {
+            this.issign = issign;
+        }
+
+        public String getIs_road_sign() {
+            return is_road_sign;
+        }
+
+        public void setIs_road_sign(String is_road_sign) {
+            this.is_road_sign = is_road_sign;
         }
     }
 }

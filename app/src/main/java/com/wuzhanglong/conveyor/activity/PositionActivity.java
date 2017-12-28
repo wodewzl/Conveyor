@@ -1,5 +1,6 @@
 package com.wuzhanglong.conveyor.activity;
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
@@ -32,9 +33,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.bingoogolapple.baseadapter.BGADivider;
 import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
 
-public class PositionActivity extends BaseActivity implements OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BGAOnRVItemClickListener, View.OnClickListener,android.widget.TextView.OnEditorActionListener,TextWatcher {
+public class PositionActivity extends BaseActivity implements OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BGAOnRVItemClickListener, View.OnClickListener, android.widget.TextView.OnEditorActionListener, TextWatcher {
     private AutoSwipeRefreshLayout mAutoSwipeRefreshLayout;
     private LuRecyclerView mRecyclerView;
     private PositionAdapter mAdapter;
@@ -44,6 +46,7 @@ public class PositionActivity extends BaseActivity implements OnLoadMoreListener
     private String mLastid = "";
     private int mState = 0; // 0为首次,1为下拉刷新 ，2为加载更多
     private EditText mSearchEt;
+
     @Override
     public void baseSetContentView() {
         contentInflateView(R.layout.activity_position);
@@ -51,6 +54,7 @@ public class PositionActivity extends BaseActivity implements OnLoadMoreListener
 
     @Override
     public void initView() {
+        mBaseTitleTv.setText("塔标");
         mSearchEt = getViewById(R.id.search_et);
         mSearchEt.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         mSearchEt.setInputType(EditorInfo.TYPE_CLASS_TEXT);
@@ -62,7 +66,7 @@ public class PositionActivity extends BaseActivity implements OnLoadMoreListener
         mAdapter = new PositionAdapter(mRecyclerView);
         LuRecyclerViewAdapter adapter = new LuRecyclerViewAdapter(mAdapter);
         mRecyclerView.setAdapter(adapter);
-        DividerDecoration divider = DividerUtil.linnerDivider(this, R.dimen.dp_1, R.color.C3);
+        BGADivider divider = DividerUtil.bagDividerNoLast(0, 0, mAdapter);
         mRecyclerView.addItemDecoration(divider);
         mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         mRecyclerView.setLoadMoreEnabled(true);
@@ -81,8 +85,7 @@ public class PositionActivity extends BaseActivity implements OnLoadMoreListener
     public void getData() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
-//        map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-        map.put("userid", "5");
+        map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
         map.put("firstid", mFirstid);
         map.put("lastid", mLastid);
         map.put("keyword", mKeyword);
@@ -94,7 +97,7 @@ public class PositionActivity extends BaseActivity implements OnLoadMoreListener
         mAutoSwipeRefreshLayout.setRefreshing(false);
         PositionVO positionVO = (PositionVO) vo;
 
-        if("200".equals(positionVO.getCode())){
+        if ("200".equals(positionVO.getCode())) {
             List<PositionVO.DataBean.ListBean> lsit = positionVO.getData().getList();
             if (1 == mState) {
                 mAdapter.updateDataFrist(lsit);
@@ -104,9 +107,9 @@ public class PositionActivity extends BaseActivity implements OnLoadMoreListener
                 mAdapter.updateData(lsit);
             }
             mRecyclerView.setNoMore(false);
-        }else if ("300".equals(positionVO.getCode())) {
+        } else if ("300".equals(positionVO.getCode())) {
             mRecyclerView.setNoMore(true);
-            if(mState==0){
+            if (mState == 0) {
                 mAdapter.updateData(new ArrayList<PositionVO.DataBean.ListBean>());
             }
         } else {
@@ -123,7 +126,6 @@ public class PositionActivity extends BaseActivity implements OnLoadMoreListener
     public void noNet() {
 
     }
-
 
 
     @Override
@@ -151,7 +153,7 @@ public class PositionActivity extends BaseActivity implements OnLoadMoreListener
     @Override
     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
         mKeyword = textView.getText().toString();
-        match(3,mKeyword);
+        match(3, mKeyword);
         return false;
 
     }
@@ -160,10 +162,16 @@ public class PositionActivity extends BaseActivity implements OnLoadMoreListener
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
         if (mAdapter.getData().size() == 0 || TextUtils.isEmpty(((PositionVO.DataBean.ListBean) mAdapter.getData().get(position)).getSign_id()))
             return;
-//        Bundle bundle = new Bundle();
-//        String logid = ((WorkVO.DataBean.ListBean) mAdapter.getData().get(position)).getLogid();
-//        bundle.putString("logid", logid);
-//        open(WorkDetailActivity.class, bundle, 0);
+        Bundle bundle = new Bundle();
+        String lat = ((PositionVO.DataBean.ListBean) mAdapter.getData().get(position)).getSign_lat();
+        String lng = ((PositionVO.DataBean.ListBean) mAdapter.getData().get(position)).getSign_lng();
+        String title = ((PositionVO.DataBean.ListBean) mAdapter.getData().get(position)).getSign_name();
+        bundle.putString("lat", lat);
+        bundle.putString("lng", lng);
+        bundle.putString("title",title );
+        bundle.putString("type", "3");
+
+        open(MapActivity.class, bundle, 0);
     }
 
     @Override
@@ -184,10 +192,10 @@ public class PositionActivity extends BaseActivity implements OnLoadMoreListener
     public void match(int key, String value) {
         mLastid = "";
         mFirstid = "";
-        mState=0;
+        mState = 0;
         switch (key) {
             case 0:
-                mKeyword="";
+                mKeyword = "";
                 mFirstid = "";
                 mLastid = "";
                 mState = 0;

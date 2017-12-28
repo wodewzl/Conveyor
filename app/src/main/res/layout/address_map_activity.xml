@@ -32,7 +32,8 @@
         android:orientation="horizontal"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        >
 
         <TextView
             android:id="@+id/back_tv"
@@ -60,13 +61,15 @@
             android:textColorHint="@color/C6"
             android:textSize="@dimen/sp_12"/>
 
-        <ImageView
+        <TextView
+            android:id="@+id/ok_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:padding="15dp"
-
-            android:visibility="invisible"/>
+            android:text="标注"
+            android:textColor="@color/C1"
+            android:textSize="16sp"/>
     </LinearLayout>
 
 
