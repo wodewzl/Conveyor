@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/C1"
+    style="@style/padding_15_10">
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="酒店"/>
+    <TextView
+        android:id="@+id/desc_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2-3路标"
+        android:textSize="11sp"
+        android:textColor="@color/C6"
+        android:layout_marginTop="5dp"
+        />
+
+</LinearLayout>

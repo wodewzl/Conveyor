@@ -16,6 +16,10 @@ import com.wuzhanglong.library.mode.BaseVO;
 import com.wuzhanglong.library.utils.BaseCommonUtils;
 
 import java.util.HashMap;
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 public class LoginActivity extends BaseActivity implements PostCallback, View.OnClickListener{
     private TextView mOkTv, mPhoneTv, mPasswordTv, mForgetTv;
@@ -70,6 +74,13 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
     public void success(BaseVO vo) {
         UserInfoVO userInfoVO = (UserInfoVO) vo;
         if(userInfoVO.getData()!=null){
+            JPushInterface.setAlias(LoginActivity.this, userInfoVO.getData().getJpalias(), new TagAliasCallback() {
+                @Override
+                public void gotResult(int i, String s, Set<String> set) {
+                }
+            });
+
+
             AppApplication.getInstance().saveUserInfoVO(userInfoVO);
             openActivity(MainActivity.class);
             this.finish();

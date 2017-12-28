@@ -14,4 +14,5 @@ public class Constant {
     public static final String WORK_REPORT_URL = "/api.php/Log/insert_log/";
     public static final String WORK_LIST_URL = "/api.php/Log/logList/";
     public static final String WORK_DETAIL_URL = "/api.php/Log/logDetail/";
+    public static final String POSITION_URL="/api.php/Signs/signList/";
 }
