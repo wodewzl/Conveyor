@@ -35,7 +35,6 @@ import com.dou361.dialogui.bean.BuildBean;
 import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
-import com.wuzhanglong.conveyor.model.PositionVO;
 import com.wuzhanglong.library.ItemDecoration.DividerDecoration;
 import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.adapter.RecyclerBaseAdapter;
@@ -68,14 +67,15 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
     private AddressAdapter mAddressAdapter;
     private RecyclerView mRecyclerView;
     private boolean mFlag = false, mMove = false;
-    private Marker mMarker;
+    private Marker mPositionMarker, mReportMarker;
     private LinearLayout mTitleLayout;
     private TextView mOkTv;
     private LatLng mLatLng;
     private String mRouteName;
     private String mStarNum;
     private String mEndNum;
-    private String mIsCover="0";
+    private String mIsCover = "0";
+    private CustomInfoWindowAdapter mCustomInfoWindowAdapter;
 
 
     @Override
@@ -142,63 +142,67 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
                 this.finish();
                 break;
             case R.id.ok_tv:
-                DialogUIUtils.init(MapActivity.this);
-                View rootView = View.inflate(MapActivity.this, R.layout.custom_dialog_layout, null);
-                final EditText routeNameEt = rootView.findViewById(R.id.route_name_tv);
-                final EditText startNumEt = rootView.findViewById(R.id.start_num_tv);
-                final EditText endNumEt = rootView.findViewById(R.id.end_num_tv);
-                TextView cancelTv = rootView.findViewById(R.id.cancle_tv);
-                TextView okTv = rootView.findViewById(R.id.ok_tv);
-                final BuildBean buildBean = DialogUIUtils.showCustomAlert(MapActivity.this, rootView);
-                buildBean.show();
-                cancelTv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        DialogUIUtils.dismiss(buildBean);
-                    }
-                });
-                okTv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mRouteName=routeNameEt.getText().toString();
-                        mStarNum=startNumEt.getText().toString();
-                        mEndNum=endNumEt.getText().toString();
-                        if (TextUtils.isEmpty(mRouteName)) {
-                            showCustomToast("请填写线路名称");
-                            return;
-                        }
-                        if (TextUtils.isEmpty(mStarNum)) {
-                            showCustomToast("请填写起始编号");
-                            return;
-                        }
-                        if (TextUtils.isEmpty(mEndNum)) {
-                            showCustomToast("请填写结束编号");
-                            return;
-                        }
-
-                        new SweetAlertDialog(MapActivity.this, SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("确定要塔标吗?")
-//                            .setContentText("删除成功")
-                                .setConfirmText("确定")
-                                .setCancelText("取消")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        commit();
-                                        sDialog.dismissWithAnimation();//直接消失
-                                    }
-                                })
-                                .show();
-                        DialogUIUtils.dismiss(buildBean);
-
-                    }
-                });
-
+                showDialog();
 
                 break;
             default:
                 break;
         }
+    }
+
+    public void showDialog() {
+        DialogUIUtils.init(MapActivity.this);
+        View rootView = View.inflate(MapActivity.this, R.layout.custom_dialog_layout, null);
+        final EditText routeNameEt = rootView.findViewById(R.id.route_name_tv);
+        final EditText startNumEt = rootView.findViewById(R.id.start_num_tv);
+        final EditText endNumEt = rootView.findViewById(R.id.end_num_tv);
+        TextView cancelTv = rootView.findViewById(R.id.cancle_tv);
+        TextView okTv = rootView.findViewById(R.id.ok_tv);
+        final BuildBean buildBean = DialogUIUtils.showCustomAlert(MapActivity.this, rootView);
+        buildBean.show();
+        cancelTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogUIUtils.dismiss(buildBean);
+            }
+        });
+        okTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mRouteName = routeNameEt.getText().toString();
+                mStarNum = startNumEt.getText().toString();
+                mEndNum = endNumEt.getText().toString();
+                if (TextUtils.isEmpty(mRouteName)) {
+                    showCustomToast("请填写线路名称");
+                    return;
+                }
+                if (TextUtils.isEmpty(mStarNum)) {
+                    showCustomToast("请填写起始编号");
+                    return;
+                }
+                if (TextUtils.isEmpty(mEndNum)) {
+                    showCustomToast("请填写结束编号");
+                    return;
+                }
+
+                new SweetAlertDialog(MapActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("确定要塔标吗?")
+//                            .setContentText("删除成功")
+                        .setConfirmText("确定")
+                        .setCancelText("取消")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                commit();
+                                sDialog.dismissWithAnimation();//直接消失
+                            }
+                        })
+                        .show();
+                DialogUIUtils.dismiss(buildBean);
+
+            }
+        });
+
     }
 
     public void commit() {
@@ -232,7 +236,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
 //        //设置中心点和缩放比例
 //        mAMap.moveCamera(CameraUpdateFactory.changeLatLng(marker1));
 //        mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-        getDataByLatlog(location.getLatitude(), location.getLongitude());
+//        getDataByLatlog(location.getLatitude(), location.getLongitude());
     }
 
     //根据关键字收索附近地理位置
@@ -260,9 +264,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
     @Override
     public void onPoiSearched(PoiResult poiResult, int i) {
         List<PoiItem> list = poiResult.getPois();
+        mRecyclerView.setVisibility(View.VISIBLE);
         mAddressAdapter.updateData(list);
-
-
     }
 
     @Override
@@ -303,26 +306,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
 //        params[3] = vo.getLatLonPoint().getLongitude() + "";
 //        MapUtil.guide(MapActivity.this,params[2] , params[3],params[1]);
 
-        LatLng latLng1 = new LatLng(vo.getLatLonPoint().getLatitude(), vo.getLatLonPoint().getLongitude());
+        LatLng latLng = new LatLng(vo.getLatLonPoint().getLatitude(), vo.getLatLonPoint().getLongitude());
+        mReportMarker.remove();
+        addPositonMarker(latLng, vo.getTitle());
 
 
-        if (mMarker != null)
-            mMarker.remove();
-
-        mMarker = mAMap.addMarker(new MarkerOptions()
-                .position(latLng1)
-                .title(vo.getTitle())
-                .snippet(vo.getSnippet())
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark))
-                .draggable(true));
-//
-
-
-        mAMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this, latLng1, vo.getTitle(), 1));
-        mMarker.showInfoWindow();
-        //设置中心点和缩放比例
-        mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng1));
-        mAMap.moveCamera(CameraUpdateFactory.zoomTo(18));
     }
 
     @Override
@@ -336,6 +324,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
             mMove = false;
             mKeyword = s.toString();
             getDataByKeyword();
+        } else {
+            mRecyclerView.setVisibility(View.GONE);
         }
     }
 
@@ -346,8 +336,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
 
     @Override
     public void success(BaseVO vo) {
-        if("500".equals(vo.getCode())){
-            mIsCover="1";
+        if ("500".equals(vo.getCode())) {
+            mIsCover = "1";
             new SweetAlertDialog(MapActivity.this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("确定要覆盖塔标吗?")
 //                            .setContentText("删除成功")
@@ -441,6 +431,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);//定位一次，且将视角移动到地图中心点。
         myLocationStyle.showMyLocation(true);
         mAMap.setMyLocationStyle(myLocationStyle);
+        mCustomInfoWindowAdapter = new CustomInfoWindowAdapter(this);
+        mAMap.setInfoWindowAdapter(mCustomInfoWindowAdapter);
 
 
 //        LatLng latLng = new LatLng(Double.parseDouble(list.get(i).getLat()),Double.parseDouble(list.get(i).getLng()));
@@ -453,17 +445,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
             mBaseHeadLayout.setVisibility(View.GONE);
             if ("1".equals(AppApplication.getInstance().getUserInfoVO().getData().getIssign())) {
                 mOkTv.setVisibility(View.VISIBLE);
-                MarkerOptions markerOption = new MarkerOptions();
-                markerOption.draggable(true);//设置Marker可拖动
-                markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
-                        .decodeResource(getResources(), R.drawable.mark)));
-                // 将Marker设置为贴地显示，可以双指下拉地图查看效果
-                markerOption.setFlat(true);//设置marker平贴地图效果
-                Marker marker = mAMap.addMarker(markerOption);
-                marker.setPositionByPixels(WidthHigthUtil.getScreenWidth(this) / 2, WidthHigthUtil.getScreenHigh(this) / 2);//marker 随地图移动而动
-
-                mAMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this, null, "塔标", 1));
-                marker.showInfoWindow();
+                mPositionMarker.remove();
+                addReportMarker();
             } else {
                 mOkTv.setVisibility(View.INVISIBLE);
             }
@@ -484,10 +467,10 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
 
             LatLng latLng = new LatLng(BaseCommonUtils.paserDouble(lat), BaseCommonUtils.paserDouble(lng));
             markerOption.position(latLng);//maker不随地图动
+            markerOption.title(title);
             Marker marker = mAMap.addMarker(markerOption);
-
-
-            mAMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this, latLng, title, 3));
+//            mAMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this, latLng, title, 3));
+            mCustomInfoWindowAdapter.setType(3);
             marker.showInfoWindow();
             //设置中心点和缩放比例
             mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
@@ -501,66 +484,95 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
 //            });
         }
 
+    }
 
-//        marker.setPositionByPixels(WidthHigthUtil.getScreenWidth(this) / 2, WidthHigthUtil.getScreenHigh(this) / 2);
-////        mAMap.moveCamera(CameraUpdateFactory.zoomTo(55));
-//
-//        mAMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this,null,"",2));
-//        marker.showInfoWindow();
+    public void addPositonMarker(LatLng latLng, String title) {
+        if (mPositionMarker != null)
+            mPositionMarker.remove();
+        mPositionMarker = mAMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(title)
+//                .snippet(vo.getSnippet())
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark))
+                .draggable(true));
+        mCustomInfoWindowAdapter.setType(2);
+        mPositionMarker.showInfoWindow();
+        mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
+        mAMap.moveCamera(CameraUpdateFactory.zoomTo(18));
+    }
 
-
-        mAMap.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-//                DialogUIUtils.init(MapActivity.this);
-//                View rootView = View.inflate(MapActivity.this, R.layout.custom_dialog_layout, null);
-//                DialogUIUtils.showCustomAlert(MapActivity.this, rootView).show();
-            }
-        });
+    public void addReportMarker() {
+        if (mReportMarker != null)
+            mReportMarker.remove();
+        MarkerOptions markerOption = new MarkerOptions();
+        markerOption.draggable(true);//设置Marker可拖动
+        markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                .decodeResource(getResources(), R.drawable.mark)));
+        // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+        markerOption.setFlat(true);//设置marker平贴地图效果
+        markerOption.title("塔标");
+        mReportMarker = mAMap.addMarker(markerOption);
+        mReportMarker.setPositionByPixels(WidthHigthUtil.getScreenWidth(this) / 2, WidthHigthUtil.getScreenHigh(this) / 2);//marker 随地图移动而动
+        mCustomInfoWindowAdapter.setType(1);
+        mReportMarker.showInfoWindow();
+        mAMap.moveCamera(CameraUpdateFactory.zoomTo(18));
     }
 
 
     class CustomInfoWindowAdapter implements AMap.InfoWindowAdapter {
 
         private Context context;
-        private LatLng mLatLng;
-        private String mAddress;
-        private int mType = 1;
 
-        public CustomInfoWindowAdapter(Context context, LatLng latLng, String address, int type) {
+        private int type = 1;
+
+        public CustomInfoWindowAdapter(Context context) {
             this.context = context;
-            this.mLatLng = latLng;
-            mAddress = address;
-            this.mType = type;
+
+            this.type = type;
         }
 
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
 
         @Override
-        public View getInfoWindow(Marker marker) {
+        public View getInfoWindow(final Marker marker) {
 
-            if (mType == 2) {
+            if (type == 2) {
                 View view = LayoutInflater.from(context).inflate(R.layout.map_info_window_layout, null);
                 TextView addresTv = view.findViewById(R.id.address_tv);
-                addresTv.setText(mAddress);
+                addresTv.setText(marker.getTitle());
                 LinearLayout layout = view.findViewById(R.id.maker_layout);
                 layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        MapUtil.guide(MapActivity.this, mLatLng.latitude + "", mLatLng.longitude + "", mAddress);
+                        MapUtil.guide(MapActivity.this, mLatLng.latitude + "", mLatLng.longitude + "", marker.getTitle());
                     }
                 });
                 setViewContent(marker, view);
                 return view;
-            } else if (mType == 1) {
+            } else if (type == 1) {
                 View view = LayoutInflater.from(context).inflate(R.layout.tabiao_layout, null);
                 TextView titleTv = view.findViewById(R.id.title_tv);
-                titleTv.setText(mAddress);
+                titleTv.setText(marker.getTitle());
+                titleTv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if ("1".equals(AppApplication.getInstance().getUserInfoVO().getData().getIssign())) {
+                            showDialog();
+                        }
+                    }
+                });
                 setViewContent(marker, view);
                 return view;
             } else {
                 View view = LayoutInflater.from(context).inflate(R.layout.tabiao_layout, null);
                 TextView titleTv = view.findViewById(R.id.title_tv);
-                titleTv.setText(mAddress);
+                titleTv.setText(marker.getTitle());
                 titleTv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -573,8 +585,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-                                        MapUtil.guide(MapActivity.this, mLatLng.latitude + "", mLatLng.longitude + "", mAddress);
-
+                                        MapUtil.guide(MapActivity.this, mLatLng.latitude + "", mLatLng.longitude + "", marker.getTitle());
                                         sDialog.dismissWithAnimation();//直接消失
                                     }
                                 })
@@ -591,6 +602,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
         //这个方法根据自己的实体信息来进行相应控件的赋值
         private void setViewContent(Marker marker, View view) {
             //实例：
+            System.out.println("=========");
         }
 
         //提供了一个给默认信息窗口定制内容的方法。如果用自定义的布局，不用管这个方法。
