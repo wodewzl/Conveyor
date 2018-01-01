@@ -103,12 +103,11 @@ public class BSPopupWindowsTitle extends PopupWindow {
         }else if(Build.VERSION.SDK_INT >= 24){
             int[] a = new int[2];
             anchor.getLocationInWindow(a);
-            this.showAtLocation(((BaseActivity)mContext).getWindow().getDecorView(), Gravity.NO_GRAVITY, 0, anchor.getHeight()+a[1]+2);
+            this.showAtLocation(((BaseActivity)mContext).getWindow().getDecorView(), Gravity.NO_GRAVITY, 0, anchor.getHeight()+a[1]);
                 this.update();
         }else {
             super.showAsDropDown(anchor);
         }
-
     }
 
     // 单级

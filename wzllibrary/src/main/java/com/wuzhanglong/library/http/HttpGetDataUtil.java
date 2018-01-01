@@ -124,7 +124,6 @@ public class HttpGetDataUtil {
             public void onNext(Object o, String s) {
 
                 BaseVO vo = (BaseVO) gson.fromJson(s, className);
-                postCallback.success(vo);
                 if ("200".equals(vo.getCode())) {
                     postCallback.success(vo);
                 } else {
@@ -168,7 +167,10 @@ public class HttpGetDataUtil {
                             activity.showCustomToast(vo.getDesc());
                         }
                     });
-                } else {
+                }else  if("500".equals(vo.getCode())){
+                    postCallback.success(vo);
+                }
+                else {
                     activity.showCustomToast(vo.getDesc());
                 }
 
@@ -200,8 +202,6 @@ public class HttpGetDataUtil {
                                         activity.showCustomToast(vo.getDesc());
                                     }
                                 });
-                            } else  if("500".equals(vo.getCode())){
-                                postCallback.success(vo);
                             }
                             else {
                                 activity.showCustomToast(vo.getDesc());
