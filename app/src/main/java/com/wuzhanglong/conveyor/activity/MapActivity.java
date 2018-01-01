@@ -287,10 +287,24 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
             mLatLng = latLng;
         } else {
             mFlag = true;
-            LatLng latLng1 = new LatLng(latLng.latitude, latLng.longitude);
-            //设置中心点和缩放比例
-            mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng1));
-            mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+
+//            initMap();
+
+
+            if("3".equals(this.getIntent().getStringExtra("type"))){
+                final String lat = this.getIntent().getStringExtra("lat");
+                final String lng = this.getIntent().getStringExtra("lng");
+                LatLng taganLatLng = new LatLng(BaseCommonUtils.paserDouble(lat), BaseCommonUtils.paserDouble(lng));
+                mAMap.moveCamera(CameraUpdateFactory.changeLatLng(taganLatLng));
+                mAMap.moveCamera(CameraUpdateFactory.zoomTo(18));
+            }else {
+                LatLng latLng1 = new LatLng(latLng.latitude, latLng.longitude);
+                //设置中心点和缩放比例
+
+                mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng1));
+                mAMap.moveCamera(CameraUpdateFactory.zoomTo(18));
+            }
+;
         }
     }
 
@@ -325,7 +339,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
             mKeyword = s.toString();
             getDataByKeyword();
         } else {
-            mRecyclerView.setVisibility(View.GONE);
+            addReportMarker();
         }
     }
 
@@ -378,7 +392,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
 
     @Override
     public void onPermissionsGranted(int i, List<String> list) {
-        initMap();
+//        initMap();
     }
 
     @Override
@@ -445,6 +459,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
             mBaseHeadLayout.setVisibility(View.GONE);
             if ("1".equals(AppApplication.getInstance().getUserInfoVO().getData().getIssign())) {
                 mOkTv.setVisibility(View.VISIBLE);
+                if(mPositionMarker!=null)
                 mPositionMarker.remove();
                 addReportMarker();
             } else {
@@ -474,19 +489,15 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
             marker.showInfoWindow();
             //设置中心点和缩放比例
             mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
-            mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+            mAMap.moveCamera(CameraUpdateFactory.zoomTo(18));
 
-//            mAMap.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
-//                @Override
-//                public void onInfoWindowClick(Marker marker) {
-//                    MapUtil.guide(MapActivity.this, lat, lng, title);
-//                }
-//            });
         }
-
+        mRecyclerView.setVisibility(View.GONE);
     }
 
     public void addPositonMarker(LatLng latLng, String title) {
+        if (mReportMarker != null)
+            mReportMarker.remove();
         if (mPositionMarker != null)
             mPositionMarker.remove();
         mPositionMarker = mAMap.addMarker(new MarkerOptions()
@@ -502,6 +513,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
     }
 
     public void addReportMarker() {
+        if (mPositionMarker != null)
+            mPositionMarker.remove();
         if (mReportMarker != null)
             mReportMarker.remove();
         MarkerOptions markerOption = new MarkerOptions();

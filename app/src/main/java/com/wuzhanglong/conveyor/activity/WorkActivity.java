@@ -336,7 +336,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
                     ArrayList<TreeVO> listDepart = getTreeVOList(mListBeans);
                     mDepartPop = new BSPopupWindowsTitle(mActivity, listDepart, callback);
                 }
-                    mDepartPop.showAsDropDown(v);
+                    mDepartPop.showAsDropDown(mDividerView);
                 break;
             case R.id.options2_tv:
 
@@ -345,7 +345,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
 
                     mDatePickPop = new BSPopupWindowsTitle(mActivity, view, pickCallback,LinearLayout.LayoutParams.MATCH_PARENT);
                 }
-                mDatePickPop.showAsDropDown(v);
+                mDatePickPop.showAsDropDown(mDividerView);
 
                 break;
             default:

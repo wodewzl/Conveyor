@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wuzhanglong.conveyor.activity.WebViewActivity;
+import com.wuzhanglong.conveyor.activity.WorkDetailActivity;
 import com.wuzhanglong.library.utils.SharePreferenceUtil;
 
 import java.util.Map;
@@ -32,11 +33,11 @@ public class JPushReceiver extends BroadcastReceiver {
         if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             // 打开自定义的Activity
 
-            Intent intentDetail = new Intent();
-            intentDetail.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intentDetail.putExtra("url", SharePreferenceUtil.getSharedpreferenceValue(context, "jpush", "msg"));
-            intentDetail.setClass(context, WebViewActivity.class);
-            context.startActivity(intentDetail);
+            String id = map.get("detailid");
+
+            Intent detailIntent = new Intent(context, WorkDetailActivity.class);
+            detailIntent.putExtra("logid", id);
+            context.startActivity(intent);
         }
     }
 
