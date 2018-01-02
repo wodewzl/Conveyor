@@ -2,10 +2,13 @@
 package com.wuzhanglong.conveyor.application;
 
 
+import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 import com.wuzhanglong.conveyor.model.UserInfoVO;
 import com.wuzhanglong.library.application.BaseAppApplication;
 
@@ -16,7 +19,7 @@ import java.io.ObjectOutputStream;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class AppApplication extends BaseAppApplication {
+public class AppApplication extends Application {
     private static AppApplication mAppApplication;
     {
         PlatformConfig.setWeixin("wx93027a99f78841b5","12f61fc306634e3470d2b61de397296b");
@@ -28,6 +31,11 @@ public class AppApplication extends BaseAppApplication {
         super.onCreate();
         mAppApplication = this;
         JPushInterface.init(this);
+        UMShareAPI.get(this);//友盟
+        UMShareAPI.get(this);//初始化sdk
+        //开启debug模式，方便定位错误，具体错误检查方式可以查看http://dev.umeng.com/social/android/quick-integration的报错必看，正式发布，请关闭该模式
+        Config.DEBUG = true;
+
     }
 
     /**

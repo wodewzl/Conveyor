@@ -186,7 +186,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
                 }
 
                 new SweetAlertDialog(MapActivity.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("确定要塔标吗?")
+                        .setTitleText("确定要路标吗?")
 //                            .setContentText("删除成功")
                         .setConfirmText("确定")
                         .setCancelText("取消")
@@ -321,7 +321,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
 //        MapUtil.guide(MapActivity.this,params[2] , params[3],params[1]);
 
         LatLng latLng = new LatLng(vo.getLatLonPoint().getLatitude(), vo.getLatLonPoint().getLongitude());
-        mReportMarker.remove();
         addPositonMarker(latLng, vo.getTitle());
 
 
@@ -353,7 +352,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
         if ("500".equals(vo.getCode())) {
             mIsCover = "1";
             new SweetAlertDialog(MapActivity.this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("确定要覆盖塔标吗?")
+                    .setTitleText("确定要覆盖路标吗?")
 //                            .setContentText("删除成功")
                     .setConfirmText("确定")
                     .setCancelText("取消")
@@ -434,17 +433,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
 
 
         // 县市定位
-        //显示当前定位位置
-        myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
-        // 连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
-        myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-        mAMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
-//aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
-        mAMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
 
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);//定位一次，且将视角移动到地图中心点。
-        myLocationStyle.showMyLocation(true);
-        mAMap.setMyLocationStyle(myLocationStyle);
         mCustomInfoWindowAdapter = new CustomInfoWindowAdapter(this);
         mAMap.setInfoWindowAdapter(mCustomInfoWindowAdapter);
 
@@ -455,6 +444,14 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
         String type = this.getIntent().getStringExtra("type");
 
         if ("1".equals(type)) {
+            //显示当前定位位置
+            myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
+            mAMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
+            mAMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+            myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);//定位一次，且将视角移动到地图中心点。
+            myLocationStyle.showMyLocation(true);
+            mAMap.setMyLocationStyle(myLocationStyle);
+
             mTitleLayout.setVisibility(View.VISIBLE);
             mBaseHeadLayout.setVisibility(View.GONE);
             if ("1".equals(AppApplication.getInstance().getUserInfoVO().getData().getIssign())) {
@@ -468,7 +465,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
         } else if ("3".equals(type)) {
             mTitleLayout.setVisibility(View.GONE);
             mBaseHeadLayout.setVisibility(View.VISIBLE);
-            mBaseTitleTv.setText("塔标位置");
+            mBaseTitleTv.setText("路标位置");
             MarkerOptions markerOption = new MarkerOptions();
             markerOption.draggable(true);//设置Marker可拖动
             markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
@@ -523,7 +520,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
                 .decodeResource(getResources(), R.drawable.mark)));
         // 将Marker设置为贴地显示，可以双指下拉地图查看效果
         markerOption.setFlat(true);//设置marker平贴地图效果
-        markerOption.title("塔标");
+        markerOption.title("路标");
         mReportMarker = mAMap.addMarker(markerOption);
         mReportMarker.setPositionByPixels(WidthHigthUtil.getScreenWidth(this) / 2, WidthHigthUtil.getScreenHigh(this) / 2);//marker 随地图移动而动
         mCustomInfoWindowAdapter.setType(1);

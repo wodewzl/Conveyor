@@ -1,11 +1,19 @@
 apply plugin: 'com.android.application'
 
 android {
+//    signingConfigs {
+//        release {
+//            keyAlias 'wzl'
+//            keyPassword 'wuzhanglong'
+//            storeFile file('C:/Users/Administrator/StudioProjects/Conveyor/wzllibrary/wodewzl.jks')
+//            storePassword 'wuzhanglong'
+//        }
+//    }
     signingConfigs {
-        release {
+        realse {
             keyAlias 'wzl'
             keyPassword 'wuzhanglong'
-            storeFile file('F:/Wuzhanglong/git_workplace/Conveyor/wzllibrary/wodewzl.jks')
+            storeFile file('D:/studio_project/Conveyor/wzllibrary/wodewzl.jks')
             storePassword 'wuzhanglong'
         }
     }
@@ -36,11 +44,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.relase
+            signingConfig signingConfigs.realse
         }
         debug {
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.realse
         }
+    }
+    productFlavors {
     }
 }
 
@@ -61,4 +73,13 @@ dependencies {
     compile 'cn.jiguang.sdk:jpush:3.0.5'
     //激光推送
     compile 'cn.jiguang.sdk:jcore:1.1.2'
+//    implementation files('src/libs/SocialSDK_WeChat_Simplify.jar')
+//    implementation files('src/libs/umeng_shareboard_widget.jar')
+//    implementation files('src/libs/umeng_social_api.jar')
+//    implementation files('src/libs/umeng_social_net.jar')
+//    implementation files('src/libs/umeng_social_shareboard.jar')
+//    implementation files('src/libs/umeng_social_shareview.jar')
+//    implementation files('src/libs/umeng_social_tool.jar')
+//    implementation files('src/libs/SocialSDK_QQ_Simplify.jar')
+//    implementation files('src/libs/SocialSDK_Sina_Simplify.jar')
 }

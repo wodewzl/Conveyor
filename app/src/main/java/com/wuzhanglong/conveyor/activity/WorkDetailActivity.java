@@ -20,7 +20,6 @@ import com.wuzhanglong.library.constant.BaseConstant;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.mode.BaseVO;
 import com.wuzhanglong.library.utils.BaseCommonUtils;
-import com.wuzhanglong.library.utils.ShareUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,9 +32,9 @@ import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayout.Delegate, BGAOnRVItemClickListener, View.OnClickListener {
+public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayout.Delegate, BGAOnRVItemClickListener, View.OnClickListener , EasyPermissions.PermissionCallbacks{
     private static final int PRC_PHOTO_PICKER = 1;
-
+    private static final int REQUEST_PERMISSIONS = 1;
     private TextView mNameTv, mContent1, mContent2, mContent3, mContent4, mContent5, mContent3TitleTv, mContent4TitleTv, mContent5TitleTv, mTimeTv;
     private String mType = "1";//1日报2汇总
     private BGANinePhotoLayout mPhotoLyout;
@@ -166,13 +165,20 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
     @Override
     public void onClick(View view) {
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
-            ActivityCompat.requestPermissions(this, mPermissionList, 123);
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            reuestPerm();
+//        }else{
+//            WorkDetailVO.DataBean.ShareBean shareBean = mWorkDetailVO.getData().getShare_param();
+//            ShareUtil.shareWeb(this, shareBean.getImage(), shareBean.getTitle(), shareBean.getDesc(), shareBean.getUrl());
+//        }
+
+        if(Build.VERSION.SDK_INT>=23){
+            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CALL_PHONE,Manifest.permission.READ_LOGS,Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.SET_DEBUG_APP,Manifest.permission.SYSTEM_ALERT_WINDOW,Manifest.permission.GET_ACCOUNTS,Manifest.permission.WRITE_APN_SETTINGS};
+            ActivityCompat.requestPermissions(this,mPermissionList,123);
+        }else {
+                        WorkDetailVO.DataBean.ShareBean shareBean = mWorkDetailVO.getData().getShare_param();
+            ShareUtil.shareWeb(this, shareBean.getImage(), shareBean.getTitle(), shareBean.getDesc(), shareBean.getUrl());
         }
-        WorkDetailVO.DataBean.ShareBean shareBean = mWorkDetailVO.getData().getShare_param();
-//        ShareUtil.share(this,shareBean.getImage(),shareBean.getTitle(),replaceBlank(shareBean.getDesc()),shareBean.getUrl());
-        ShareUtil.share(this, shareBean.getImage(), shareBean.getTitle(), shareBean.getDesc(), shareBean.getUrl());
 
     }
 
@@ -184,9 +190,38 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        System.out.println("============>");
+        if(requestCode==123){
+            WorkDetailVO.DataBean.ShareBean shareBean = mWorkDetailVO.getData().getShare_param();
+            ShareUtil.shareWeb(this, shareBean.getImage(), shareBean.getTitle(), shareBean.getDesc(), shareBean.getUrl());
+        }
 
     }
+
+    @AfterPermissionGranted(REQUEST_PERMISSIONS)
+    private void reuestPerm() {
+        String[] perms = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+        if (EasyPermissions.hasPermissions(this, perms)) {
+            WorkDetailVO.DataBean.ShareBean shareBean = mWorkDetailVO.getData().getShare_param();
+            ShareUtil.shareWeb(this, shareBean.getImage(), shareBean.getTitle(), shareBean.getDesc(), shareBean.getUrl());
+        } else {
+            EasyPermissions.requestPermissions(this, "", REQUEST_PERMISSIONS, perms);
+        }
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        Intent intent = new Intent();
+        System.out.println("==============>");
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+
+    }
+
+
+
 }
