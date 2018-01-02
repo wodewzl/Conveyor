@@ -27,42 +27,5 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 地图 -->
-    <application
-        android:allowBackup="true"
-        android:launchMode="singleTop"
-        android:screenOrientation="portrait"
-        android:supportsRtl="true"
-        android:theme="@style/AppThemeConveyor"
-        android:windowSoftInputMode="adjustPan">
-
-        <!--<activity android:name=".activity.BaseLogoActivity"-->
-                  <!--android:theme="@style/Theme.AppStartLoad">-->
-        <!--</activity>-->
-        <!-- <activity -->
-        <!-- android:name="com.wuzhanglong.library.test.TestActivity" -->
-        <!-- &gt; -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN"/> -->
-        <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name="com.wuzhanglong.library.activity.BaseActivity" -->
-        <!-- android:launchMode="singleTop" -->
-        <!-- android:screenOrientation="portrait" -->
-        <!-- android:theme="@style/AppThemeTranslucent" -->
-        <!-- android:windowSoftInputMode="adjustPan"/> -->
-        <activity android:name=".test.SecondActivity"/>
-        <activity
-            android:name=".activity.GuideActivity"
-            android:screenOrientation="portrait"/>
-        <!--<activity-->
-        <!--android:name=".activity.BaseHomeActivity"-->
-        <!--android:launchMode="singleTop"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:windowSoftInputMode="adjustPan"/>-->
-        <!--<activity android:name=".activity.HomeFragmentActivity"/>-->
-
-    </application>
 
 </manifest>

@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
-import com.alipay.sdk.app.PayTask;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -26,21 +25,21 @@ public class PayUtis {
     private static PayCallback mPayCallback;
 
     public static void zhiFuBaoPay(final Activity activity, final String payInfo, PayCallback payCallback) {
-        mPayCallback = payCallback;
-        Runnable payRunnable = new Runnable() {
-            @Override
-            public void run() {
-                PayTask alipay = new PayTask(activity);
-                Map<String, String> result = alipay.payV2(payInfo, true);
-                Message msg = new Message();
-                msg.what = SDK_PAY_FLAG;
-                msg.obj = result;
-                mHandler.sendMessage(msg);
-            }
-        };
-        // 必须异步调用
-        Thread payThread = new Thread(payRunnable);
-        payThread.start();
+//        mPayCallback = payCallback;
+//        Runnable payRunnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                PayTask alipay = new PayTask(activity);
+//                Map<String, String> result = alipay.payV2(payInfo, true);
+//                Message msg = new Message();
+//                msg.what = SDK_PAY_FLAG;
+//                msg.obj = result;
+//                mHandler.sendMessage(msg);
+//            }
+//        };
+//        // 必须异步调用
+//        Thread payThread = new Thread(payRunnable);
+//        payThread.start();
     }
 
 
