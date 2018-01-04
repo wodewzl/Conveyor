@@ -4,7 +4,7 @@ package com.wuzhanglong.conveyor.application;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
+
 
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
@@ -31,7 +31,6 @@ public class AppApplication extends Application {
         super.onCreate();
         mAppApplication = this;
         JPushInterface.init(this);
-        UMShareAPI.get(this);//友盟
         UMShareAPI.get(this);//初始化sdk
         //开启debug模式，方便定位错误，具体错误检查方式可以查看http://dev.umeng.com/social/android/quick-integration的报错必看，正式发布，请关闭该模式
         Config.DEBUG = true;
@@ -68,9 +67,9 @@ public class AppApplication extends Application {
         }
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
+//    @Override
+//    protected void attachBaseContext(Context base) {
+//        super.attachBaseContext(base);
+//        MultiDex.install(this);
+//    }
 }

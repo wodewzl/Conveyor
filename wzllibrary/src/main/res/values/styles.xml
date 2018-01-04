@@ -215,17 +215,6 @@
     </style>
 
 
-    <style name="WZLCheckBox">
-        <item name="cbd_width">32dp</item>
-        <item name="cbd_height">32dp</item>
-        <item name="cbd_boxSize">15dp</item>
-        <item name="cbd_cornerRadius">100dp</item>
-        <item name="cbd_strokeSize">2dp</item> <!--边框-->
-        <item name="cbd_strokeColor">@color/C7</item>
-
-        <!--<item name="cbd_tickColor">@color/C9</item>选择勾的颜色-->
-        <item name="cbd_animDuration">@android:integer/config_mediumAnimTime</item>
-    </style>
 
 
     <style name="padding_15_10">
@@ -263,12 +252,7 @@
     <style name="TextAppearance.AppCompat.Light" parent="TextAppearance.AppCompat.Large">
         <item name="android:textColor">@android:color/white</item>
     </style>
-    <style name="item1_custom" parent="Material.Drawable.Ripple.Wave">
-        <item name="rd_rippleColor">#20000000</item>
-    </style>
-    <style name="item2_custom" parent="Material.Drawable.Ripple.Touch">
-        <item name="rd_rippleColor">#20000000</item>
-    </style>
+
 
     <style name="view_divider">
         <item name="android:layout_width">match_parent</item>

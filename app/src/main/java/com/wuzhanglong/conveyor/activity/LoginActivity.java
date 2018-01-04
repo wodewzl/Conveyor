@@ -4,7 +4,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.rey.material.widget.CheckBox;
+
 import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
@@ -22,8 +22,8 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
 public class LoginActivity extends BaseActivity implements PostCallback, View.OnClickListener{
-    private TextView mOkTv, mPhoneTv, mPasswordTv, mForgetTv;
-    private CheckBox mRemberCb;
+    private TextView mOkTv, mPhoneTv, mPasswordTv;
+
 
     @Override
     public void baseSetContentView() {
@@ -36,8 +36,7 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
         mBaseHeadLayout.setVisibility(View.GONE);
         mPhoneTv = getViewById(R.id.phone_tv);
         mPasswordTv = getViewById(R.id.password_tv);
-        mForgetTv = getViewById(R.id.forget_tv);
-        mRemberCb = getViewById(R.id.rember_cb);
+
         mOkTv = getViewById(R.id.ok_tv);
         mOkTv.setBackground(BaseCommonUtils.setBackgroundShap(this, 5, R.color.conveyor_title, R.color.conveyor_title));
 
@@ -106,8 +105,6 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
                 map.put("username", mPhoneTv.getText().toString());
                 map.put("password",mPasswordTv.getText().toString());
                 HttpGetDataUtil.post(LoginActivity.this, Constant.LOGIN_URL, map, UserInfoVO.class, LoginActivity.this);
-                break;
-            case R.id.forget_tv:
                 break;
             default:
                 break;

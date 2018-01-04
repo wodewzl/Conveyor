@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Conveyor.iml" filepath="$PROJECT_DIR$/Conveyor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Conveyor.iml" filepath="$PROJECT_DIR$/.idea/Conveyor.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/imageEditLibrary/imageEditLibrary.iml" filepath="$PROJECT_DIR$/imageEditLibrary/imageEditLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/photoSelect/photoSelect.iml" filepath="$PROJECT_DIR$/photoSelect/photoSelect.iml" />

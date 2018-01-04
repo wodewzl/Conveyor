@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.wuzhanglong.conveyor.activity.MapActivity;
 import com.wuzhanglong.conveyor.activity.WebViewActivity;
 import com.wuzhanglong.conveyor.activity.WorkDetailActivity;
 import com.wuzhanglong.library.utils.SharePreferenceUtil;
@@ -34,10 +35,12 @@ public class JPushReceiver extends BroadcastReceiver {
             // 打开自定义的Activity
 
             String id = map.get("detailid");
-
-            Intent detailIntent = new Intent(context, WorkDetailActivity.class);
+            Intent detailIntent = new Intent();
+            detailIntent.setClass(context, MapActivity.class);
+            detailIntent.setClass(context, WorkDetailActivity.class);
+            detailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             detailIntent.putExtra("logid", id);
-            context.startActivity(intent);
+            context.startActivity(detailIntent);
         }
     }
 

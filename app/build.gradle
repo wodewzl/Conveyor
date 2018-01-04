@@ -16,6 +16,12 @@ android {
             storeFile file('D:/studio_project/Conveyor/wzllibrary/wodewzl.jks')
             storePassword 'wuzhanglong'
         }
+        debug {
+            keyAlias 'wzl'
+            keyPassword 'wuzhanglong'
+            storeFile file('D:/studio_project/Conveyor/wzllibrary/wodewzl.jks')
+            storePassword 'wuzhanglong'
+        }
     }
     compileSdkVersion 27
     buildToolsVersion "27.0.1"
@@ -26,7 +32,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
+//        multiDexEnabled true
 
         ndk {
             //选择要添加的对应cpu类型的.so库。
@@ -44,12 +50,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.relase
+//            s    minifyEnabled falseigningConfig signingConfigs.relase
             signingConfig signingConfigs.realse
         }
         debug {
+            minifyEnabled false
 //            signingConfig signingConfigs.debug
-            signingConfig signingConfigs.realse
+            signingConfig signingConfigs.debug
         }
     }
     productFlavors {
@@ -64,22 +71,22 @@ dependencies {
     //    compile 'com.android.support:appcompat-v7:27.+'
     compile project(':wzllibrary')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:multidex:1.0.1'
+//    compile 'com.android.support:multidex:1.0.1'
     testCompile 'junit:junit:4.12'
     implementation project(':photoSelect')
     //    compile 'com.lzy.widget:imagepicker:0.6.1'
     //    compile 'com.lzy.widget:imagepicker:0.6.1'
     //激光推送
-    compile 'cn.jiguang.sdk:jpush:3.0.5'
+    compile 'cn.jiguang.sdk:jpush:3.0.9'
     //激光推送
-    compile 'cn.jiguang.sdk:jcore:1.1.2'
-//    implementation files('src/libs/SocialSDK_WeChat_Simplify.jar')
-//    implementation files('src/libs/umeng_shareboard_widget.jar')
-//    implementation files('src/libs/umeng_social_api.jar')
-//    implementation files('src/libs/umeng_social_net.jar')
-//    implementation files('src/libs/umeng_social_shareboard.jar')
-//    implementation files('src/libs/umeng_social_shareview.jar')
-//    implementation files('src/libs/umeng_social_tool.jar')
-//    implementation files('src/libs/SocialSDK_QQ_Simplify.jar')
-//    implementation files('src/libs/SocialSDK_Sina_Simplify.jar')
+    compile 'cn.jiguang.sdk:jcore:1.1.7'
+    //    implementation files('src/libs/SocialSDK_WeChat_Simplify.jar')
+    //    implementation files('src/libs/umeng_shareboard_widget.jar')
+    //    implementation files('src/libs/umeng_social_api.jar')
+    //    implementation files('src/libs/umeng_social_net.jar')
+    //    implementation files('src/libs/umeng_social_shareboard.jar')
+    //    implementation files('src/libs/umeng_social_shareview.jar')
+    //    implementation files('src/libs/umeng_social_tool.jar')
+    //    implementation files('src/libs/SocialSDK_QQ_Simplify.jar')
+    //    implementation files('src/libs/SocialSDK_Sina_Simplify.jar')
 }

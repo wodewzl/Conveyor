@@ -54,7 +54,7 @@ public class PositionActivity extends BaseActivity implements OnLoadMoreListener
 
     @Override
     public void initView() {
-        mBaseTitleTv.setText("塔标");
+        mBaseTitleTv.setText("路标");
         mSearchEt = getViewById(R.id.search_et);
         mSearchEt.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         mSearchEt.setInputType(EditorInfo.TYPE_CLASS_TEXT);

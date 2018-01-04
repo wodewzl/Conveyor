@@ -42,8 +42,15 @@ public class LogoActivity extends BaseLogoActivity implements EasyPermissions.Pe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(EBMessageVO event) {
         mFlag = true;
-        reuestPerm();
-
+//        reuestPerm();
+        Intent intent = new Intent();
+        if (AppApplication.getInstance().getUserInfoVO() != null) {
+            intent.setClass(this, MainActivity.class);
+        } else {
+            intent.setClass(this, LoginActivity.class);
+        }
+        startActivity(intent);
+        this.finish();
 
     }
 

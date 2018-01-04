@@ -6,11 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
-import com.tencent.mm.opensdk.constants.ConstantsAPI;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
-import com.tencent.mm.opensdk.modelpay.PayReq;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
 import com.wuzhanglong.library.interfaces.PayCallback;
 import com.wuzhanglong.library.mode.PayResult;
 
@@ -60,32 +56,4 @@ public class PayUtis {
         }
     };
 
-    public static void weiXinPay(Context context, PayResult payResult) {
-        final IWXAPI msgApi = WXAPIFactory.createWXAPI(context, null);
-        msgApi.registerApp(payResult.getAppid());
-        PayReq request = new PayReq();
-        request.appId = payResult.getAppid();
-        request.partnerId = payResult.getPartnerid();
-        request.prepayId = payResult.getPrepayid();
-        request.packageValue = payResult.getPkg();
-        request.nonceStr = payResult.getNoncestr();
-        request.timeStamp = payResult.getTimestamp();
-        request.sign = payResult.getSign();
-        msgApi.sendReq(request);
-
-    }
-
-    public void onResp(int error_code) {
-        System.out.println("===========>");
-    }
-    public void onResp(BaseResp resp){
-        if(resp.getType()== ConstantsAPI.COMMAND_PAY_BY_WX){
-            System.out.println("=============>");
-//            showCustomToast("支付成功");
-//            EventBus.getDefault().post(new EBMessageVO("weixin_pay"));
-        }else{
-//            showCustomToast("支付失败");
-            System.out.println("=============>");
-        }
-    }
 }
