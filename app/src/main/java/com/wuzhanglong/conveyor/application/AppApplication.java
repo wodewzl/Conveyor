@@ -19,7 +19,7 @@ import java.io.ObjectOutputStream;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class AppApplication extends Application {
+public class AppApplication   extends android.support.multidex.MultiDexApplication  {
     private static AppApplication mAppApplication;
     {
         PlatformConfig.setWeixin("wx93027a99f78841b5","12f61fc306634e3470d2b61de397296b");

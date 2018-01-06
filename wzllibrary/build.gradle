@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 //apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 27
+    compileSdkVersion 26
     buildToolsVersion '27.0.1'
 
     defaultConfig {
 
 //        applicationId "com.wuzhanglong.baselibrary"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -99,8 +99,7 @@ dependencies {
     //地图搜索
     compile 'com.tamic.novate:novate:1.5.4.5'
     //Retrofit2.0与rxjava结合的产物
-    //沉浸式状态栏
-    compile 'com.jaeger.statusbarutil:library:1.4.0'
+
     compile 'com.dou361.dialogui:jjdxm-dialogui:1.0.3'   //多样式Dialog
 //    compile 'com.github.vondear:RxTools:v1.7.6'
 
