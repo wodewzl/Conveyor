@@ -56,7 +56,8 @@
                         android:layout_height="wrap_content"
                         android:text="范冰冰"
                         android:textColor="@color/C1"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/depart_tv"

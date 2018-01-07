@@ -595,7 +595,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, T
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-                                        MapUtil.guide(MapActivity.this, mLatLng.latitude + "", mLatLng.longitude + "", marker.getTitle());
+                                        MapUtil.guide(MapActivity.this, marker.getPosition().latitude + "", marker.getPosition().longitude + "", marker.getTitle());
                                         sDialog.dismissWithAnimation();//直接消失
                                     }
                                 })

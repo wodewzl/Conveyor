@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/home_menu_layout"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/C1"
-              android:orientation="vertical">
+    android:id="@+id/home_menu_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/C1"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,10 +19,11 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:drawablePadding="5dp"
+            android:drawablePadding="8dp"
             android:drawableTop="@drawable/home_01"
             android:gravity="center"
-            android:text="工作查询"/>
+            android:text="工作查询"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_home_02"
@@ -31,11 +32,11 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:drawablePadding="5dp"
+            android:drawablePadding="8dp"
             android:drawableTop="@drawable/home_02"
             android:gravity="center"
             android:text="上传工作"
-            />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_home_05"
@@ -44,11 +45,11 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:drawablePadding="5dp"
+            android:drawablePadding="8dp"
             android:drawableTop="@drawable/home_05"
             android:gravity="center"
             android:text="工作汇总"
-            />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -56,6 +57,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="15dp">
+
         <TextView
             android:id="@+id/tv_home_03"
             android:layout_width="match_parent"
@@ -63,10 +65,11 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:drawablePadding="5dp"
+            android:drawablePadding="8dp"
             android:drawableTop="@drawable/home_03"
             android:gravity="center"
-            android:text="通讯录"/>
+            android:text="通讯录"
+            android:textSize="14sp" />
 
 
         <TextView
@@ -76,10 +79,11 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:drawablePadding="5dp"
+            android:drawablePadding="8dp"
             android:drawableTop="@drawable/home_04"
             android:gravity="center"
-            android:text="地图"/>
+            android:text="地图"
+            android:textSize="14sp" />
 
 
         <TextView
@@ -87,15 +91,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawablePadding="5dp"
+            android:drawablePadding="8dp"
             android:drawableTop="@drawable/home_06"
             android:gravity="center"
             android:text="路标"
-            />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <include
         layout="@layout/home_adapter_title"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </LinearLayout>
