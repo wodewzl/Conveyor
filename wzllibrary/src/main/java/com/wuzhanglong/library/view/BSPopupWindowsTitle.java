@@ -100,6 +100,8 @@ public class BSPopupWindowsTitle extends PopupWindow {
             Rect rect = new Rect();
             anchor.getGlobalVisibleRect(rect);
             int h = anchor.getResources().getDisplayMetrics().heightPixels - rect.bottom;
+            setHeight(h);
+            super.showAsDropDown(anchor);
         }else if(Build.VERSION.SDK_INT >= 24){
             int[] a = new int[2];
             anchor.getLocationInWindow(a);
