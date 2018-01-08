@@ -149,8 +149,8 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
             mCompanyTv.setText(AppApplication.getInstance().getUserInfoVO().getData().getFirmcname());
             mNameTv.setText(AppApplication.getInstance().getUserInfoVO().getData().getFullname());
             mMenuNameTv.setText(AppApplication.getInstance().getUserInfoVO().getData().getFullname());
-            mDepartTv.setText(AppApplication.getInstance().getUserInfoVO().getData().getDname() + "/" + AppApplication.getInstance().getUserInfoVO().getData().getPname());
-            mMenuDepartTv.setText(AppApplication.getInstance().getUserInfoVO().getData().getDname() + "/" + AppApplication.getInstance().getUserInfoVO().getData().getPname());
+            mDepartTv.setText(AppApplication.getInstance().getUserInfoVO().getData().getDname() + "    " + AppApplication.getInstance().getUserInfoVO().getData().getPname());
+            mMenuDepartTv.setText(AppApplication.getInstance().getUserInfoVO().getData().getDname() + "    " + AppApplication.getInstance().getUserInfoVO().getData().getPname());
         }
 
         mHomeMenuLayout = getViewById(R.id.home_menu_layout);
