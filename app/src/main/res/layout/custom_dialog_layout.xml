@@ -49,6 +49,7 @@
             android:layout_weight="1"
             android:background="@color/C1"
             android:hint="起始编号"
+            android:inputType="number"
             android:gravity="center"
             />
 
@@ -66,6 +67,7 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@color/C1"
+            android:inputType="number"
             android:hint="结束编号"
             android:gravity="center"/>
 

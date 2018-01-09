@@ -15,9 +15,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- 图片编辑Activity -->
-    <activity android:name="com.xinlan.imageeditlibrary.editimage.EditImageActivity" >
-    </activity>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application android:debuggable="true" >
         <uses-library android:name="android.test.runner" />

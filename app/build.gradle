@@ -13,17 +13,28 @@ android {
         realse {
             keyAlias 'wzl'
             keyPassword 'wuzhanglong'
-            storeFile file('D:/studio_project/Conveyor/wzllibrary/wodewzl.jks')
+            storeFile file('F:/Wuzhanglong/git_workplace/Conveyor/wzllibrary/wodewzl.jks')
             storePassword 'wuzhanglong'
         }
         debug {
             keyAlias 'wzl'
             keyPassword 'wuzhanglong'
-            storeFile file('D:/studio_project/Conveyor/wzllibrary/wodewzl.jks')
+            storeFile file('F:/Wuzhanglong/git_workplace/Conveyor/wzllibrary/wodewzl.jks')
             storePassword 'wuzhanglong'
         }
+
+        configurations.all {
+            resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+                def requested = details.requested
+                if (requested.group == 'com.android.support') {
+                    if (!requested.name.startsWith("multidex")) {
+                        details.useVersion '25.3.0'
+                    }
+                }
+            }
+        }
     }
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "com.wuzhanglong.conveyor"
@@ -72,10 +83,10 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //    compile 'com.android.support:appcompat-v7:27.+'
+        compile 'com.android.support:appcompat-v7:27.+'
     compile project(':wzllibrary')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-//    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.1'
     testCompile 'junit:junit:4.12'
     implementation project(':photoSelect')
     //    compile 'com.lzy.widget:imagepicker:0.6.1'
@@ -85,14 +96,14 @@ dependencies {
     //激光推送
     compile 'cn.jiguang.sdk:jcore:1.1.7'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.15'
-    compile files('libs/open_sdk_r5788_lite.jar')
-    compile files('libs/SocialSDK_QQ_Full.jar')
-    compile files('libs/SocialSDK_WeiXin_Full.jar')
-    compile files('libs/umeng_shareboard_widget.jar')
-    compile files('libs/umeng_social_api.jar')
-    compile files('libs/umeng_social_net.jar')
-    compile files('libs/umeng_social_shareboard.jar')
-    compile files('libs/umeng_social_tool.jar')
-
-    compile files(' wechat-sdk-android-with-mta-1.1.6')
+//    compile files('libs/open_sdk_r5788_lite.jar')
+//    compile files('libs/SocialSDK_QQ_Full.jar')
+//    compile files('libs/SocialSDK_WeiXin_Full.jar')
+//    compile files('libs/umeng_shareboard_widget.jar')
+//    compile files('libs/umeng_social_api.jar')
+//    compile files('libs/umeng_social_net.jar')
+//    compile files('libs/umeng_social_shareboard.jar')
+//    compile files('libs/umeng_social_tool.jar')
+//
+//    compile files('libs/wechat-sdk-android-with-mta-1.1.6')
 }
