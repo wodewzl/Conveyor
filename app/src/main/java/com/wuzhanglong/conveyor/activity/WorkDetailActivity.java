@@ -3,9 +3,7 @@ package com.wuzhanglong.conveyor.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -171,7 +169,6 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
 
     @Override
     public void onClick(View view) {
-
 //        if (Build.VERSION.SDK_INT >= 23) {
 //            reuestPerm();
 //        }else{
@@ -236,7 +233,7 @@ public class WorkDetailActivity extends BaseActivity implements BGANinePhotoLayo
      */
     private void ToUMShare(final Activity activity, String imageUrl, String title, String description, String WebUrl) {
         //分享的图片
-        UMImage thumb = new UMImage(this, com.wuzhanglong.library.R.drawable.ic_launcher);
+        UMImage thumb = new UMImage(this, imageUrl);
         //分享链接
         UMWeb web = new UMWeb(WebUrl);
         web.setTitle(title); //分享的标题

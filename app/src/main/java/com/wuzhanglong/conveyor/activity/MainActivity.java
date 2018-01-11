@@ -330,7 +330,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         UserInfoVO data = (UserInfoVO) vo;
         UserInfoVO userInfoVO = AppApplication.getInstance().getUserInfoVO();
         userInfoVO.getData().setHeadpic(data.getData().getHeadpic());
-        AppApplication.getInstance().saveUserInfoVO(data);
+        AppApplication.getInstance().saveUserInfoVO(userInfoVO);
         Picasso.with(this).load(AppApplication.getInstance().getUserInfoVO().getData().getHeadpic()).placeholder(R.drawable.user_icon_def).into(mHomeHeadImg);
     }
 
