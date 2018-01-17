@@ -22,7 +22,7 @@ public class AppApplication extends Application {
     private static AppApplication mAppApplication;
 
     {
-        PlatformConfig.setWeixin("wx93027a99f78841b5", "12f61fc306634e3470d2b61de397296b");
+        PlatformConfig.setWeixin("wx2c13faa1a2947596", "2b196a7043a25b3edc8c2813224c07fa");
         PlatformConfig.setQQZone("1106607224", "FWo7N3LPeqTdpkgV");
 //        PlatformConfig.setSinaWeibo("319845988","fbb3df56985bcd557975e1bd8e8d8a1e","http://xiaojingsc.test.beisheng.wang/ht");
     }
@@ -34,7 +34,7 @@ public class AppApplication extends Application {
         JPushInterface.init(this);
         UMShareAPI.get(this);//初始化sdk
         //开启debug模式，方便定位错误，具体错误检查方式可以查看http://dev.umeng.com/social/android/quick-integration的报错必看，正式发布，请关闭该模式
-        Config.DEBUG = false;
+        Config.DEBUG = true;
 
     }
 
