@@ -47,7 +47,62 @@ public class WorkAllVO extends BaseVO{
         private String summary_content3;
         private String summary_content4;
         private String summary_content5;
+        private String is_content3;
+        private String is_content4;
+        private String is_content5;
+        private String content3_title;
+        private String content4_title;
+        private String content5_title;
         private String date;
+
+        public String getIs_content3() {
+            return is_content3;
+        }
+
+        public void setIs_content3(String is_content3) {
+            this.is_content3 = is_content3;
+        }
+
+        public String getIs_content4() {
+            return is_content4;
+        }
+
+        public void setIs_content4(String is_content4) {
+            this.is_content4 = is_content4;
+        }
+
+        public String getIs_content5() {
+            return is_content5;
+        }
+
+        public void setIs_content5(String is_content5) {
+            this.is_content5 = is_content5;
+        }
+
+        public String getContent3_title() {
+            return content3_title;
+        }
+
+        public void setContent3_title(String content3_title) {
+            this.content3_title = content3_title;
+        }
+
+        public String getContent4_title() {
+            return content4_title;
+        }
+
+        public void setContent4_title(String content4_title) {
+            this.content4_title = content4_title;
+        }
+
+        public String getContent5_title() {
+            return content5_title;
+        }
+
+        public void setContent5_title(String content5_title) {
+            this.content5_title = content5_title;
+        }
+
         private List<String> summary_imgs;
 
         public String getSummary_content1() {

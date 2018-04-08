@@ -49,10 +49,12 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
     public ArrayList<String> mOldList = new ArrayList<>();
     public ArrayList<String> mOldLocalList = new ArrayList<>();
     private EditText mContent1Et, mContent2Et, mContent3Et, mContent4Et, mContent5Et;
+    private TextView mContent3Tv, mContent4Tv, mContent5Tv;
     private List<File> mFiles = new ArrayList<>();//yiyou
     private BGASavePhotoTask mSavePhotoTask;
     private TextView mTimeTv, mNameTv;
     private LinearLayout mWorkLayout;
+    private StringBuffer mSb = new StringBuffer();
 
     @Override
     public void baseSetContentView() {
@@ -77,7 +79,9 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
         mWorkLayout = getViewById(R.id.work_layout);
         mNameTv = getViewById(R.id.depart_tv);
         mTimeTv.setBackground(BaseCommonUtils.setBackgroundShap(this, 30, R.color.colorPrimaryDark, R.color.colorPrimaryDark));
-
+        mContent3Tv = getViewById(R.id.content3_title_tv);
+        mContent4Tv = getViewById(R.id.content4_title_tv);
+        mContent5Tv = getViewById(R.id.content5_title_tv);
     }
 
     @Override
@@ -106,15 +110,33 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
             mTimeTv.setText(dataBean.getDate());
             mContent1Et.setText(dataBean.getSummary_content1());
             mContent2Et.setText(dataBean.getSummary_content2());
-            mContent3Et.setText(dataBean.getSummary_content3());
-            mContent4Et.setText(dataBean.getSummary_content4());
-            mContent5Et.setText(dataBean.getSummary_content5());
-            mOldList = (ArrayList<String>) dataBean.getSummary_imgs();
-            mPhotoLayout.setData(mOldList);
-
-            for (int i = 0; i < mOldList.size(); i++) {
-                savePic(mOldList.get(i));
+            if ("1".equals(dataBean.getIs_content3())) {
+                mContent3Et.setText(dataBean.getSummary_content3());
+                mContent3Tv.setText(dataBean.getContent3_title());
+                mContent3Et.setVisibility(View.VISIBLE);
+                mContent3Tv.setVisibility(View.VISIBLE);
             }
+            if ("1".equals(dataBean.getIs_content4())) {
+                mContent4Et.setText(dataBean.getSummary_content4());
+                mContent4Tv.setText(dataBean.getContent4_title());
+                mContent4Et.setVisibility(View.VISIBLE);
+                mContent4Tv.setVisibility(View.VISIBLE);
+            }
+            if ("1".equals(dataBean.getIs_content5())) {
+                mContent5Et.setText(dataBean.getSummary_content5());
+                mContent5Tv.setText(dataBean.getContent5_title());
+                mContent5Et.setVisibility(View.VISIBLE);
+                mContent5Tv.setVisibility(View.VISIBLE);
+            }
+
+            mOldList = (ArrayList<String>) dataBean.getSummary_imgs();
+            ArrayList<String> list = new ArrayList<>();
+            list.addAll(mOldList);
+            mPhotoLayout.setData(list);
+
+//            for (int i = 0; i < mOldList.size(); i++) {
+//                savePic(mOldList.get(i));
+//            }
         }
     }
 
@@ -136,10 +158,16 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
 
     @Override
     public void onClickDeleteNinePhotoItem(BGASortableNinePhotoLayout sortableNinePhotoLayout, View view, int position, String model, ArrayList<String> models) {
-        mPhotoLayout.removeItem(position);
+
         if (mOldLocalList.contains(mPhotoLayout.getData().get(position))) {
-            mOldLocalList.remove(position);
+            mOldLocalList.remove(mPhotoLayout.getData().get(position));
         }
+
+        if (mOldList.contains(mPhotoLayout.getData().get(position))) {
+            mOldList.remove(mPhotoLayout.getData().get(position));
+        }
+        mPhotoLayout.removeItem(position);
+
     }
 
     @Override
@@ -164,26 +192,30 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (data == null)
+            return;
+
         if (resultCode == RESULT_OK && requestCode == RC_CHOOSE_PHOTO) {
             //是否单选，单选走true 语句，多选走false语句，这么默认false
 //            List<String> selectedPhotos = BGAPhotoPickerActivity.getSelectedPhotos(data);
             mOldLocalList = BGAPhotoPickerActivity.getSelectedPhotos(data);
-            mPhotoLayout.setData(mOldLocalList);
+            ArrayList<String> list = new ArrayList<>();
+            list.addAll(mOldLocalList);
+            mPhotoLayout.setData(list);
         } else if (requestCode == RC_PHOTO_PREVIEW) {
             // 在预览界面按返回也会回传预览界面已选择的图片集合
 //            List<String> selectedPhotos = BGAPhotoPickerPreviewActivity.getSelectedPhotos(data);
 //            mPhotoLayout.setData(BGAPhotoPickerPreviewActivity.getSelectedPhotos(data));
             mOldLocalList = BGAPhotoPickerPreviewActivity.getSelectedPhotos(data);
-            mPhotoLayout.setData(mOldLocalList);
+            ArrayList<String> list = new ArrayList<>();
+//            list.addAll(mOldList);
+            list.addAll(mOldLocalList);
+//            mOldList.addAll(list);
+            mPhotoLayout.setData(list);
 
         }
 
-        mFiles.clear();
-        for (int i = 0; i < mPhotoLayout.getData().size(); i++) {
-            File file = new File(mPhotoLayout.getData().get(i));
-            File newFile = CompressHelper.getDefault(WorkAllActivity.this).compressToFile(file);
-            mFiles.add(newFile);
-        }
+
     }
 
     @AfterPermissionGranted(PRC_PHOTO_PICKER)
@@ -196,7 +228,7 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
             Intent photoPickerIntent = new BGAPhotoPickerActivity.IntentBuilder(activity)
                     .cameraFileDir(TextUtils.isEmpty(file) ? null : takePhotoDir) // 拍照后照片的存放目录，改成你自己拍照后要存放照片的目录。如果不传递该参数的话则不开启图库里的拍照功能
                     .maxChooseCount(9) // 图片选择张数的最大值
-                    .selectedPhotos(mOldLocalList) // 当前已选中的图片路径集合
+                    .selectedPhotos(mOldList) // 当前已选中的图片路径集合
                     .pauseOnScroll(false)
                     // 滚动列表时是否暂停加载图片
                     .build();
@@ -252,7 +284,6 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
         });
 
 
-
     }
 
     @Override
@@ -266,20 +297,19 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
     }
 
     public void commit() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
-        map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-        map.put("content1", mContent1Et.getText().toString());
-        map.put("content2", mContent2Et.getText().toString());
-        map.put("content3", mContent3Et.getText().toString());
-        map.put("content4", mContent4Et.getText().toString());
-        map.put("content5", mContent5Et.getText().toString());
-        map.put("old_pics", "");
-        for (int i = 0; i < mFiles.size(); i++) {
-            map.put("files" + i, mFiles.get(i));
+        mFiles.clear();
+        mSb.setLength(0);
+        for (int i = 0; i < mPhotoLayout.getData().size(); i++) {
+            if (!mPhotoLayout.getData().get(i).startsWith("http://")) {
+                File file = new File(mPhotoLayout.getData().get(i));
+                File newFile = CompressHelper.getDefault(WorkAllActivity.this).compressToFile(file);
+                mFiles.add(newFile);
+            } else {
+                mSb.append(mPhotoLayout.getData().get(i)).append(";");
+            }
+
         }
-        map.put("type", "1");
-//        HttpGetDataUtil.post(WorkAllActivity.this, Constant.WORK_REPORT_URL, map, WorkAllActivity.this);
+
 
         MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
         requestBody.addFormDataPart("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken())
@@ -289,10 +319,9 @@ public class WorkAllActivity extends BaseActivity implements BGASortableNinePhot
                 .addFormDataPart("content3", mContent3Et.getText().toString())
                 .addFormDataPart("content4", mContent4Et.getText().toString())
                 .addFormDataPart("content5", mContent5Et.getText().toString())
-                .addFormDataPart("old_pics", "")
+                .addFormDataPart("old_pics", mSb.toString())
                 .addFormDataPart("type", "1");
         for (int i = 0; i < mFiles.size(); i++) {
-            map.put("files" + i, mFiles.get(i));
             requestBody.addFormDataPart("file" + i, mFiles.get(i).getName(), RequestBody.create(MediaType.parse("image/*"), mFiles.get(i)));
         }
         MultipartBody rb = requestBody.build();

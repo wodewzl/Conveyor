@@ -206,9 +206,15 @@ public class BGAPhotoPickerPreviewActivity extends BGAPPToolbarActivity implemen
         mEditTv.setOnClickListener(new BGAOnNoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
+
                 File outputFile = FileUtils.genEditFile();
+
                 ArrayList<String> previewPhotos = getIntent().getStringArrayListExtra(EXTRA_PREVIEW_PHOTOS);
                 path = previewPhotos.get(mContentHvp.getCurrentItem());
+                if(path.startsWith("http://")){
+                    Toast.makeText(BGAPhotoPickerPreviewActivity.this,"网路图片无法编辑",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 EditImageActivity.start(BGAPhotoPickerPreviewActivity.this, path, outputFile.getAbsolutePath(), ACTION_REQUEST_EDITIMAGE);
             }
         });

@@ -10,6 +10,7 @@ import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
 import com.wuzhanglong.conveyor.model.UserInfoVO;
 import com.wuzhanglong.library.activity.BaseActivity;
+import com.wuzhanglong.library.constant.BaseConstant;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.interfaces.PostCallback;
 import com.wuzhanglong.library.mode.BaseVO;
@@ -78,8 +79,7 @@ public class LoginActivity extends BaseActivity implements PostCallback, View.On
                 public void gotResult(int i, String s, Set<String> set) {
                 }
             });
-
-
+            BaseConstant.DOMAIN_NAME=userInfoVO.getData().getSiteurl();
             AppApplication.getInstance().saveUserInfoVO(userInfoVO);
             openActivity(MainActivity.class);
             this.finish();

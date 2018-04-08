@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,17 +18,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.allenliu.versionchecklib.v2.AllenVersionChecker;
+import com.allenliu.versionchecklib.v2.builder.UIData;
+import com.allenliu.versionchecklib.v2.callback.RequestVersionListener;
 import com.cpoopc.scrollablelayoutlib.ScrollableHelper;
 import com.cpoopc.scrollablelayoutlib.ScrollableLayout;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LuRecyclerView;
 import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
+import com.google.gson.Gson;
 import com.nanchen.compresshelper.CompressHelper;
 import com.squareup.picasso.Picasso;
 import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.adapter.HomeAdapter;
 import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
+import com.wuzhanglong.conveyor.model.UpdateVO;
 import com.wuzhanglong.conveyor.model.UserInfoVO;
 import com.wuzhanglong.conveyor.model.WorkVO;
 import com.wuzhanglong.conveyor.view.PinnedHeaderDecoration;
@@ -37,6 +43,7 @@ import com.wuzhanglong.library.constant.BaseConstant;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.interfaces.PostCallback;
 import com.wuzhanglong.library.mode.BaseVO;
+import com.wuzhanglong.library.utils.BaseCommonUtils;
 import com.wuzhanglong.library.utils.DividerUtil;
 import com.wuzhanglong.library.view.AutoSwipeRefreshLayout;
 
@@ -60,6 +67,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
+import util.UpdateAppUtils;
 
 
 public class MainActivity extends BaseActivity implements BGAOnRVItemClickListener, OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, PostCallback, ScrollableHelper
@@ -84,6 +92,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     private AutoSwipeRefreshLayout mAutoSwipeRefreshLayout;
     private LinearLayout mHomeMenuLayout;
     private double mBackPressed;
+    private boolean mFlag = true;
 
     @Override
     public void baseSetContentView() {
@@ -113,10 +122,10 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mHomeTv03 = getViewById(R.id.tv_home_03);
         mHomeTv04 = getViewById(R.id.tv_home_04);
         mHomeTv05 = getViewById(R.id.tv_home_05);
-        mHomeTv06=getViewById(R.id.tv_home_06);
-        if("0".equals(AppApplication.getInstance().getUserInfoVO().getData().getIs_road_sign())){
+        mHomeTv06 = getViewById(R.id.tv_home_06);
+        if ("0".equals(AppApplication.getInstance().getUserInfoVO().getData().getIs_road_sign())) {
             mHomeTv06.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             mHomeTv06.setVisibility(View.VISIBLE);
         }
         mOutTv = getViewById(R.id.out_tv);
@@ -154,6 +163,8 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         }
 
         mHomeMenuLayout = getViewById(R.id.home_menu_layout);
+
+//        appUpdate();
     }
 
     @Override
@@ -179,6 +190,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     @Override
     public void getData() {
 
+
         HashMap<String, Object> map = new HashMap<>();
         if (AppApplication.getInstance().getUserInfoVO() != null)
             map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
@@ -188,55 +200,65 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         map.put("lastid", mLastid);
         map.put("is_today", "1");
         HttpGetDataUtil.get(MainActivity.this, Constant.WORK_LIST_URL, map, WorkVO.class);
+
+        if (mFlag) {
+            mFlag = false;
+            HttpGetDataUtil.get(MainActivity.this, Constant.APP_UPDATE_URL, map, UpdateVO.class);
+        }
     }
 
     @Override
     public void hasData(BaseVO vo) {
-        WorkVO workVO = (WorkVO) vo;
-        mAutoSwipeRefreshLayout.setRefreshing(false);
-        if ("300".equals(workVO.getCode())) {
-            mRecyclerView.setNoMore(true);
-            if(mState==0){
-
-                List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
-                WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
-                title.setIsTitle("1");
-                listBean.add(title);
+        if (vo instanceof WorkVO) {
+            WorkVO workVO = (WorkVO) vo;
+            mAutoSwipeRefreshLayout.setRefreshing(false);
+            if ("300".equals(workVO.getCode())) {
+                mRecyclerView.setNoMore(true);
+                if (mState == 0) {
+                    List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
+                    WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
+                    title.setIsTitle("1");
+                    listBean.add(title);
+                    mAdapter.updateData(listBean);
+                }
+                return;
+            } else {
+                mRecyclerView.setNoMore(false);
+            }
+            List<WorkVO.DataBean.ListBean> list = workVO.getData().getList();
+            List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
+            WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
+            title.setIsTitle("1");
+            listBean.add(title);
+            listBean.addAll(list);
+            if (1 == mState) {
+                mAdapter.getData().remove(0);
+                mAdapter.updateDataFrist(listBean);
+            } else if (2 == mState) {
+                mAdapter.updateDataLast(listBean);
+            } else {
                 mAdapter.updateData(listBean);
             }
-//            List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
-//            WorkVO.DataBean.ListBean homeTitle = new WorkVO.DataBean.ListBean();
-//            homeTitle.setIsTitle("1");
-//            listBean.add(homeTitle);
-//            WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
-//            title.setIsTitle("2");
-//            listBean.add(title);
-//            mAdapter.updateData(listBean);
-            return;
         } else {
-            mRecyclerView.setNoMore(false);
+            UpdateVO updateVO = (UpdateVO) vo;
+//            AllenVersionChecker
+//                    .getInstance()
+//                    .downloadOnly(
+//                            UIData.create()
+//                                    .setDownloadUrl(updateVO.getData()
+//                                            .getV_address()).setTitle("更新提示")
+//                                    .setContent(((UpdateVO) vo).getData().getV_content())
+//                    )
+//                    .excuteMission(MainActivity.this);
+
+            UpdateAppUtils.from(this)
+                    .serverVersionCode(2)  //服务器versionCode
+                    .serverVersionName("2.0") //服务器versionName
+                    .apkPath(updateVO.getData().getV_address()) //最新apk下载地址
+                    .update();
         }
-        List<WorkVO.DataBean.ListBean> list = workVO.getData().getList();
-        List<WorkVO.DataBean.ListBean> listBean = new ArrayList<>();
-//        WorkVO.DataBean.ListBean homeTitle = new WorkVO.DataBean.ListBean();
-//        homeTitle.setIsTitle("1");
-//        listBean.add(homeTitle);
-        WorkVO.DataBean.ListBean title = new WorkVO.DataBean.ListBean();
-        title.setIsTitle("1");
-        listBean.add(title);
-        listBean.addAll(list);
 
 
-        if (1 == mState) {
-//            mAdapter.getData().remove(0);
-            mAdapter.getData().remove(0);
-            mAdapter.updateDataFrist(listBean);
-        } else if (2 == mState) {
-//            listBean.remove(0);
-            mAdapter.updateDataLast(listBean);
-        } else {
-            mAdapter.updateData(listBean);
-        }
     }
 
     @Override
@@ -320,7 +342,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         }
         if (intent.getComponent() != null)
             startActivity(intent);
-        if(v.getId()==R.id.out_tv)
+        if (v.getId() == R.id.out_tv)
             this.finish();
 
     }
@@ -423,6 +445,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 
     }
 
+
     public void match(int key, String value) {
 
         switch (key) {
@@ -466,9 +489,38 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                 finish();
                 super.onBackPressed();
             } else
-                showCustomToast("再次点击退出" );
+                showCustomToast("再次点击退出");
             mBackPressed = System.currentTimeMillis();
         }
+    }
+
+    public void appUpdate() {
+        HashMap<String, Object> map = new HashMap<>();
+        if (AppApplication.getInstance().getUserInfoVO() != null)
+            map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
+        if (AppApplication.getInstance().getUserInfoVO() != null)
+            map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+        AllenVersionChecker
+                .getInstance()
+                .requestVersion()
+                .setRequestUrl(BaseConstant.DOMAIN_NAME + Constant.APP_UPDATE_URL + BaseCommonUtils.getUrl((HashMap<String, Object>) map))
+                .request(new RequestVersionListener() {
+                    @Nullable
+                    @Override
+                    public UIData onRequestVersionSuccess(String result) {
+                        //拿到服务器返回的数据，解析，拿到downloadUrl和一些其他的UI数据
+                        Gson gson =new Gson();
+                        UpdateVO updateVO = (UpdateVO) gson.fromJson(result, UpdateVO.class);
+                        //如果是最新版本直接return null
+                        return UIData.create().setDownloadUrl(updateVO.getData().getV_address());
+                    }
+
+                    @Override
+                    public void onRequestVersionFailure(String message) {
+
+                    }
+                })
+                .excuteMission(MainActivity.this);
     }
 
 }
