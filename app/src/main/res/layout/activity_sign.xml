@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/C3"
+    android:orientation="vertical"
+    tools:context="com.wuzhanglong.conveyor.activity.SignActivity">
+
+    <TextView
+        android:id="@+id/time_tv"
+        style="@style/padding_15_13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/C1"
+        android:drawableLeft="@drawable/time_img"
+        android:drawablePadding="8dp"
+        android:text="2018-11-31"/>
+
+    <TextView
+        android:id="@+id/address_tv"
+        style="@style/padding_15_13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/C1"
+        android:drawableLeft="@drawable/address_img"
+        android:drawablePadding="8dp"
+        android:text="2018-11-31"/>
+
+    <LinearLayout
+        style="@style/padding_15_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/C1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/add_img"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/sign_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="签 到"
+        android:textColor="@color/C1"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorAccent"/>
+</LinearLayout>

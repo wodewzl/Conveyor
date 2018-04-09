@@ -17,4 +17,6 @@ public class Constant {
     public static final String POSITION_URL="/api.php/Signs/signList/";
     public static final String POSITION_COMMIT_URL="/api.php/Signs/insert_sign/";
     public static final String APP_UPDATE_URL="/api.php/Index/checkVersion/";
+    public static final String SIGN_URL="/api.php/Signin/insert";
+    public static final String SIGN_LIST_URL="/api.php/Signin/index";
 }

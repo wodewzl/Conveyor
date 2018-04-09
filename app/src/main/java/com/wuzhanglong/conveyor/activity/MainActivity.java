@@ -45,6 +45,7 @@ import com.wuzhanglong.library.interfaces.PostCallback;
 import com.wuzhanglong.library.mode.BaseVO;
 import com.wuzhanglong.library.utils.BaseCommonUtils;
 import com.wuzhanglong.library.utils.DividerUtil;
+import com.wuzhanglong.library.utils.VersionUtils;
 import com.wuzhanglong.library.view.AutoSwipeRefreshLayout;
 
 import java.io.File;
@@ -81,7 +82,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     private LuRecyclerView mRecyclerView;
     private HomeAdapter mAdapter;
     private ScrollableLayout mScrollableLayout;
-    private TextView mHomeTv01, mHomeTv02, mHomeTv03, mHomeTv04, mHomeTv05, mHomeTv06, mCompanyTv, mNameTv, mDepartTv, mUpdatePwdTv, mMyWorkTv, mAboutTv, mMenuNameTv, mMenuDepartTv, mOutTv;
+    private TextView mHomeTv01, mHomeTv02, mHomeTv03, mHomeTv04, mHomeTv05, mHomeTv06, mhomeTv07,mHomeTv08, mCompanyTv, mNameTv, mDepartTv, mUpdatePwdTv, mMyWorkTv, mAboutTv, mMenuNameTv, mMenuDepartTv, mOutTv;
     private File mHeadImgFile;
     private BGAPhotoHelper mPhotoHelper;
 
@@ -93,6 +94,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     private LinearLayout mHomeMenuLayout;
     private double mBackPressed;
     private boolean mFlag = true;
+
 
     @Override
     public void baseSetContentView() {
@@ -123,6 +125,8 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mHomeTv04 = getViewById(R.id.tv_home_04);
         mHomeTv05 = getViewById(R.id.tv_home_05);
         mHomeTv06 = getViewById(R.id.tv_home_06);
+        mhomeTv07 = getViewById(R.id.tv_home_07);
+        mHomeTv08=getViewById(R.id.tv_home_08);
         if ("0".equals(AppApplication.getInstance().getUserInfoVO().getData().getIs_road_sign())) {
             mHomeTv06.setVisibility(View.INVISIBLE);
         } else {
@@ -185,12 +189,12 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mRecyclerView.setOnLoadMoreListener(this);
         mAutoSwipeRefreshLayout.setOnRefreshListener(this);
         mAdapter.setOnRVItemClickListener(this);
+        mhomeTv07.setOnClickListener(this);
+        mHomeTv08.setOnClickListener(this);
     }
 
     @Override
     public void getData() {
-
-
         HashMap<String, Object> map = new HashMap<>();
         if (AppApplication.getInstance().getUserInfoVO() != null)
             map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
@@ -251,14 +255,15 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 //                    )
 //                    .excuteMission(MainActivity.this);
 
-            UpdateAppUtils.from(this)
-                    .serverVersionCode(2)  //服务器versionCode
-                    .serverVersionName("2.0") //服务器versionName
-                    .apkPath(updateVO.getData().getV_address()) //最新apk下载地址
-                    .update();
+            if(VersionUtils.getversionCode(this)<BaseCommonUtils.parseInt(updateVO.getData().getV_number())){
+                UpdateAppUtils.from(this)
+                        .serverVersionCode(2)  //服务器versionCode
+                        .serverVersionName(updateVO.getData().getV_name()) //服务器versionName
+                        .apkPath(updateVO.getData().getV_address()) //最新apk下载地址
+                        .update();
+            }
+
         }
-
-
     }
 
     @Override
@@ -337,6 +342,12 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                     }
                 });
                 break;
+            case R.id.tv_home_07:
+                intent.setClass(MainActivity.this, SignActivity.class);
+                break;
+            case R.id.tv_home_08:
+                intent.setClass(MainActivity.this, SignListActivity.class);
+                break;
             default:
                 break;
         }
@@ -408,11 +419,6 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                 BGAImage.display(mMenuHeadImg, R.mipmap.bga_pp_ic_holder_light, mPhotoHelper.getCropFilePath(), BGABaseAdapterUtil.dp2px(200));
                 File file = new File(mPhotoHelper.getCropFilePath());
                 mHeadImgFile = CompressHelper.getDefault(MainActivity.this).compressToFile(file);
-//                HashMap<String, Object> map = new HashMap<>();
-//                map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
-//                map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-//                map.put("file", mHeadImgFile);
-//                HttpGetDataUtil.post(MainActivity.this, Constant.UPLOAD_HEAD_URL, map, MainActivity.this);
 
                 RequestBody requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
@@ -509,7 +515,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                     @Override
                     public UIData onRequestVersionSuccess(String result) {
                         //拿到服务器返回的数据，解析，拿到downloadUrl和一些其他的UI数据
-                        Gson gson =new Gson();
+                        Gson gson = new Gson();
                         UpdateVO updateVO = (UpdateVO) gson.fromJson(result, UpdateVO.class);
                         //如果是最新版本直接return null
                         return UIData.create().setDownloadUrl(updateVO.getData().getV_address());

@@ -97,6 +97,53 @@
             android:text="路标"
             android:textSize="14sp" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/tv_home_07"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:drawablePadding="8dp"
+            android:drawableTop="@drawable/home_03"
+            android:gravity="center"
+            android:text="签到"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv_home_08"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:drawablePadding="8dp"
+            android:drawableTop="@drawable/home_04"
+            android:gravity="center"
+            android:text="签到记录"
+            android:textSize="14sp"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_home_09"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="8dp"
+            android:drawableTop="@drawable/home_06"
+            android:gravity="center"
+            android:text="路标"
+            android:textSize="14sp"
+            android:visibility="invisible"/>
+    </LinearLayout>
 
     <include
         layout="@layout/home_adapter_title"
