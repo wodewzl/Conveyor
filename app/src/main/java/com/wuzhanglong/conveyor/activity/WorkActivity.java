@@ -261,7 +261,7 @@ public class WorkActivity extends BaseActivity implements OnLoadMoreListener, Sw
 
 
         // 每个二级菜单添加一个全部，为了让全部排在第一，故拿出来重新写了一遍
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < listBeans.size(); i++) {
             DepartVO.DataBean.ListBean vo = listBeans.get(i);
             if ("0".equals(vo.getBelong())) {
                 TreeVO childTreeVo = new TreeVO();

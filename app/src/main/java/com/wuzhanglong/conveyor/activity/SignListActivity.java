@@ -1,13 +1,17 @@
 package com.wuzhanglong.conveyor.activity;
 
 import android.Manifest;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,6 +24,7 @@ import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.adapter.SignListAdapter;
 import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
+import com.wuzhanglong.conveyor.model.PositionVO;
 import com.wuzhanglong.conveyor.model.SignListVO;
 import com.wuzhanglong.conveyor.view.PinnedHeaderDecoration;
 import com.wuzhanglong.library.ItemDecoration.DividerDecoration;
@@ -35,11 +40,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPreviewActivity;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class SignListActivity extends BaseActivity implements OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, android.widget.TextView.OnEditorActionListener, TextWatcher {
+public class SignListActivity extends BaseActivity implements BGAOnRVItemClickListener,OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, android.widget.TextView.OnEditorActionListener, TextWatcher {
     private static final int PRC_PHOTO_PICKER = 1;
     private String mKeyword = "";
     private String mFirstid = "";
@@ -73,7 +79,7 @@ public class SignListActivity extends BaseActivity implements OnLoadMoreListener
         });
         mRecyclerView.addItemDecoration(decoration);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        DividerDecoration divider = DividerUtil.linnerDivider(this, R.dimen.dp_1, R.color.C3);
+        DividerDecoration divider = DividerUtil.linnerDivider(this, R.dimen.dp_10, R.color.C3);
         mRecyclerView.addItemDecoration(divider);
         mAdapter = new SignListAdapter(mRecyclerView);
         LuRecyclerViewAdapter adapter = new LuRecyclerViewAdapter(mAdapter);
@@ -88,6 +94,7 @@ public class SignListActivity extends BaseActivity implements OnLoadMoreListener
         mAutoSwipeRefreshLayout.setOnRefreshListener(this);
         mSearchEt.setOnEditorActionListener(this);
         mSearchEt.addTextChangedListener(this);
+        mAdapter.setOnRVItemClickListener(this);
     }
 
     @Override
@@ -149,7 +156,6 @@ public class SignListActivity extends BaseActivity implements OnLoadMoreListener
                 listBean.remove(0);
             }
             mAdapter.updateDataLast(listBean);
-
         } else {
             mAdapter.updateData(listBean);
         }
@@ -192,6 +198,7 @@ public class SignListActivity extends BaseActivity implements OnLoadMoreListener
             match(1, ((SignListVO.DataBean.ListBean) mAdapter.getData().get(1)).getCsid());
         } else {
             match(1, "");
+            mState=0;
         }
     }
 
@@ -218,6 +225,7 @@ public class SignListActivity extends BaseActivity implements OnLoadMoreListener
     public void onTextChanged(CharSequence s, int i, int i1, int i2) {
         if ("".equals(s.toString())) {
             mKeyword = "";
+            mAutoSwipeRefreshLayout.autoRefresh();
         }
     }
 
@@ -256,5 +264,20 @@ public class SignListActivity extends BaseActivity implements OnLoadMoreListener
                 break;
         }
         getData();
+    }
+
+    @Override
+    public void onRVItemClick(ViewGroup parent, View itemView, int position) {
+        if (mAdapter.getData().size() == 0 || TextUtils.isEmpty(((SignListVO.DataBean.ListBean) mAdapter.getData().get(position)).getCsid()))
+            return;
+        Bundle bundle = new Bundle();
+        String lat = ((SignListVO.DataBean.ListBean) mAdapter.getData().get(position)).getLat();
+        String lng = ((SignListVO.DataBean.ListBean) mAdapter.getData().get(position)).getLng();
+        bundle.putString("lat", lat);
+        bundle.putString("lng", lng);
+        bundle.putString("title","签到" );
+        bundle.putString("type", "3");
+        open(MapActivity.class, bundle, 0);
+
     }
 }

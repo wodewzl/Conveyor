@@ -111,7 +111,7 @@ public class SignActivity extends BaseActivity implements AMapLocationListener, 
         if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
             mLat = aMapLocation.getLatitude() + "";
             mLon = aMapLocation.getLongitude() + "";
-            mAddressTv.setText(aMapLocation.getPoiName());
+            mAddressTv.setText(aMapLocation.getAddress());
             mlocationClient.stopLocation();
         } else {
         }
@@ -166,15 +166,18 @@ public class SignActivity extends BaseActivity implements AMapLocationListener, 
     }
 
     public void commit() {
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken())
+        MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        requestBody.addFormDataPart("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken())
                 .addFormDataPart("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid())
                 .addFormDataPart("lng", mLon)
-                .addFormDataPart("lat", mLat)
-                .addFormDataPart("file", mFile.getName(), RequestBody.create(MediaType.parse("image/*"), mFile))
-                .build();
-        HttpGetDataUtil.post(SignActivity.this, Constant.SIGN_URL, requestBody, UserInfoVO.class, SignActivity.this);
+                .addFormDataPart("lat", mLat);
+        if (mFile != null) {
+            requestBody.addFormDataPart("file", mFile.getName(), RequestBody.create(MediaType.parse("image/*"), mFile));
+
+        }
+
+        MultipartBody rb = requestBody.build();
+        HttpGetDataUtil.post(SignActivity.this, Constant.SIGN_URL, rb, UserInfoVO.class, SignActivity.this);
     }
 
     @Override

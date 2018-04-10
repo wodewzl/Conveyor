@@ -1,112 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-android"
-              style="@style/padding_15_10"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/C1"
-              android:orientation="vertical">
-
+xmlns:app="http://schemas.android.com/apk/res-android"
+style="@style/padding_15_10"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:background="@color/C1"
+android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?android:attr/selectableItemBackgroundBorderless"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/head_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/user_def"
+            app:civ_border_color="#f00"
+            app:civ_border_width="2dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:layout_height="60dp"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/head_img"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/user_def"
-                app:civ_border_color="#f00"
-                app:civ_border_width="2dp"/>
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="吴章龙"
+                android:textSize="14sp"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/name_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="吴章龙"
-                    android:textSize="14sp"/>
-
-                <TextView
-                    android:id="@+id/depart_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="吴章龙"
-                    android:textColor="@color/C6"
-                    android:textSize="13sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/type_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:background="@color/conveyor_title"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="6dp"
-                    android:paddingTop="2dp"
-                    android:text="异常位置"
-                    android:textColor="@color/C1"/>
-
-                <TextView
-                    android:id="@+id/time_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="吴章龙"
-                    android:textColor="@color/C6"
-                    android:textSize="13sp"
-                    />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/depart_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="吴章龙"
+                android:textColor="@color/C6"
+                android:textSize="13sp"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/address_tv"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/address_img"
-            android:drawablePadding="8dp"
-            android:text="今日工作"
-            android:textColor="@color/C5"/>
-        <TextView
-            android:id="@+id/distance_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="今日工作"
-            android:textColor="@color/C5"/>
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/C1"/>
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/type_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@color/conveyor_title"
+                android:paddingBottom="2dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:paddingTop="2dp"
+                android:textColor="@color/C1"
+                />
+
+            <TextView
+                android:id="@+id/time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="吴章龙"
+                android:textColor="@color/C6"
+                android:textSize="13sp"/>
+        </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="今日工作"
+        android:textColor="@color/C6"/>
+
+    <TextView
+        android:id="@+id/today_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:textSize="14sp"
+        android:maxLines="6"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="明日计划"
+        android:textColor="@color/C6"/>
+
+    <TextView
+        android:id="@+id/tomory_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:textSize="14sp"
+        android:maxLines="6"
+        android:ellipsize="end"/>
+</LinearLayout>
 </LinearLayout>

@@ -18,9 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.allenliu.versionchecklib.v2.AllenVersionChecker;
-import com.allenliu.versionchecklib.v2.builder.UIData;
-import com.allenliu.versionchecklib.v2.callback.RequestVersionListener;
+
 import com.cpoopc.scrollablelayoutlib.ScrollableHelper;
 import com.cpoopc.scrollablelayoutlib.ScrollableLayout;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
@@ -255,13 +253,12 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
 //                    )
 //                    .excuteMission(MainActivity.this);
 
-            if(VersionUtils.getversionCode(this)<BaseCommonUtils.parseInt(updateVO.getData().getV_number())){
-                UpdateAppUtils.from(this)
-                        .serverVersionCode(2)  //服务器versionCode
-                        .serverVersionName(updateVO.getData().getV_name()) //服务器versionName
-                        .apkPath(updateVO.getData().getV_address()) //最新apk下载地址
-                        .update();
-            }
+            UpdateAppUtils.from(this)
+                    .serverVersionCode(Integer.parseInt(updateVO.getData().getV_number()))  //服务器versionCode
+                    .serverVersionName(updateVO.getData().getV_name()) //服务器versionName
+                    .apkPath(updateVO.getData().getV_address()) //最新apk下载地址
+                    .isForce(true)
+                    .update();
 
         }
     }
@@ -500,33 +497,33 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         }
     }
 
-    public void appUpdate() {
-        HashMap<String, Object> map = new HashMap<>();
-        if (AppApplication.getInstance().getUserInfoVO() != null)
-            map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
-        if (AppApplication.getInstance().getUserInfoVO() != null)
-            map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
-        AllenVersionChecker
-                .getInstance()
-                .requestVersion()
-                .setRequestUrl(BaseConstant.DOMAIN_NAME + Constant.APP_UPDATE_URL + BaseCommonUtils.getUrl((HashMap<String, Object>) map))
-                .request(new RequestVersionListener() {
-                    @Nullable
-                    @Override
-                    public UIData onRequestVersionSuccess(String result) {
-                        //拿到服务器返回的数据，解析，拿到downloadUrl和一些其他的UI数据
-                        Gson gson = new Gson();
-                        UpdateVO updateVO = (UpdateVO) gson.fromJson(result, UpdateVO.class);
-                        //如果是最新版本直接return null
-                        return UIData.create().setDownloadUrl(updateVO.getData().getV_address());
-                    }
-
-                    @Override
-                    public void onRequestVersionFailure(String message) {
-
-                    }
-                })
-                .excuteMission(MainActivity.this);
-    }
+//    public void appUpdate() {
+//        HashMap<String, Object> map = new HashMap<>();
+//        if (AppApplication.getInstance().getUserInfoVO() != null)
+//            map.put("ftoken", AppApplication.getInstance().getUserInfoVO().getData().getFtoken());
+//        if (AppApplication.getInstance().getUserInfoVO() != null)
+//            map.put("userid", AppApplication.getInstance().getUserInfoVO().getData().getUserid());
+//        AllenVersionChecker
+//                .getInstance()
+//                .requestVersion()
+//                .setRequestUrl(BaseConstant.DOMAIN_NAME + Constant.APP_UPDATE_URL + BaseCommonUtils.getUrl((HashMap<String, Object>) map))
+//                .request(new RequestVersionListener() {
+//                    @Nullable
+//                    @Override
+//                    public UIData onRequestVersionSuccess(String result) {
+//                        //拿到服务器返回的数据，解析，拿到downloadUrl和一些其他的UI数据
+//                        Gson gson = new Gson();
+//                        UpdateVO updateVO = (UpdateVO) gson.fromJson(result, UpdateVO.class);
+//                        //如果是最新版本直接return null
+//                        return UIData.create().setDownloadUrl(updateVO.getData().getV_address());
+//                    }
+//
+//                    @Override
+//                    public void onRequestVersionFailure(String message) {
+//
+//                    }
+//                })
+//                .excuteMission(MainActivity.this);
+//    }
 
 }

@@ -29,10 +29,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
-    作者：wildma
-    链接：https://www.jianshu.com/p/eeb378b99bf3
-    來源：简书
-    著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <!-- fenxiang -->
     <application
@@ -42,6 +39,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppThemeConveyor">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths" />
+        </provider>
 
         <!-- 高德地图 -->
         <meta-data
@@ -184,6 +190,8 @@
         </activity>
         <activity android:name=".activity.SignListActivity">
         </activity>
+
+
     </application>
 
 </manifest>

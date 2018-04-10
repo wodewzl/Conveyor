@@ -32,22 +32,29 @@ public class SignListAdapter extends RecyclerBaseAdapter {
         if ("1".equals(vo.getIsTitle())) {
             helper.setText(R.id.time_tv, vo.getDate());
         } else {
-            if (!TextUtils.isEmpty(vo.getHeadpic())) {
+            if (!TextUtils.isEmpty(vo.getHeadpic()))
                 Picasso.with(mContext).load(vo.getHeadpic()).placeholder(R.drawable.user_def).into(helper.getImageView(R.id.head_img));
-            }
 
             helper.setText(R.id.name_tv, vo.getFullname());
             helper.setText(R.id.depart_tv, vo.getDname() + "/" + vo.getPositionname());
             helper.setText(R.id.time_tv, vo.getDate_timeX());
-            if ("2".equals(vo.getStatus())) {
-                helper.getTextView(R.id.type_tv).setBackground(BaseCommonUtils.setBackgroundShap(mContext, 5, R.color.conveyor_title, R.color.conveyor_title));
-                helper.setVisibility(R.id.type_tv, View.VISIBLE);
+            helper.setText(R.id.type_tv, vo.getStatus_text());
+            if ("1".equals(vo.getStatus())) {
+                helper.getTextView(R.id.type_tv).setBackground(BaseCommonUtils.setBackgroundShap(mContext, 5, R.color.colorAccent, R.color.colorAccent));
+
+            } else if ("2".equals(vo.getStatus())) {
+                helper.getTextView(R.id.type_tv).setBackground(BaseCommonUtils.setBackgroundShap(mContext, 5, R.color.C9, R.color.C9));
             } else {
-                helper.setVisibility(R.id.type_tv, View.GONE);
+                helper.getTextView(R.id.type_tv).setBackground(BaseCommonUtils.setBackgroundShap(mContext, 5, R.color.color1, R.color.color1));
             }
-            if(!TextUtils.isEmpty(vo.getPic()))
+
+            if (!TextUtils.isEmpty(vo.getPic())) {
+                helper.getImageView(R.id.img).setVisibility(View.VISIBLE);
                 Picasso.with(mContext).load(vo.getPic()).into(helper.getImageView(R.id.img));
-           ImageView imageView=helper.getImageView(R.id.img);
+            } else {
+                helper.getImageView(R.id.img).setVisibility(View.GONE);
+            }
+            ImageView imageView = helper.getImageView(R.id.img);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -56,22 +63,13 @@ public class SignListAdapter extends RecyclerBaseAdapter {
                 }
             });
 
-            helper.setText(R.id.address_tv,vo.getAddress());
-            BaseCommonUtils.setTextThree(mContext,helper.getTextView(R.id.distance_tv),"偏差距离：",vo.getDistance(),"m",R.color.C9,1.3f);
-            TextView address =helper.getTextView(R.id.address_tv);
-            address.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    String lat =  vo.getLat();
-                    String lng = vo.getLng();
-                    bundle.putString("lat", lat);
-                    bundle.putString("lng", lng);
-                    bundle.putString("title","签到" );
-                    bundle.putString("type", "4");
-                    mActivity.open(MapActivity.class, bundle, 0);
-                }
-            });
+            helper.setText(R.id.address_tv, vo.getAddress());
+            BaseCommonUtils.setTextThree(mContext, helper.getTextView(R.id.distance_tv), "偏差距离：", vo.getDistance(), "KM", R.color.C9, 1.3f);
+            if ("2".equals(vo.getStatus())) {
+                helper.getTextView(R.id.distance_tv).setVisibility(View.VISIBLE);
+            } else {
+                helper.getTextView(R.id.distance_tv).setVisibility(View.GONE);
+            }
         }
 
     }
@@ -86,7 +84,7 @@ public class SignListAdapter extends RecyclerBaseAdapter {
         if ("1".equals(vo.getIsTitle())) {
             return R.layout.work_adapter_type1;
         } else {
-            return R.layout.work_adapter_type2;
+            return R.layout.sgin_list_adapter_type2;
         }
     }
 
