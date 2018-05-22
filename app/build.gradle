@@ -108,4 +108,6 @@ dependencies {
     //    compile files('libs/wechat-sdk-android-with-mta-1.1.6')
 
     compile 'cjt.library.wheel:camera:1.1.9'
+
+
 }

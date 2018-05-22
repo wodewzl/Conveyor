@@ -1,22 +1,18 @@
 package com.wuzhanglong.conveyor.activity;
 
-import android.graphics.Bitmap;
-import android.os.Environment;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
-import com.cjt2325.cameralibrary.JCameraView;
-import com.cjt2325.cameralibrary.listener.ClickListener;
-import com.cjt2325.cameralibrary.listener.ErrorListener;
-import com.cjt2325.cameralibrary.listener.JCameraListener;
 import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.mode.BaseVO;
 
-import java.io.File;
+import java.util.List;
 
-public class PublishActivity extends BaseActivity {
-    JCameraView jCameraView;
+import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
+
+public class PublishActivity extends BaseActivity implements BGANinePhotoLayout.Delegate{
+    private static final int PRC_PHOTO_PICKER = 1;
+    private BGANinePhotoLayout mPhotoLyout;
 
     @Override
     public void baseSetContentView() {
@@ -25,69 +21,14 @@ public class PublishActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        jCameraView = (JCameraView) findViewById(R.id.jcameraview);
+        mPhotoLyout = getViewById(R.id.photo_layout);
 
-//设置视频保存路径
-        jCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "JCamera");
-
-//设置只能录像或只能拍照或两种都可以（默认两种都可以）
-        jCameraView.setFeatures(JCameraView.BUTTON_STATE_BOTH);
-
-//设置视频质量
-        jCameraView.setMediaQuality(JCameraView.MEDIA_QUALITY_MIDDLE);
-
-//JCameraView监听
-        jCameraView.setErrorLisenter(new ErrorListener() {
-            @Override
-            public void onError() {
-                //打开Camera失败回调
-                Log.i("CJT", "open camera error");
-            }
-
-            @Override
-            public void AudioPermissionError() {
-                //没有录取权限回调
-                Log.i("CJT", "AudioPermissionError");
-            }
-        });
-
-        jCameraView.setJCameraLisenter(new JCameraListener() {
-            @Override
-            public void captureSuccess(Bitmap bitmap) {
-                //获取图片bitmap
-                Log.i("JCameraView", "bitmap = " + bitmap.getWidth());
-            }
-
-            @Override
-            public void recordSuccess(String url, Bitmap firstFrame) {
-                //获取视频路径
-                Log.i("CJT", "url = " + url);
-            }
-            //@Override
-            //public void quit() {
-            //    (1.1.9+后用左边按钮的点击事件替换)
-            //}
-        });
-//左边按钮点击事件
-        jCameraView.setLeftClickListener(new ClickListener() {
-            @Override
-            public void onClick() {
-                PublishActivity.this.finish();
-            }
-        });
-//右边按钮点击事件
-        jCameraView.setRightClickListener(new ClickListener() {
-            @Override
-            public void onClick() {
-                Toast.makeText(PublishActivity.this, "Right", Toast.LENGTH_SHORT).show();
-            }
-
-        });
     }
 
     @Override
     public void bindViewsListener() {
-
+        mPhotoLyout.setDelegate(this);
+//        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -110,14 +51,18 @@ public class PublishActivity extends BaseActivity {
 
     }
 
+
     @Override
-    protected void onResume() {
-        super.onResume();
-        jCameraView.onResume();
+    public void onClickNinePhotoItem(BGANinePhotoLayout ninePhotoLayout, View view, int position, String model, List<String> models) {
+//        openActivity(PublishActivity.class);  PictureSelector.create(MainActivity.this)
+//        PictureSelector.create(PublishActivity.this)
+//                .openCamera(PictureMimeType.ofImage())
+//                .forResult(PictureConfig.CHOOSE_REQUEST);
     }
+
     @Override
-    protected void onPause() {
-        super.onPause();
-        jCameraView.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
+//        EventBus.getDefault().unregister(this);
     }
 }
