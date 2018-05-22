@@ -106,6 +106,6 @@ dependencies {
 //    compile 'com.dou361.dialogui:jjdxm-dialogui:x.x.x'
     //viewPager 指示器
     compile 'me.relex:circleindicator:1.2.2'
-    compile 'com.allenliu.versionchecklib:library:2.0.3'
+//    compile 'com.allenliu.versionchecklib:library:2.0.3'
     compile 'com.teprinciple:updateapputils:1.4'
 }
