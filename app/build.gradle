@@ -13,13 +13,13 @@ android {
         realse {
             keyAlias 'wzl'
             keyPassword 'wuzhanglong'
-            storeFile file('D:/studio_project/Conveyor/wzllibrary/wodewzl.jks')
+            storeFile file('../wzllibrary/wodewzl.jks')
             storePassword 'wuzhanglong'
         }
         debug {
             keyAlias 'wzl'
             keyPassword 'wuzhanglong'
-            storeFile file('D:/studio_project/Conveyor/wzllibrary/wodewzl.jks')
+            storeFile file('../wzllibrary/wodewzl.jks')
             storePassword 'wuzhanglong'
         }
 
@@ -35,7 +35,7 @@ android {
         }
     }
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "com.wuzhanglong.conveyor"
         minSdkVersion 19
@@ -108,6 +108,6 @@ dependencies {
     //    compile files('libs/wechat-sdk-android-with-mta-1.1.6')
 
     compile 'cjt.library.wheel:camera:1.1.9'
-
-
+    compile 'com.ilike:voicerecorder:1.0.2'
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
 }

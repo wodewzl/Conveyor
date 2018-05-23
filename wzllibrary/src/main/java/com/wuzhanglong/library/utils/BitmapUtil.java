@@ -6,7 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.os.Environment;
 import android.util.Base64;
+
+import com.wuzhanglong.library.constant.BaseConstant;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -60,7 +63,7 @@ public class BitmapUtil {
 
     /**
      * 把字节数组保存为一个文件
-     * 
+     *
      * @EditTime 2007-8-13 上午11:45:56
      */
     public static File getFileFromBytes(byte[] b, String outputFile) {
@@ -124,8 +127,40 @@ public class BitmapUtil {
         return inSampleSize;
     }
 
-    public static  Bitmap DrawableToBitMap(Context context,int drawable){
-        Bitmap bitmap=BitmapFactory.decodeResource(context.getResources(), drawable);
+    public static Bitmap DrawableToBitMap(Context context, int drawable) {
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawable);
         return bitmap;
+    }
+
+    public static File saveBitmapFile(Bitmap bitmap,String fielName) {
+        File file = new File(Environment.getExternalStorageDirectory(), BaseConstant.SDCARD_CACHE+fielName);
+
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    public static File saveFile(Bitmap bm, String fileName) {
+        String path = BaseConstant.SDCARD_CACHE;
+        File dirFile = new File(Environment.getExternalStorageDirectory(), BaseConstant.SDCARD_CACHE);
+        if (!dirFile.exists()) {
+            dirFile.mkdir();
+        }
+        File myCaptureFile = new File(path + fileName);
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
+            bm.compress(Bitmap.CompressFormat.JPEG, 80, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return myCaptureFile;
     }
 }

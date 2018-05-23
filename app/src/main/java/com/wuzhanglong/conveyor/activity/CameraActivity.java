@@ -14,6 +14,12 @@ import com.cjt2325.cameralibrary.listener.ClickListener;
 import com.cjt2325.cameralibrary.listener.ErrorListener;
 import com.cjt2325.cameralibrary.listener.JCameraListener;
 import com.wuzhanglong.conveyor.R;
+import com.wuzhanglong.conveyor.constant.Constant;
+import com.wuzhanglong.library.constant.BaseConstant;
+import com.wuzhanglong.library.mode.EBMessageVO;
+import com.wuzhanglong.library.utils.BitmapUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
@@ -70,13 +76,22 @@ public class CameraActivity extends AppCompatActivity {
             public void captureSuccess(Bitmap bitmap) {
                 //获取图片bitmap
                 Log.i("JCameraView", "bitmap = " + bitmap.getWidth());
-
+                File file = BitmapUtil.saveBitmapFile(bitmap,System.currentTimeMillis()+".jpg");
+                EventBus.getDefault().post(new EBMessageVO("pic", file.getPath()));
+                CameraActivity.this.finish();
             }
 
             @Override
             public void recordSuccess(String url, Bitmap firstFrame) {
                 //获取视频路径
                 Log.i("CJT", "url = " + url);
+                EBMessageVO ebMessageVO=new EBMessageVO("video");
+                String[] strArr=new String[2];
+                strArr[0]=url;
+                strArr[1]=BitmapUtil.saveBitmapFile(firstFrame,System.currentTimeMillis()+".jpg").getPath();;
+                ebMessageVO.setParams(strArr);
+                EventBus.getDefault().post(ebMessageVO);
+                CameraActivity.this.finish();
             }
             //@Override
             //public void quit() {

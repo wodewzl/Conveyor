@@ -45,7 +45,7 @@ import cn.bingoogolapple.photopicker.activity.BGAPhotoPreviewActivity;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class SignListActivity extends BaseActivity implements BGAOnRVItemClickListener,OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, android.widget.TextView.OnEditorActionListener, TextWatcher {
+public class SignListActivity extends BaseActivity implements BGAOnRVItemClickListener, OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, android.widget.TextView.OnEditorActionListener, TextWatcher {
     private static final int PRC_PHOTO_PICKER = 1;
     private String mKeyword = "";
     private String mFirstid = "";
@@ -143,7 +143,7 @@ public class SignListActivity extends BaseActivity implements BGAOnRVItemClickLi
             }
 
         }
-//            mAdapter.updateData(listBean);
+
         if (1 == mState) {
             if (listBean.get(listBean.size() - 1).getDate().
                     equals(((SignListVO.DataBean.ListBean) mAdapter.getData().get(0)).getDate())) {
@@ -198,7 +198,7 @@ public class SignListActivity extends BaseActivity implements BGAOnRVItemClickLi
             match(1, ((SignListVO.DataBean.ListBean) mAdapter.getData().get(1)).getCsid());
         } else {
             match(1, "");
-            mState=0;
+            mState = 0;
         }
     }
 
@@ -275,7 +275,7 @@ public class SignListActivity extends BaseActivity implements BGAOnRVItemClickLi
         String lng = ((SignListVO.DataBean.ListBean) mAdapter.getData().get(position)).getLng();
         bundle.putString("lat", lat);
         bundle.putString("lng", lng);
-        bundle.putString("title","签到" );
+        bundle.putString("title", "签到");
         bundle.putString("type", "3");
         open(MapActivity.class, bundle, 0);
 

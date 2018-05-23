@@ -19,4 +19,7 @@ public class Constant {
     public static final String APP_UPDATE_URL="/api.php/Index/checkVersion/";
     public static final String SIGN_URL="/api.php/Signin/insert";
     public static final String SIGN_LIST_URL="/api.php/Signin/index";
+    public static final String PUBLISH_URL="/api.php/Index/eventUpload";
+    public static final String PUBLISH_LIST_URL="/api.php/Log/eventList";
+
 }
