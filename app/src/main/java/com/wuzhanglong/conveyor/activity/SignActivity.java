@@ -173,7 +173,6 @@ public class SignActivity extends BaseActivity implements AMapLocationListener, 
                 .addFormDataPart("lat", mLat);
         if (mFile != null) {
             requestBody.addFormDataPart("file", mFile.getName(), RequestBody.create(MediaType.parse("image/*"), mFile));
-
         }
 
         MultipartBody rb = requestBody.build();

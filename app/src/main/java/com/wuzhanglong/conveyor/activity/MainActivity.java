@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,13 +17,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.cpoopc.scrollablelayoutlib.ScrollableHelper;
 import com.cpoopc.scrollablelayoutlib.ScrollableLayout;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LuRecyclerView;
 import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
-import com.google.gson.Gson;
 import com.nanchen.compresshelper.CompressHelper;
 import com.squareup.picasso.Picasso;
 import com.wuzhanglong.conveyor.R;
@@ -41,9 +38,7 @@ import com.wuzhanglong.library.constant.BaseConstant;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
 import com.wuzhanglong.library.interfaces.PostCallback;
 import com.wuzhanglong.library.mode.BaseVO;
-import com.wuzhanglong.library.utils.BaseCommonUtils;
 import com.wuzhanglong.library.utils.DividerUtil;
-import com.wuzhanglong.library.utils.VersionUtils;
 import com.wuzhanglong.library.view.AutoSwipeRefreshLayout;
 
 import java.io.File;
@@ -80,7 +75,8 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     private LuRecyclerView mRecyclerView;
     private HomeAdapter mAdapter;
     private ScrollableLayout mScrollableLayout;
-    private TextView mHomeTv01, mHomeTv02, mHomeTv03, mHomeTv04, mHomeTv05, mHomeTv06, mhomeTv07,mHomeTv08, mCompanyTv, mNameTv, mDepartTv, mUpdatePwdTv, mMyWorkTv, mAboutTv, mMenuNameTv, mMenuDepartTv, mOutTv;
+    private TextView mHomeTv01, mHomeTv02, mHomeTv03, mHomeTv04, mHomeTv05, mHomeTv06, mhomeTv07, mHomeTv08, mHomeTv09, mCompanyTv, mNameTv, mDepartTv, mUpdatePwdTv, mMyWorkTv, mAboutTv,
+            mMenuNameTv, mMenuDepartTv, mOutTv;
     private File mHeadImgFile;
     private BGAPhotoHelper mPhotoHelper;
 
@@ -124,7 +120,8 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mHomeTv05 = getViewById(R.id.tv_home_05);
         mHomeTv06 = getViewById(R.id.tv_home_06);
         mhomeTv07 = getViewById(R.id.tv_home_07);
-        mHomeTv08=getViewById(R.id.tv_home_08);
+        mHomeTv08 = getViewById(R.id.tv_home_08);
+        mHomeTv09 = getViewById(R.id.tv_home_09);
         if ("0".equals(AppApplication.getInstance().getUserInfoVO().getData().getIs_road_sign())) {
             mHomeTv06.setVisibility(View.INVISIBLE);
         } else {
@@ -189,6 +186,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mAdapter.setOnRVItemClickListener(this);
         mhomeTv07.setOnClickListener(this);
         mHomeTv08.setOnClickListener(this);
+        mHomeTv09.setOnClickListener(this);
     }
 
     @Override
@@ -344,6 +342,9 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                 break;
             case R.id.tv_home_08:
                 intent.setClass(MainActivity.this, SignListActivity.class);
+                break;
+            case R.id.tv_home_09:
+                intent.setClass(MainActivity.this, PublishActivity.class);
                 break;
             default:
                 break;
