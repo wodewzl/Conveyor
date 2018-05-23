@@ -140,9 +140,9 @@
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/home_06"
             android:gravity="center"
-            android:text="路标"
+            android:text="上传"
             android:textSize="14sp"
-            android:visibility="invisible"/>
+            android:visibility="visible"/>
     </LinearLayout>
 
     <include
