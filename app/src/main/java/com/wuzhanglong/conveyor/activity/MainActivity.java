@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     private LuRecyclerView mRecyclerView;
     private HomeAdapter mAdapter;
     private ScrollableLayout mScrollableLayout;
-    private TextView mHomeTv01, mHomeTv02, mHomeTv03, mHomeTv04, mHomeTv05, mHomeTv06, mhomeTv07, mHomeTv08, mHomeTv09, mCompanyTv, mNameTv, mDepartTv, mUpdatePwdTv, mMyWorkTv, mAboutTv,
+    private TextView mHomeTv01, mHomeTv02, mHomeTv03, mHomeTv04, mHomeTv05, mHomeTv06, mhomeTv07, mHomeTv08, mHomeTv09,mHomeTv10, mCompanyTv, mNameTv, mDepartTv, mUpdatePwdTv, mMyWorkTv, mAboutTv,
             mMenuNameTv, mMenuDepartTv, mOutTv;
     private File mHeadImgFile;
     private BGAPhotoHelper mPhotoHelper;
@@ -122,6 +122,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mhomeTv07 = getViewById(R.id.tv_home_07);
         mHomeTv08 = getViewById(R.id.tv_home_08);
         mHomeTv09 = getViewById(R.id.tv_home_09);
+        mHomeTv10=getViewById(R.id.tv_home_10);
         if ("0".equals(AppApplication.getInstance().getUserInfoVO().getData().getIs_road_sign())) {
             mHomeTv06.setVisibility(View.INVISIBLE);
         } else {
@@ -187,6 +188,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         mhomeTv07.setOnClickListener(this);
         mHomeTv08.setOnClickListener(this);
         mHomeTv09.setOnClickListener(this);
+        mHomeTv10.setOnClickListener(this);
     }
 
     @Override
@@ -345,6 +347,9 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
                 break;
             case R.id.tv_home_09:
                 intent.setClass(MainActivity.this, PublishActivity.class);
+                break;
+            case R.id.tv_home_10:
+                intent.setClass(MainActivity.this, PublishListActivity.class);
                 break;
             default:
                 break;

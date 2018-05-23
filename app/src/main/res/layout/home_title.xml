@@ -144,7 +144,53 @@
             android:textSize="14sp"
             android:visibility="visible"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp">
 
+        <TextView
+            android:id="@+id/tv_home_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:drawablePadding="8dp"
+            android:drawableTop="@drawable/home_03"
+            android:gravity="center"
+            android:text="签到"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv_home_11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:drawablePadding="8dp"
+            android:drawableTop="@drawable/home_04"
+            android:gravity="center"
+            android:text="签到记录"
+            android:textSize="14sp"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_home_12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="8dp"
+            android:drawableTop="@drawable/home_06"
+            android:gravity="center"
+            android:text="发布"
+            android:textSize="14sp"
+            android:visibility="visible"/>
+    </LinearLayout>
     <include
         layout="@layout/home_adapter_title"
         android:visibility="gone" />
