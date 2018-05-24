@@ -88,6 +88,7 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
     private LinearLayout mHomeMenuLayout;
     private double mBackPressed;
     private boolean mFlag = true;
+    private LinearLayout mRow3Layout,mRow4Layout;
 
 
     @Override
@@ -163,17 +164,16 @@ public class MainActivity extends BaseActivity implements BGAOnRVItemClickListen
         }
 
         mHomeMenuLayout = getViewById(R.id.home_menu_layout);
+        mRow3Layout=getViewById(R.id.row3_layout);
+        mRow4Layout=getViewById(R.id.row4_layout);
+        if ("1".equals(AppApplication.getInstance().getUserInfoVO().getData().getIs_signin())) {
+            mRow3Layout.setVisibility(View.VISIBLE);
+            mRow4Layout.setVisibility(View.VISIBLE);
 
-        if ("1".equals(AppApplication.getInstance().getUserInfoVO().getData().getIslogin())) {
-            mHomeTv07.setVisibility(View.VISIBLE);
-            mHomeTv08.setVisibility(View.VISIBLE);
-            mHomeTv09.setVisibility(View.VISIBLE);
-            mHomeTv10.setVisibility(View.VISIBLE);
         } else {
-            mHomeTv07.setVisibility(View.INVISIBLE);
-            mHomeTv08.setVisibility(View.INVISIBLE);
-            mHomeTv09.setVisibility(View.INVISIBLE);
-            mHomeTv10.setVisibility(View.INVISIBLE);
+            mRow3Layout.setVisibility(View.GONE);
+            mRow4Layout.setVisibility(View.GONE);
+
         }
     }
 

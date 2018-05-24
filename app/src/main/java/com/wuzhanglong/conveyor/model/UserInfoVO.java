@@ -77,6 +77,15 @@ public class UserInfoVO extends BaseVO implements Serializable {
         private String aboutus_url;
         private String issign;
         private String is_road_sign;
+        private String is_signin;
+
+        public String getIs_signin() {
+            return is_signin;
+        }
+
+        public void setIs_signin(String is_signin) {
+            this.is_signin = is_signin;
+        }
 
         public String getUserid() {
             return userid;
