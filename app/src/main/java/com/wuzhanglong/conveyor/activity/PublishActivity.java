@@ -1,6 +1,10 @@
 package com.wuzhanglong.conveyor.activity;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +17,7 @@ import com.ilike.voicerecorder.widget.VoiceRecorderView;
 import com.wuzhanglong.conveyor.R;
 import com.wuzhanglong.conveyor.application.AppApplication;
 import com.wuzhanglong.conveyor.constant.Constant;
+import com.wuzhanglong.conveyor.service.PlayService;
 import com.wuzhanglong.conveyor.util.AppCache;
 import com.wuzhanglong.library.activity.BaseActivity;
 import com.wuzhanglong.library.http.HttpGetDataUtil;
@@ -48,7 +53,7 @@ public class PublishActivity extends BaseActivity implements BGASortableNinePhot
     private LinearLayout mVoiceLayout;
     private File mVoiceFile;
     private ImageView mVoiceImg;
-
+    private PlayServiceConnection mPlayServiceConnection;
     @Override
     public void baseSetContentView() {
         contentInflateView(R.layout.publish_activity);
@@ -56,8 +61,8 @@ public class PublishActivity extends BaseActivity implements BGASortableNinePhot
 
     @Override
     public void initView() {
+        mBaseTitleTv.setText("上传音视频");
         mPhotoLayout = getViewById(R.id.photo_layout);
-
         mPhotoLayout.setMaxItemCount(9);
         mPhotoLayout.setEditable(true);//有加号，有删除，可以点加号选择，false没有加号，点其他按钮选择，也没有删除
         mPhotoLayout.setPlusEnable(true);//有加号，可以点加号选择，false没有加号，点其他按钮选择
@@ -74,7 +79,10 @@ public class PublishActivity extends BaseActivity implements BGASortableNinePhot
         mRemarkTv = getViewById(R.id.mark_tv);
         mOkTv=getViewById(R.id.ok_tv);
         mOkTv.setBackground(BaseCommonUtils.setBackgroundShap(this, 5, R.color.colorAccent, R.color.colorAccent));
-
+        Intent intent = new Intent();
+        intent.setClass(this, PlayService.class);
+        mPlayServiceConnection = new PlayServiceConnection();
+        bindService(intent, mPlayServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -158,8 +166,8 @@ public class PublishActivity extends BaseActivity implements BGASortableNinePhot
 
             case R.id.voice_img:
                 if (AppCache.getPlayService() != null) {
-//                    AppCache.getPlayService().setImageView(imageView);
-//                    AppCache.getPlayService().stopPlayVoiceAnimation();
+                    AppCache.getPlayService().setImageView(mVoiceImg);
+                    AppCache.getPlayService().stopPlayVoiceAnimation();
                     //  AppCache.getPlayService().play("http://img.layuva.com//b96c4bde124a328d9c6edb5b7d51afb2.amr");
                     AppCache.getPlayService().play(mVoiceFile.getPath());
                 }
@@ -215,11 +223,12 @@ public class PublishActivity extends BaseActivity implements BGASortableNinePhot
                 requestBody.addFormDataPart("file" + i, mFileList.get(i).getName(), RequestBody.create(MediaType.parse("image/*"), mFileList.get(i)));
             } else {
                 requestBody.addFormDataPart("file" + i, mFileList.get(i).getName(), RequestBody.create(MediaType.parse("video/mp4"), mFileList.get(i)));
-                requestBody.addFormDataPart("audio_seconds",mVoiceTimeTv.getText().toString());
+
             }
         }
         if(mVoiceFile!=null){
             requestBody.addFormDataPart("file" ,mVoiceFile.getName(), RequestBody.create(MediaType.parse("video/mp4"), mVoiceFile));
+            requestBody.addFormDataPart("audio_seconds",mVoiceTimeTv.getText().toString());
         }
         MultipartBody rb = requestBody.build();
         HttpGetDataUtil.post(PublishActivity.this, Constant.PUBLISH_URL, rb, BaseVO.class, PublishActivity.this);
@@ -228,5 +237,18 @@ public class PublishActivity extends BaseActivity implements BGASortableNinePhot
     @Override
     public void success(BaseVO vo) {
         this.finish();
+    }
+
+    private class PlayServiceConnection implements ServiceConnection {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            final PlayService playService = ((PlayService.PlayBinder) service).getService();
+            Log.e("onServiceConnected----", "onServiceConnected");
+            AppCache.setPlayService(playService);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
     }
 }

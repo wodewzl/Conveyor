@@ -62,6 +62,8 @@ public class PublishListVO extends BaseVO{
             private String dname;
             private String positionname;
             private String audio_url;
+
+
             private List<ImageVideoBean> image_video;
 
             public String getId() {

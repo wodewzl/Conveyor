@@ -10,16 +10,21 @@
     <ImageView
         android:id="@+id/pic_img"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:adjustViewBounds="true"
-        android:background="@color/C1"/>
+        android:background="@color/C1"
+        android:scaleType="centerCrop"/>
+    <cn.jzvd.JZVideoPlayerStandard
+        android:id="@+id/videop_layer"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"/>
     <TextView
         android:id="@+id/time_tv"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_gravity="bottom"
         android:background="#40000000"
-        android:text="2018-5-18"
+
         android:textColor="@color/colorAccent"
         android:gravity="center"
         android:textSize="10sp"/>

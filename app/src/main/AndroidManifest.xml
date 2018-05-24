@@ -188,6 +188,8 @@
         <activity android:name=".activity.PublishActivity"></activity>
         <activity android:name=".activity.CameraActivity"></activity>
         <activity android:name=".activity.PublishListActivity"></activity>
+        <service android:name=".service.PlayService" />
+
     </application>
 
 </manifest>
